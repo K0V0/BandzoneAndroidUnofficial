@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BandZone Player unofficial</string>
+    <string name="appTitle">BandZone.cz unofficial app</string>
+    <string name="input_search_for_band">Search for band...</string>
+</resources>
