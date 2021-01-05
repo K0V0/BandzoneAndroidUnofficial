@@ -2,7 +2,8 @@ package com.example.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
@@ -16,18 +17,19 @@ import com.example.bandzoneplayerunofficial.R;
 import com.example.bandzoneplayerunofficial.helpers.OnFinishTypingHelper;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SearchBands extends OnFinishTypingHelper {
-    private String url = "http://172.104.155.216:3030/search/bands?q=";
+
+    private final String QUERY_URL = "http://172.104.155.216:3030/search/bands?q=";
+    private final int ITEMS_PER_PAGE = 20;
+
     private String query = "";
     private Gson gson = new Gson();
     private JSONObject responseData;
@@ -35,23 +37,29 @@ public class SearchBands extends OnFinishTypingHelper {
     private int currentPage = 1;
     private int itemsTotal;
     private int nextPageToLoad = 1;
-    private List<Band> bandsList;
+    private int itemsOnViewport;
+    private int itemsOnActualPage;
+    private List<Band> bandsList = new ArrayList<>();
     private Type bandListType = new TypeToken<ArrayList<Band>>(){}.getType();
     private Activity mainActivity;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    //private Context context;
+    private Context context;
+    private boolean stopMultipleLoads = false;
 
     public SearchBands(MainActivity mainActivity, Context context) {
         super();
         this.mainActivity = mainActivity;
-        //this.context = context;
+        this.context = context;
         this.mRecyclerView = (RecyclerView) this.mainActivity.findViewById(R.id.bandsList);
         this.layoutManager = new LinearLayoutManager(this.mainActivity);
         this.mRecyclerView.setLayoutManager(layoutManager);
         this.mRecyclerView.setHasFixedSize(true);
+        this.mAdapter = new RecyclerAdapter(this.context, bandsList);
+        this.mRecyclerView.setAdapter(mAdapter);
         afterConstruct();
+        doJsonRequest(); // let bandzone to load random bands on first run
     }
 
     @Override
@@ -59,12 +67,17 @@ public class SearchBands extends OnFinishTypingHelper {
         // only runs on write, no need to page load limit, always 1
         this.nextPageToLoad = 1;
         doJsonRequest();
+
+        // let bandzone choose some bands when searchfield deleted
+        if ((this.getText().length() == 0)&&(this.bandsList.size() > 0)) {
+            this.bandsList.clear();
+            this.mAdapter.notifyDataSetChanged();
+        }
     }
 
     private void doJsonRequest() {
         this.query = getText() + "&p=" + this.nextPageToLoad;
-        //System.out.println(this.query);
-        StringRequest request = new StringRequest(Request.Method.GET, this.url + this.query, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, this.QUERY_URL + this.query, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -78,8 +91,8 @@ public class SearchBands extends OnFinishTypingHelper {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                System.out.println("error getting json from server");
-                // dat tu nejaku chybovu hlasku
+                // dat tu nejaku chybovu hlasku "neni internet"
+                noInternetMessage();
             }
         });
         RequestQueue rQueue = Volley.newRequestQueue(mainActivity);
@@ -91,8 +104,7 @@ public class SearchBands extends OnFinishTypingHelper {
             this.pagesCount = json.getInt("pages_count");
             this.currentPage = json.getInt("current_page");
             this.itemsTotal = json.getInt("items_total");
-            //System.out.println(pagesCount);
-            //System.out.println(itemsTotal);
+            this.itemsOnActualPage = json.getInt("items_current_page");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -112,19 +124,22 @@ public class SearchBands extends OnFinishTypingHelper {
         }
         if ((this.bandsList == null)||(this.currentPage == 1)) {
             // first load
-            bandsList = gson.fromJson(String.valueOf(arr), bandListType);
-            //bandsList.add(null);
-            mAdapter = new RecyclerAdapter(mainActivity, bandsList);
-            mRecyclerView.setAdapter(mAdapter);
-            //System.out.println("first load");
+            this.bandsList.clear();
+            this.bandsList.addAll(gson.fromJson(String.valueOf(arr), this.bandListType));
+            this.mAdapter.notifyDataSetChanged();
+            layoutManager.smoothScrollToPosition(mRecyclerView, new RecyclerView.State(),0);
         } else {
-            /*bandsList.remove(bandsList.size() - 1);
-            mAdapter.notifyItemRemoved(bandsList.size());*/
+            // next pages
+            removeLoadingDialog();
             bandsList.addAll(gson.fromJson(String.valueOf(arr), bandListType));
-            //mAdapter.addNewPagesToList(bandsList);
             mAdapter.notifyItemInserted(bandsList.size() - 1);
-            //System.out.println("next load");
+            layoutManager.smoothScrollToPosition(
+                    mRecyclerView,
+                    new RecyclerView.State(),
+                    calculateScroll(mRecyclerView)
+            );
         }
+        stopMultipleLoads = false;
     }
 
     private void afterConstruct() {
@@ -134,21 +149,67 @@ public class SearchBands extends OnFinishTypingHelper {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (!recyclerView.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE) {
-                    //System.out.println("cannot scroll more");
                     if (nextPageToLoad != 0) {
-                        //nextPageToLoad = 0;
-                        // netrpezlivy user
-                        System.out.println("loading");
-                        // if loading added
-                        /*bandsList.add(null);
-                        mAdapter.notifyItemInserted(bandsList.size() - 1);*/
-                        /*bandsList.remove(bandsList.size() - 1);
-                        mAdapter.notifyItemRemoved(bandsList.size());*/
-                        doJsonRequest();
+                        if (!stopMultipleLoads) {
+                            stopMultipleLoads = true;
+                            displayLoadingDialog();
+                            doJsonRequest();
+                        }
                     }
                 }
             }
         });
+    }
+
+    private void displayLoadingDialog() {
+        this.bandsList.add(null);
+        this.mAdapter.notifyItemInserted(this.bandsList.size() - 1);
+    }
+
+    private void removeLoadingDialog() {
+        for (int i = 0; i < this.bandsList.size(); i++) {
+            if (this.bandsList.get(i) == null) {
+                this.bandsList.remove(i);
+                this.mAdapter.notifyItemRemoved(i);
+            }
+        }
+    }
+
+    private int calculateScroll(RecyclerView rv) {
+        this.itemsOnViewport = getVisibleItemCount(mRecyclerView);
+        return bandsList.size() - (this.itemsOnActualPage - this.itemsOnViewport+2);
+    }
+
+    private static int getVisibleItemCount(RecyclerView rv) {
+        final int firstVisiblePos = getFirstVisiblePosition(rv);
+        final int lastVisiblePos = getLastVisiblePosition(rv);
+        return Math.max(0, lastVisiblePos - firstVisiblePos);
+    }
+
+    private static int getFirstVisiblePosition(RecyclerView rv) {
+        if (rv != null) {
+            final RecyclerView.LayoutManager layoutManager = rv.getLayoutManager();
+            if (layoutManager instanceof LinearLayoutManager) {
+                return ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+            }
+        }
+        return 0;
+    }
+
+    private static int getLastVisiblePosition(RecyclerView rv) {
+        if (rv != null) {
+            final RecyclerView.LayoutManager layoutManager = rv.getLayoutManager();
+            if (layoutManager instanceof LinearLayoutManager) {
+                return ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+            }
+        }
+        return 0;
+    }
+
+    private void noInternetMessage() {
+        Toast toast = Toast.makeText(this.context, R.string.noInternet, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
 }

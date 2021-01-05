@@ -41,18 +41,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class LoadingViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textView;
-
         public LoadingViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.loadingText);
         }
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        System.out.println(i);
         switch (i) {
             case VIEW_TYPE_ITEM:
                 View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(
@@ -73,7 +69,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch (viewType) {
             case VIEW_TYPE_LOADING:
                 LoadingViewHolder loadingViewHolder = (LoadingViewHolder) viewHolder;
-                loadingViewHolder.textView.setText("Načítavam...");
+                break;
             case VIEW_TYPE_ITEM:
                 ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
                 Band bands = (Band) listRecyclerItem.get(i);

@@ -12,19 +12,14 @@
             android:layout_height="wrap_content"
             android:padding="4dp" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/input_search_for_band" android:id="@+id/bandInputEditText"
-                    android:contentDescription="Vyhladať kapelu" android:lines="1" android:singleLine="true"
-                    android:soundEffectsEnabled="true" android:textColor="#FFFFFF"
-                    android:textColorHighlight="#FF9800" android:textColorHint="#FF9800"
-                    android:textColorLink="#FF9800"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:ems="10"
+                android:id="@+id/bandInput" android:textColor="#FFFFFF" android:textColorHint="#888888"
+                android:autoText="false"
+                android:hint="@string/zadajKapelu"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:focusableInTouchMode="true"
                 android:layout_width="match_parent"

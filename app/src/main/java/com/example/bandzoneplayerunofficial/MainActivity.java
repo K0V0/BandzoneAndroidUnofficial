@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText bandSearchField = (EditText) findViewById(R.id.bandInputEditText);
+        EditText bandSearchField = findViewById(R.id.bandInput);
         SearchBands searchBands = new SearchBands(MainActivity.this, this);
 
         bandSearchField.addTextChangedListener(
