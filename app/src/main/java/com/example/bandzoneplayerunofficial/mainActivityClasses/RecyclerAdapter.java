@@ -15,9 +15,10 @@ import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int TYPE = 1;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
     private final Context context;
-    private final List<Band> listRecyclerItem;
+    private List<Band> listRecyclerItem;
 
     public RecyclerAdapter(Context context, List<Band> listRecyclerItem) {
         this.context = context;
@@ -29,55 +30,70 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView name;
         private ImageView coverArt;
         private TextView styl;
-        //private TextView date;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.nazovKapely);
             coverArt = (ImageView) itemView.findViewById(R.id.coverArt);
             styl = (TextView) itemView.findViewById(R.id.styl);
-            //date = (TextView) itemView.findViewById(R.id.date);
+        }
+    }
+
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView textView;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textView = (TextView) itemView.findViewById(R.id.loadingText);
         }
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        System.out.println(i);
         switch (i) {
-            case TYPE:
-
-            default:
-
-                View layoutView = LayoutInflater.from(viewGroup.getContext()).inflate(
+            case VIEW_TYPE_ITEM:
+                View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(
                         R.layout.bands_list, viewGroup, false);
-
-                return new ItemViewHolder((layoutView));
+                return new ItemViewHolder((itemView));
+            case VIEW_TYPE_LOADING:
+                View loadingView = LayoutInflater.from(viewGroup.getContext()).inflate(
+                        R.layout.bands_list_loading, viewGroup, false);
+                return new LoadingViewHolder(loadingView);
+            default:
+                return null;
         }
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
         int viewType = getItemViewType(i);
-
         switch (viewType) {
-            case TYPE:
-            default:
-
+            case VIEW_TYPE_LOADING:
+                LoadingViewHolder loadingViewHolder = (LoadingViewHolder) viewHolder;
+                loadingViewHolder.textView.setText("Načítavam...");
+            case VIEW_TYPE_ITEM:
                 ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
                 Band bands = (Band) listRecyclerItem.get(i);
-
                 itemViewHolder.name.setText(bands.getTitle());
                 Glide.with(this.context).load(bands.getImage_url()).into(itemViewHolder.coverArt);
-                //itemViewHolder.coverArt.setImageURI(bands.getImage_url());
                 itemViewHolder.styl.setText(bands.getGenre() + " - " + bands.getCity());
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + viewType);
         }
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return listRecyclerItem.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
         return listRecyclerItem.size();
     }
+
 }

@@ -8,7 +8,7 @@ public class Band {
     private String slug;
     private String genre;
 
-    public Band(String title, String city, String image_url, String href, String slug, String genre) {
+    public Band(String title, String city, String image_url, String href, String slug, String genre, boolean dummy) {
         this.title = title;
         this.city = city;
         this.image_url = image_url;
