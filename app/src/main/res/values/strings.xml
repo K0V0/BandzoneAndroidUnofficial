@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">BandZone Player unofficial</string>
     <string name="appTitle">BandZone.cz unofficial app</string>
-    <string name="input_search_for_band">Search for band...</string>
-    <string name="vyhlada_kapelu">Vyhladať kapelu</string>
+    <string name="vyhlada_kapelu">Vyhľadať kapelu</string>
     <string name="zadajKapelu">Zadaj názov/časť názvu kapely</string>
     <string name="loading">Moment, idem...</string>
     <string name="noInternet">Niečo je s internetovým pripojením, skontroluj či je pripojenie funkčné</string>
+    <string name="noMoreBands">To je všetko, už viac kapiel nie je</string>
+    <string name="noBands">Žiadne kapely s takýmto názvom sa nenašli</string>
 </resources>

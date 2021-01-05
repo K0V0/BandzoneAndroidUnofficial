@@ -2,8 +2,6 @@ package com.example.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.Gravity;
-import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
@@ -14,6 +12,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bandzoneplayerunofficial.MainActivity;
 import com.example.bandzoneplayerunofficial.R;
+import com.example.bandzoneplayerunofficial.helpers.Misc;
 import com.example.bandzoneplayerunofficial.helpers.OnFinishTypingHelper;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.google.gson.Gson;
@@ -26,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchBands extends OnFinishTypingHelper {
+
+    private Misc misc;
 
     private final String QUERY_URL = "http://172.104.155.216:3030/search/bands?q=";
     private final int ITEMS_PER_PAGE = 20;
@@ -52,6 +53,7 @@ public class SearchBands extends OnFinishTypingHelper {
         super();
         this.mainActivity = mainActivity;
         this.context = context;
+        this.misc = new Misc(this.context);
         this.mRecyclerView = (RecyclerView) this.mainActivity.findViewById(R.id.bandsList);
         this.layoutManager = new LinearLayoutManager(this.mainActivity);
         this.mRecyclerView.setLayoutManager(layoutManager);
@@ -91,8 +93,7 @@ public class SearchBands extends OnFinishTypingHelper {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                // dat tu nejaku chybovu hlasku "neni internet"
-                noInternetMessage();
+                misc.toastMessage(R.string.noInternet);
             }
         });
         RequestQueue rQueue = Volley.newRequestQueue(mainActivity);
@@ -116,28 +117,34 @@ public class SearchBands extends OnFinishTypingHelper {
     }
 
     private void jsonParseBands(JSONObject json) {
-        JSONArray arr = new JSONArray();
-        try {
-            arr = json.getJSONArray("data");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if ((this.bandsList == null)||(this.currentPage == 1)) {
-            // first load
-            this.bandsList.clear();
-            this.bandsList.addAll(gson.fromJson(String.valueOf(arr), this.bandListType));
-            this.mAdapter.notifyDataSetChanged();
-            layoutManager.smoothScrollToPosition(mRecyclerView, new RecyclerView.State(),0);
+        if (itemsTotal == 0) {
+            // žiadne kapely
+            misc.toastMessage(R.string.noBands);
         } else {
-            // next pages
-            removeLoadingDialog();
-            bandsList.addAll(gson.fromJson(String.valueOf(arr), bandListType));
-            mAdapter.notifyItemInserted(bandsList.size() - 1);
-            layoutManager.smoothScrollToPosition(
-                    mRecyclerView,
-                    new RecyclerView.State(),
-                    calculateScroll(mRecyclerView)
-            );
+            // some bands found
+            JSONArray arr = new JSONArray();
+            try {
+                arr = json.getJSONArray("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if ((this.bandsList == null) || (this.currentPage == 1)) {
+                // first load
+                this.bandsList.clear();
+                this.bandsList.addAll(gson.fromJson(String.valueOf(arr), this.bandListType));
+                this.mAdapter.notifyDataSetChanged();
+                layoutManager.smoothScrollToPosition(mRecyclerView, new RecyclerView.State(), 0);
+            } else {
+                // next pages
+                removeLoadingDialog();
+                bandsList.addAll(gson.fromJson(String.valueOf(arr), bandListType));
+                mAdapter.notifyItemInserted(bandsList.size() - 1);
+                layoutManager.smoothScrollToPosition(
+                        mRecyclerView,
+                        new RecyclerView.State(),
+                        calculateScroll(mRecyclerView)
+                );
+            }
         }
         stopMultipleLoads = false;
     }
@@ -154,6 +161,10 @@ public class SearchBands extends OnFinishTypingHelper {
                             stopMultipleLoads = true;
                             displayLoadingDialog();
                             doJsonRequest();
+                        }
+                    } else {
+                        if (currentPage == pagesCount) {
+                            misc.toastMessage(R.string.noMoreBands);
                         }
                     }
                 }
@@ -176,40 +187,8 @@ public class SearchBands extends OnFinishTypingHelper {
     }
 
     private int calculateScroll(RecyclerView rv) {
-        this.itemsOnViewport = getVisibleItemCount(mRecyclerView);
+        this.itemsOnViewport = Misc.getVisibleItemCount(mRecyclerView);
         return bandsList.size() - (this.itemsOnActualPage - this.itemsOnViewport+2);
-    }
-
-    private static int getVisibleItemCount(RecyclerView rv) {
-        final int firstVisiblePos = getFirstVisiblePosition(rv);
-        final int lastVisiblePos = getLastVisiblePosition(rv);
-        return Math.max(0, lastVisiblePos - firstVisiblePos);
-    }
-
-    private static int getFirstVisiblePosition(RecyclerView rv) {
-        if (rv != null) {
-            final RecyclerView.LayoutManager layoutManager = rv.getLayoutManager();
-            if (layoutManager instanceof LinearLayoutManager) {
-                return ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
-            }
-        }
-        return 0;
-    }
-
-    private static int getLastVisiblePosition(RecyclerView rv) {
-        if (rv != null) {
-            final RecyclerView.LayoutManager layoutManager = rv.getLayoutManager();
-            if (layoutManager instanceof LinearLayoutManager) {
-                return ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-            }
-        }
-        return 0;
-    }
-
-    private void noInternetMessage() {
-        Toast toast = Toast.makeText(this.context, R.string.noInternet, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
     }
 
 }
