@@ -7,4 +7,8 @@
     <string name="noInternet">Niečo je s internetovým pripojením, skontroluj či je pripojenie funkčné</string>
     <string name="noMoreBands">To je všetko, už viac kapiel nie je</string>
     <string name="noBands">Žiadne kapely s takýmto názvom sa nenašli</string>
+    <string name="band_name">Band name</string>
+    <string name="genre_city">genre - city</string>
+    <string name="track">track</string>
+    <string name="album">album</string>
 </resources>

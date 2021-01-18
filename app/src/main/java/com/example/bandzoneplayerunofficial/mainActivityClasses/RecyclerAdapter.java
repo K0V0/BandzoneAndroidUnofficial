@@ -1,6 +1,7 @@
 package com.example.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bandzoneplayerunofficial.R;
+import com.example.bandzoneplayerunofficial.SongsActivity;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import java.util.List;
 
@@ -25,17 +27,36 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.listRecyclerItem = listRecyclerItem;
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView name;
         private ImageView coverArt;
         private TextView styl;
+        private String slug;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.nazovKapely);
             coverArt = (ImageView) itemView.findViewById(R.id.coverArt);
             styl = (TextView) itemView.findViewById(R.id.styl);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            slug = findBand(name.getText().toString()).getSlug();
+            Intent myIntent = new Intent(context, SongsActivity.class);
+            myIntent.putExtra("slug", slug);
+            context.startActivity(myIntent);
+        }
+
+        private Band findBand(String bandName) {
+            for (Band band : listRecyclerItem) {
+                if (bandName == band.getTitle()) {
+                    return band;
+                }
+            }
+            return null;
         }
     }
 
