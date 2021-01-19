@@ -1,11 +1,12 @@
 package com.example.bandzoneplayerunofficial;
 
 import android.content.Context;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.bandzoneplayerunofficial.mainActivityClasses.SearchBands;
+import com.example.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,10 +16,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         EditText bandSearchField = findViewById(R.id.bandInput);
-        SearchBands searchBands = new SearchBands(MainActivity.this, this);
+        BandsSearch bandsSearch = new BandsSearch(MainActivity.this, this);
 
         bandSearchField.addTextChangedListener(
-                searchBands.watchText()
+                bandsSearch.watchText()
         );
     }
 

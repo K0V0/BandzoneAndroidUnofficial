@@ -1,7 +1,6 @@
-package com.example.bandzoneplayerunofficial.songsActivityClasses;
+package com.example.bandzoneplayerunofficial.helpers;
 
 import android.app.Activity;
-import android.content.Context;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -9,41 +8,43 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.helpers.Misc;
-import com.example.bandzoneplayerunofficial.helpers.ToastMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoadBand {
-    private Misc misc;
-    private final String QUERY_URL = "http://172.104.155.216:3030/band/";
-    private Activity activity;
-    private Context context;
-    private String query;
-    private JSONObject responseData;
-    private ToastMessage toastMessage;
+public class JsonRequest {
+    protected Activity activity;
+    protected String query;
+    protected JSONObject responseData;
+    protected ToastMessage toastMessage;
 
-    public LoadBand() {}
-
-    public LoadBand(Activity activity, Context context) {
-        this();
+    public JsonRequest(Activity activity) {
+        this(activity, "");
+    }
+    public JsonRequest(Activity activity, String query) {
+        this.query = query;
         this.activity = activity;
-        this.context = context;
-        this.toastMessage = new ToastMessage(context);
-        //this.misc = new Misc(this.context);
-
+        toastMessage = new ToastMessage(activity);
     }
 
     public void setQuery(String query) {
         this.query = query;
     }
 
-    public void load() {
-        doJsonRequest();
+    public void fetch() {
+        requestData();
     }
 
-    private void doJsonRequest() {
-        StringRequest request = new StringRequest(Request.Method.GET, this.QUERY_URL + query, new Response.Listener<String>() {
+    public void fetch(String query) {
+        setQuery(query);
+        requestData();
+    }
+
+    public void doStuff() {
+        System.out.println("do stuff json request function");
+    }
+
+    private void requestData() {
+        StringRequest request = new StringRequest(Request.Method.GET, this.query, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -51,7 +52,7 @@ public class LoadBand {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                renderBandInfo();
+                doStuff();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -59,12 +60,8 @@ public class LoadBand {
                 toastMessage.send(R.string.noInternet);
             }
         });
+
         RequestQueue rQueue = Volley.newRequestQueue(activity);
         rQueue.add(request);
     }
-
-    private void renderBandInfo() {
-
-    }
-
 }

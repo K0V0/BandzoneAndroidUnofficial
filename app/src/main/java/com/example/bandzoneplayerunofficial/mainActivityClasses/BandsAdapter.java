@@ -15,14 +15,14 @@ import com.example.bandzoneplayerunofficial.SongsActivity;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private final Context context;
     private List<Band> listRecyclerItem;
 
-    public RecyclerAdapter(Context context, List<Band> listRecyclerItem) {
+    public BandsAdapter(Context context, List<Band> listRecyclerItem) {
         this.context = context;
         this.listRecyclerItem = listRecyclerItem;
     }
