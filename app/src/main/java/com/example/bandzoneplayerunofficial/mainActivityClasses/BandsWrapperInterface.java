@@ -8,4 +8,5 @@ public interface BandsWrapperInterface {
     void add(Page page);
     void update(Page page);
     void clear();
+    int setDataSourceType();
 }

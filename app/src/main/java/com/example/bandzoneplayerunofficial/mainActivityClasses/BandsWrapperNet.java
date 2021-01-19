@@ -84,4 +84,10 @@ public class BandsWrapperNet extends BandsWrapper implements BandsWrapperInterfa
         query = QUERY_URL + searchString + "&p=" + nextPageToLoad;
         bandsJsonRequest.fetch(query);
     }
+
+    @Override
+    public int setDataSourceType() {
+        return DATA_SOURCE_INTERNET;
+    }
+
 }

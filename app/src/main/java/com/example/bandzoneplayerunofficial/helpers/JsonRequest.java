@@ -11,7 +11,7 @@ import com.example.bandzoneplayerunofficial.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JsonRequest {
+public abstract class JsonRequest {
     protected Activity activity;
     protected String query;
     protected JSONObject responseData;
@@ -26,6 +26,8 @@ public class JsonRequest {
         toastMessage = new ToastMessage(activity);
     }
 
+    public abstract void doStuff();
+
     public void setQuery(String query) {
         this.query = query;
     }
@@ -37,10 +39,6 @@ public class JsonRequest {
     public void fetch(String query) {
         setQuery(query);
         requestData();
-    }
-
-    public void doStuff() {
-        System.out.println("do stuff json request function");
     }
 
     private void requestData() {

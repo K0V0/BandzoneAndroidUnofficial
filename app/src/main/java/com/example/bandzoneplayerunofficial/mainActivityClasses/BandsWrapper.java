@@ -12,10 +12,12 @@ import com.example.bandzoneplayerunofficial.objects.Page;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BandsWrapper {
+public abstract class BandsWrapper implements BandsWrapperInterface {
+    public static final int DATA_SOURCE_INTERNET = 1;
+    public static final int DATA_SOURCE_LOCAL = 2;
+
     protected Context context;
     protected Activity activity;
-
     protected RecyclerView bandsRecyclerView;
     protected RecyclerView.Adapter bandsAdapter;
     protected RecyclerView.LayoutManager bandsLayoutManager;
@@ -29,6 +31,7 @@ public abstract class BandsWrapper {
     protected List<Band> bands = new ArrayList<>();
 
     protected String searchString;
+    protected int dataSourceType;
     protected int nextPageToLoad;
     protected boolean preventMultipleLoads;
 
@@ -44,6 +47,7 @@ public abstract class BandsWrapper {
         this.bandsAdapter = new BandsAdapter(this.context, bands);
         this.bandsRecyclerView.setAdapter(bandsAdapter);
         this.toastMessage = new ToastMessage(context);
+        this.dataSourceType = setDataSourceType();
         afterConstruction();
     }
 
@@ -78,6 +82,9 @@ public abstract class BandsWrapper {
         this.itemsTotal = page.getItemsTotal();
         calculateNextPage();
         this.preventMultipleLoads = false;
+        if (dataSourceType == DATA_SOURCE_INTERNET) {
+            removeLoadingDialog();
+        }
     }
 
     private void updateBands(List<Band> bands) {
@@ -124,7 +131,9 @@ public abstract class BandsWrapper {
                         if (!preventMultipleLoads) {
                             preventMultipleLoads = true;
                             loadNextContent();
-                            //displayLoadingDialog();
+                            if (dataSourceType == DATA_SOURCE_INTERNET) {
+                                displayLoadingDialog();
+                            }
                         }
                     } else {
                         if (currentPage == pages) {
@@ -134,6 +143,20 @@ public abstract class BandsWrapper {
                 }
             }
         });
+    }
+
+    private void displayLoadingDialog() {
+        this.bands.add(null);
+        this.bandsAdapter.notifyItemInserted(this.bands.size() - 1);
+    }
+
+    private void removeLoadingDialog() {
+        for (int i = 0; i < this.bands.size(); i++) {
+            if (this.bands.get(i) == null) {
+                this.bands.remove(i);
+                this.bandsAdapter.notifyItemRemoved(i);
+            }
+        }
     }
 
 }
