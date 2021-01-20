@@ -24,8 +24,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".helpers.LoadingOverlay$OverlayService" tools:ignore="Instantiatable"></service>
-
     </application>
 
 </manifest>

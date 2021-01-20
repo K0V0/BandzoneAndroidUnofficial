@@ -24,6 +24,5 @@ public class SongsActivity extends AppCompatActivity {
         } else {
             bandWrapper = new BandWrapperOffline();
         }
-
     }
 }

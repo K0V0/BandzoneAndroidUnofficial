@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
@@ -12,7 +13,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.helpers.LoadingOverlay;
 import com.example.bandzoneplayerunofficial.interfaces.DataWrapper;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Track;
@@ -30,15 +30,11 @@ public abstract class BandWrapper implements DataWrapper {
     protected TextView bandName;
     protected TextView bandGenreAndCity;
     protected ImageView bandImage;
-    protected LoadingOverlay loadingOverlay;
-
-    //protected boolean imageLoaded;
+    protected LinearLayout bandView;
+    protected LinearLayout bandRetarder;
+    protected LinearLayout bandHolder;
 
     public BandWrapper() {}
-
-    public BandWrapper(Activity activity, Context context) {
-        this(activity, context, "");
-    }
 
     public BandWrapper(Activity activity, Context context, String extra) {
         this.activity = activity;
@@ -47,20 +43,22 @@ public abstract class BandWrapper implements DataWrapper {
         this.bandName = activity.findViewById(R.id.bandName);
         this.bandGenreAndCity = activity.findViewById(R.id.bandGenreAndCity);
         this.bandImage = activity.findViewById(R.id.bandImage);
-        this.loadingOverlay = new LoadingOverlay(this.context, this.activity);
+        this.bandView = activity.findViewById(R.id.bandView);
+        this.bandRetarder = activity.findViewById(R.id.bandWaiter);
+        this.bandHolder = activity.findViewById(R.id.bandHolder);
     }
 
     public void triggerShow() {
         System.out.println(band);
         System.out.println(tracks);
         renderBandInfo();
+        renderTracks();
     }
 
     private void renderBandInfo() {
-        //this.imageLoaded = false;
         bandName.setText(band.getTitle());
         bandGenreAndCity.setText(band.getGenre());
-        loadingOverlay.startService();
+        bandHolder.animate().alpha(0F).setDuration(0);
 
         Glide   .with(this.activity)
                 .load(band.getImage_url())
@@ -71,14 +69,12 @@ public abstract class BandWrapper implements DataWrapper {
                     }
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        //imageLoaded = true;
-                        //loadingOverlay.stopService();
-                        System.out.println("imageLoaded");
+                        bandView.removeView(bandRetarder);
+                        bandHolder.animate().alpha(1.0F).setDuration(250);
                         return false;
                     }
                 })
                 .into(bandImage);
-        System.out.println("loaded");
     }
 
     private void renderTracks() {

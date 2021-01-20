@@ -11,4 +11,5 @@
     <string name="genre_city">genre - city</string>
     <string name="track">track</string>
     <string name="album">album</string>
+    <string name="moment">Moment...</string>
 </resources>
