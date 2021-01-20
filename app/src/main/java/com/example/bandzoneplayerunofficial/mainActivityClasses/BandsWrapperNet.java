@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import com.example.bandzoneplayerunofficial.MainActivity;
 import com.example.bandzoneplayerunofficial.helpers.JsonRequest;
+import com.example.bandzoneplayerunofficial.interfaces.DataWrapper;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Page;
 import com.google.gson.Gson;
@@ -15,9 +16,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BandsWrapperNet extends BandsWrapper implements BandsWrapperInterface {
-    private static final int OPERATION_SEARCH = 1;
-    private static final int OPERATION_NEXTPAGE = 2;
+public class BandsWrapperNet extends BandsWrapper {
+    private final int OPERATION_NEXTPAGE = 2;
+    private final int OPERATION_SEARCH = 1;
     private final String QUERY_URL = "http://172.104.155.216:3030/search/bands?q=";
     private final int ITEMS_PER_PAGE = 20;
     private int operation;
@@ -80,7 +81,6 @@ public class BandsWrapperNet extends BandsWrapper implements BandsWrapperInterfa
     @Override
     public void loadNextContent() {
         operation = OPERATION_NEXTPAGE;
-        System.out.println("can i load next page ?");
         query = QUERY_URL + searchString + "&p=" + nextPageToLoad;
         bandsJsonRequest.fetch(query);
     }

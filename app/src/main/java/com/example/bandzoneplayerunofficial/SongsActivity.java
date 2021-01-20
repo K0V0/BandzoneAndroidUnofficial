@@ -1,24 +1,29 @@
 package com.example.bandzoneplayerunofficial;
 
-import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.bandzoneplayerunofficial.songsActivityClasses.LoadBand;
+import com.example.bandzoneplayerunofficial.helpers.TestConnection;
+import com.example.bandzoneplayerunofficial.songsActivityClasses.BandWrapper;
+import com.example.bandzoneplayerunofficial.songsActivityClasses.BandWrapperNet;
+import com.example.bandzoneplayerunofficial.songsActivityClasses.BandWrapperOffline;
 
 public class SongsActivity extends AppCompatActivity {
-    private String slug;
-    private Intent intent;
+    public String slug;
+    private BandWrapper bandWrapper;
+    private TestConnection testConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
-        intent = getIntent();
-        slug = intent.getStringExtra("slug");
+        slug = getIntent().getStringExtra("slug");
+        testConnection = new TestConnection(this);
 
-        LoadBand loadBand = new LoadBand(SongsActivity.this,this);
-        loadBand.setQuery(slug);
-        System.out.println(slug);
-        loadBand.load();
+        if (testConnection.isActive()) {
+            bandWrapper = new BandWrapperNet(SongsActivity.this, this, slug);
+        } else {
+            bandWrapper = new BandWrapperOffline();
+        }
+
     }
 }

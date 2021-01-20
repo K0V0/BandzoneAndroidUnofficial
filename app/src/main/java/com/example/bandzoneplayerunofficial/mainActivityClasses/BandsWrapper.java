@@ -6,16 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bandzoneplayerunofficial.R;
 import com.example.bandzoneplayerunofficial.helpers.ToastMessage;
+import com.example.bandzoneplayerunofficial.interfaces.DataWrapper;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Page;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BandsWrapper implements BandsWrapperInterface {
-    public static final int DATA_SOURCE_INTERNET = 1;
-    public static final int DATA_SOURCE_LOCAL = 2;
-
+public abstract class BandsWrapper implements DataWrapper {
     protected Context context;
     protected Activity activity;
     protected RecyclerView bandsRecyclerView;

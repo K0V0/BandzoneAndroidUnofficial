@@ -24,48 +24,24 @@ public class Page {
         return currentPage;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
     public int getItemsPerPage() {
         return itemsPerPage;
-    }
-
-    public void setItemsPerPage(int itemsPerPage) {
-        this.itemsPerPage = itemsPerPage;
     }
 
     public int getItemsOnCurrentPage() {
         return itemsOnCurrentPage;
     }
 
-    public void setItemsOnCurrentPage(int itemsOnCurrentPage) {
-        this.itemsOnCurrentPage = itemsOnCurrentPage;
-    }
-
     public int getPages() {
         return pages;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
     }
 
     public int getItemsTotal() {
         return itemsTotal;
     }
 
-    public void setItemsTotal(int itemsTotal) {
-        this.itemsTotal = itemsTotal;
-    }
-
     public List<Band> getBands() {
         return bands;
-    }
-
-    public void setBands(List<Band> bands) {
-        this.bands = bands;
     }
 
      @Override public String toString() {

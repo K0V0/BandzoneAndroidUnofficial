@@ -1,7 +1,6 @@
 package com.example.bandzoneplayerunofficial.mainActivityClasses;
 
-public class BandsWrapperOffline extends BandsWrapper implements BandsWrapperInterface {
-
+public class BandsWrapperOffline extends BandsWrapper {
 
     @Override
     public int setDataSourceType() {
