@@ -22,7 +22,7 @@
                 <ImageView
                         android:layout_width="125dp"
                         android:layout_height="125dp" tools:srcCompat="@tools:sample/avatars"
-                        android:id="@+id/imageView" android:layout_weight="0" android:scaleType="center"
+                        android:id="@+id/bandImage" android:layout_weight="0" android:scaleType="center"
                         android:maxWidth="125dp" android:maxHeight="125dp" android:minHeight="125dp"
                         android:minWidth="64dp" android:layout_marginRight="8dp"/>
                 <LinearLayout
