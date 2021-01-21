@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.bandzoneplayerunofficial.R;
+import com.example.bandzoneplayerunofficial.helpers.PlayerHelper;
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Track;
@@ -28,10 +29,12 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private final Context context;
     private List<BandProfileItem> listRecyclerItem;
+    private PlayerHelper playerHelper;
 
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
         this.listRecyclerItem = listRecyclerItem;
+        this.playerHelper = new PlayerHelper(this.context);
     }
 
     public class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -49,14 +52,15 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void bindView(int position) {
             Track track = (Track) listRecyclerItem.get(position);
             title.setText(track.getTitle());
-            title.setTag(new TrackTag( track.getHref() ));
+            title.setTag(track);
             album.setText(track.getAlbum());
         }
 
         @Override
         public void onClick(View v) {
-            TrackTag tag = (TrackTag) v.findViewById(R.id.trackName).getTag();
-            Player.play(context, tag.getHref());
+            Track tag = (Track) v.findViewById(R.id.trackName).getTag();
+            Player.play(tag.getOrder());
+            playerHelper.openAnimations(v);
         }
     }
 
@@ -88,6 +92,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             changeLayout();
+                            Player.init(context, listRecyclerItem);
                             return false;
                         }
                     })

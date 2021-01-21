@@ -10,6 +10,7 @@ public class Track implements BandProfileItem {
     private String href;
     private String href_hash;
     private String duration;
+    private int order;
 
     public Track(String full_title, String title, String album, int plays_count, String href, String href_hash, String duration) {
         this.full_title = full_title;
@@ -47,6 +48,14 @@ public class Track implements BandProfileItem {
 
     public String getDuration() {
         return duration;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     @Override

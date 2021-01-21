@@ -58,10 +58,19 @@ public abstract class BandWrapper implements DataWrapper {
         this.dataSourceType = setDataSourceType();
     }
 
+    private List<Track> addIndexes(List<Track> trackList) {
+        int i = 0;
+        for (Track track : trackList) {
+            track.setOrder(i);
+            i++;
+        }
+        return trackList;
+    }
+
     public void triggerShow() {
         bandProfileItems.clear();
         bandProfileItems.add(band);
-        bandProfileItems.addAll(tracks);
+        bandProfileItems.addAll(addIndexes(tracks));
         tracksAdapter.notifyItemInserted(bandProfileItems.size() - 1);
     }
 
