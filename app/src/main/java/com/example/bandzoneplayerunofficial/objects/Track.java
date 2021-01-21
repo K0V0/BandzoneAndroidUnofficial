@@ -1,6 +1,8 @@
 package com.example.bandzoneplayerunofficial.objects;
 
-public class Track {
+import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
+
+public class Track implements BandProfileItem {
     private String full_title;
     private String title;
     private String album;

@@ -48,6 +48,7 @@ public abstract class OnFinishTypingHelper {
             public void afterTextChanged (final Editable s) {
                 //doStuffAfter();
                 if (s.length() <= 0) {
+                    setText("");
                     doStuffOnZero();
                 }
                 last_text_edit = System.currentTimeMillis();

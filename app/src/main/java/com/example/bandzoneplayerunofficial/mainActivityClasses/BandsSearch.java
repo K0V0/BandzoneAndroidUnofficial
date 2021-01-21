@@ -9,7 +9,6 @@ public class BandsSearch extends OnFinishTypingHelper {
 
     private TestConnection testConnection;
     private BandsWrapper bandsWrapper;
-    private String searchText;
     private Context context;
     private Activity mainActivity;
 
@@ -28,16 +27,13 @@ public class BandsSearch extends OnFinishTypingHelper {
 
     @Override
     public void doStuffNotOften() {
-        searchText = getText();
-        if (searchText.length() == 0) {
-            bandsWrapper.clear();
-        } else {
-            bandsWrapper.search(searchText);
+        if (getText().length() > 0) {
+            bandsWrapper.search(getText());
         }
     }
 
     @Override
     public void doStuffOnZero() {
-        bandsWrapper.clear();
+        bandsWrapper.search("");
     }
 }

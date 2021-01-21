@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" tools:actionBarNavMode="tabs" android:background="#000000"
+>
+
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/bandInfo" tools:showIn="@layout/activity_songs">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:padding="8dp" android:id="@+id/bandBaseInfo">
+            <ImageView
+                    android:layout_width="125dp"
+                    android:layout_height="125dp" tools:srcCompat="@tools:sample/avatars"
+                    android:id="@+id/bandImage" android:layout_weight="0" android:scaleType="center"
+                    android:maxWidth="125dp" android:maxHeight="125dp" android:minHeight="125dp"
+                    android:minWidth="64dp" android:layout_marginRight="8dp"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_weight="1">
+                <TextView
+                        android:text="@string/band_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/bandName"
+                        android:textColor="#FFC107" android:gravity="center_vertical" android:height="16pt"
+                        android:textSize="12pt"/>
+                <TextView
+                        android:text="@string/genre_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/bandGenreAndCity"
+                        android:textColor="#888888"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/bandWelcome">
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/bandWelcomeText"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

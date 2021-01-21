@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" tools:actionBarNavMode="tabs" android:background="#000000"
-        android:padding="8dp">
+        android:paddingLeft="8dp" android:paddingTop="4dp" android:paddingRight="8dp" android:paddingBottom="4dp">
 
     <LinearLayout
             android:orientation="horizontal"

@@ -27,14 +27,14 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.listRecyclerItem = listRecyclerItem;
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class BandViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView name;
         private ImageView coverArt;
         private TextView styl;
         private String slug;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        public BandViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.nazovKapely);
             coverArt = (ImageView) itemView.findViewById(R.id.coverArt);
@@ -70,11 +70,12 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        System.out.println("bands on create");
         switch (i) {
             case VIEW_TYPE_ITEM:
                 View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(
                         R.layout.bands_list, viewGroup, false);
-                return new ItemViewHolder((itemView));
+                return new BandViewHolder((itemView));
             case VIEW_TYPE_LOADING:
                 View loadingView = LayoutInflater.from(viewGroup.getContext()).inflate(
                         R.layout.bands_list_loading, viewGroup, false);
@@ -86,17 +87,18 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        System.out.println("bands on bind");
         int viewType = getItemViewType(i);
         switch (viewType) {
             case VIEW_TYPE_LOADING:
                 LoadingViewHolder loadingViewHolder = (LoadingViewHolder) viewHolder;
                 break;
             case VIEW_TYPE_ITEM:
-                ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
+                BandViewHolder bandViewHolder = (BandViewHolder) viewHolder;
                 Band bands = (Band) listRecyclerItem.get(i);
-                itemViewHolder.name.setText(bands.getTitle());
-                Glide.with(this.context).load(bands.getImage_url()).into(itemViewHolder.coverArt);
-                itemViewHolder.styl.setText(bands.getGenre() + " - " + bands.getCity());
+                bandViewHolder.name.setText(bands.getTitle());
+                Glide.with(this.context).load(bands.getImage_url()).into(bandViewHolder.coverArt);
+                bandViewHolder.styl.setText(bands.getGenre() + " - " + bands.getCity());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + viewType);

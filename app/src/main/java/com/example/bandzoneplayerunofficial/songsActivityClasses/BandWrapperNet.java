@@ -9,11 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BandWrapperNet extends BandWrapper {
     private final String QUERY_URL = "http://172.104.155.216:3030/band/";
