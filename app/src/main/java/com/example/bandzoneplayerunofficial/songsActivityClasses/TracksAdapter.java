@@ -47,14 +47,16 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         public void bindView(int position) {
-            Track tracks = (Track) listRecyclerItem.get(position);
-            title.setText(tracks.getTitle());
-            album.setText(tracks.getAlbum());
+            Track track = (Track) listRecyclerItem.get(position);
+            title.setText(track.getTitle());
+            title.setTag(new TrackTag( track.getHref() ));
+            album.setText(track.getAlbum());
         }
 
         @Override
         public void onClick(View v) {
-            System.out.println("clicked");
+            TrackTag tag = (TrackTag) v.findViewById(R.id.trackName).getTag();
+            Player.play(context, tag.getHref());
         }
     }
 
@@ -85,7 +87,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            System.out.println("image loaded");
                             changeLayout();
                             return false;
                         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bandzoneplayerunofficial.R;
+import com.example.bandzoneplayerunofficial.helpers.SearchFieldProgress;
 import com.example.bandzoneplayerunofficial.helpers.ToastMessage;
 import com.example.bandzoneplayerunofficial.interfaces.DataWrapper;
 import com.example.bandzoneplayerunofficial.objects.Band;
@@ -20,6 +21,7 @@ public abstract class BandsWrapper implements DataWrapper {
     protected RecyclerView.Adapter bandsAdapter;
     protected RecyclerView.LayoutManager bandsLayoutManager;
     protected ToastMessage toastMessage;
+    protected SearchFieldProgress searchFieldProgress;
 
     protected int currentPage;
     protected int itemsPerPage;
@@ -45,6 +47,7 @@ public abstract class BandsWrapper implements DataWrapper {
         this.bandsAdapter = new BandsAdapter(this.context, bands);
         this.bandsRecyclerView.setAdapter(bandsAdapter);
         this.toastMessage = new ToastMessage(context);
+        this.searchFieldProgress = new SearchFieldProgress(this.context);
         this.dataSourceType = setDataSourceType();
         afterConstruction();
     }
@@ -83,6 +86,7 @@ public abstract class BandsWrapper implements DataWrapper {
         if (dataSourceType == DATA_SOURCE_INTERNET) {
             removeLoadingDialog();
         }
+        searchFieldProgress.stop();
     }
 
     private void updateBands(List<Band> bands) {

@@ -2,7 +2,6 @@ package com.example.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bandzoneplayerunofficial.R;
@@ -23,9 +22,6 @@ public abstract class BandWrapper implements DataWrapper {
     protected List<Track> tracks;
     protected List<BandProfileItem> bandProfileItems;
 
-    protected LinearLayout bandView;
-    protected LinearLayout bandRetarder;
-    protected LinearLayout bandHolder;
     protected RecyclerView tracksRecyclerView;
     protected RecyclerView.Adapter tracksAdapter;
     protected RecyclerView.LayoutManager tracksLayoutManager;
@@ -50,31 +46,16 @@ public abstract class BandWrapper implements DataWrapper {
 
     private void loadStaticUI() {
 
-        this.bandView = activity.findViewById(R.id.bandView);
-        this.bandRetarder = activity.findViewById(R.id.bandWaiter);
-        this.bandHolder = activity.findViewById(R.id.bandHolder);
-        bandHolder.animate().alpha(0F).setDuration(0);
     }
 
     private void loadTracksUI() {
         this.tracksRecyclerView = this.activity.findViewById(R.id.songsList);
         this.tracksLayoutManager = new LinearLayoutManager(activity);
         this.tracksRecyclerView.setLayoutManager(tracksLayoutManager);
-        //this.tracksRecyclerView.setHasFixedSize(true);
-        //tracksRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        this.tracksRecyclerView.setHasFixedSize(true);
         this.tracksAdapter = new TracksAdapter(this.context, bandProfileItems);
         this.tracksRecyclerView.setAdapter(tracksAdapter);
-        //this.tracksRecyclerView.setLayoutManager(tracksLayoutManager);
         this.dataSourceType = setDataSourceType();
-
-        /*this.tracksRecyclerView = this.activity.findViewById(R.id.songsList);
-        this.tracksLayoutManager = new LinearLayoutManager(this.activity);
-        this.tracksRecyclerView.setLayoutManager(tracksLayoutManager);
-        //this.tracksRecyclerView.setHasFixedSize(true); // kuknut sa na
-        this.tracksAdapter = new TracksAdapter(this.context, this.activity, this.bandProfileItems);
-        this.tracksRecyclerView.setAdapter(tracksAdapter);
-        this.tracksRecyclerView.setLayoutManager(tracksLayoutManager);*/
-        //System.out.println(bandProfileItems);
     }
 
     public void triggerShow() {

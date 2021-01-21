@@ -13,23 +13,25 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:gravity="center" android:id="@+id/bandWaiter">
+                android:layout_height="0dp" android:gravity="bottom" android:id="@+id/bandWaiter"
+                android:layout_weight="1">
+
+
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:gravity="center">
-                <TextView
-                        android:text="@string/moment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/bandLoadingText" android:gravity="center"
-                        android:textColor="#FFC107" android:textSize="20pt"/>
+                <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" tools:showIn="@layout/activity_songs" android:id="@+id/bandHolder"
-                android:alpha="0">
+                android:layout_height="0dp" tools:showIn="@layout/activity_songs" android:id="@+id/bandHolder"
+                android:alpha="0" android:layout_weight="1">
             <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" android:id="@+id/songsList"/>

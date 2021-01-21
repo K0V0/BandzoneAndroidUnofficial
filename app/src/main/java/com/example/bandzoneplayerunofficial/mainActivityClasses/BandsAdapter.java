@@ -70,7 +70,6 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        System.out.println("bands on create");
         switch (i) {
             case VIEW_TYPE_ITEM:
                 View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(
@@ -87,7 +86,6 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        System.out.println("bands on bind");
         int viewType = getItemViewType(i);
         switch (viewType) {
             case VIEW_TYPE_LOADING:
