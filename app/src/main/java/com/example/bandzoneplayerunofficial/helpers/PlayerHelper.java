@@ -1,8 +1,13 @@
 package com.example.bandzoneplayerunofficial.helpers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import androidx.appcompat.view.menu.MenuView;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.bandzoneplayerunofficial.R;
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Track;
@@ -39,7 +44,27 @@ public class PlayerHelper {
     }
 
     public void closeAnimations(View v) {
-        
+        RecyclerView songsList = ((Activity) context).findViewById(R.id.songsList);
+        View child;
+        //Track track = (Track) v.findViewById(R.id.trackName).getTag();
+        //int id = track.getOrder();
+        for (int i = 0; i < songsList.getChildCount(); i++) {
+            child = songsList.getChildAt(i);
+            LinearLayout seekBarHolder = child.findViewById(R.id.seekbarHolder); // OK
+            LinearLayout pauseButtonHolder = child.findViewById(R.id.pauseButtonHolder); // OK
+            //SlideAnimation.slideView(seekBarHolder, seekBarHolder.getLayoutParams().height, 0);
+            //pauseButtonHolder.animate().alpha(0.5f).setDuration(200);
+
+            //Track track2 = (Track) child.findViewById(R.id.trackName).getTag(); // tu spadne
+            //System.out.println(child);
+            //int id2 = track2.getOrder();
+            //if (id != id2) {
+                //LinearLayout seekBarHolder = child.findViewById(R.id.seekbarHolder);
+                //LinearLayout pauseButtonHolder = child.findViewById(R.id.pauseButtonHolder);
+                //SlideAnimation.slideView(seekBarHolder, seekBarHolder.getLayoutParams().height, 0);
+               // pauseButtonHolder.animate().alpha(0.0f).setDuration(200);
+           // }
+        }
     }
 
 }

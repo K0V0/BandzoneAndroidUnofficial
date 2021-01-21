@@ -11,6 +11,7 @@ public class Track implements BandProfileItem {
     private String href_hash;
     private String duration;
     private int order;
+    private boolean playing;
 
     public Track(String full_title, String title, String album, int plays_count, String href, String href_hash, String duration) {
         this.full_title = full_title;
@@ -56,6 +57,14 @@ public class Track implements BandProfileItem {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 
     @Override

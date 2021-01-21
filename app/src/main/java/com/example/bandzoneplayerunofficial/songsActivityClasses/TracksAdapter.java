@@ -23,6 +23,7 @@ import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Track;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -60,7 +61,22 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void onClick(View v) {
             Track tag = (Track) v.findViewById(R.id.trackName).getTag();
             Player.play(tag.getOrder());
-            playerHelper.openAnimations(v);
+            System.out.println(listRecyclerItem);
+
+            playerHelper.closeAnimations(v);
+            //playerHelper.openAnimations(v);
+            //playerHelper.closeAnimations(v);
+        }
+
+        private void updateArrayList(int i) {
+            /*for (BandProfileItem item : listRecyclerItem) {
+                if (item.getClass() == Track.class) {
+                    System.out.println("ono");
+                    if (((Track) item).getOrder() == i) {
+                        ((Track) item).setPlaying(true);
+                    }
+                }
+            }*/
         }
     }
 

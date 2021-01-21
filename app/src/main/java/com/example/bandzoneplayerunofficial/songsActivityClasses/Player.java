@@ -57,8 +57,6 @@ public class Player {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 play(next());
-                //killMediaPlayer();
-                // aktivovat druhy prehravac pri prehodeni pesnicky
             }
         });
         mediaPlayer.start();
