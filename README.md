@@ -17,10 +17,10 @@
 
 ## TODO, ideas
 
-[ ] Show user that band has no published tracks  
-[x] When search deleted, load random bands  
-[x] Notify user somehow that search is being performed (maybe little spinner in search field)  
-[ ] Maybe apply gestures for some actions (like back from Band profile to bands search)  
-[x] Rework band profile, find out how to put band info into list so it does not occupy space on screen and can be scrolled out  
-[ ] Make appearing band search results animated  
-[ ] Pre Kristovu nohu if no bands found according to user request TELL HIM about it, no blank screen
+- [ ] Show user that band has no published tracks  
+- [x] When search deleted, load random bands  
+- [x] Notify user somehow that search is being performed (maybe little spinner in search field)  
+- [ ] Maybe apply gestures for some actions (like back from Band profile to bands search)  
+- [x] Rework band profile, find out how to put band info into list so it does not occupy space on screen and can be scrolled out  
+- [ ] Make appearing band search results animated  
+- [ ] Pre Kristovu nohu if no bands found according to user request TELL HIM about it, no blank screen
