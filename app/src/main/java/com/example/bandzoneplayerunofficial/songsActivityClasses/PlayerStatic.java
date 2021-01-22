@@ -7,35 +7,50 @@ import android.net.Uri;
 import com.example.bandzoneplayerunofficial.helpers.PlayerHelper;
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Track;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
-    private MediaPlayer mediaPlayer;
-    private List<BandProfileItem> items;
-    private int currentTrack;
-    private int lastTrack;
-    private Uri uri;
-    private Context context;
-    private TracksAdapter adapterThis;
+public class PlayerStatic {
+    private static MediaPlayer mediaPlayer;
+    private static List<BandProfileItem> items;
+    private static Track currentTrack;
+    private static int currentTrackIndex;
+    private static int lastTrackIndex;
+    private static Uri uri;
+    private static Context context;
+    private static TracksAdapter adapterThis;
 
-    public Player(Context c, List<BandProfileItem> i, TracksAdapter a) {
-        context = c;
+    public static void init(Context c, List<BandProfileItem> i, TracksAdapter a) {
+        PlayerStatic.init(c, a);
         items = i;
+    }
+
+    public static void init(Context c, TracksAdapter a) {
+        context = c;
         adapterThis = a;
-        lastTrack = items.size() - 1;
+        System.out.println(items == null);
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+        lastTrackIndex = items.size() - 1;
     }
 
-    public int next() {
-        return (currentTrack < lastTrack) ? (currentTrack+1) : (0);
+    public static void setTracklist(List<BandProfileItem> list) {
+        items = list;
     }
 
-    public void pause() {
+    public static int next() {
+        return (currentTrackIndex < lastTrackIndex) ? (currentTrackIndex +1) : (0);
+    }
+
+    public static void pause() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         }
     }
 
-    public void toggle() {
+    public static void toggle() {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
@@ -45,15 +60,16 @@ public class Player {
         }
     }
 
-    public void play(int order) {
-        currentTrack = order;
-        lastTrack = items.size() - 1; // because on construction length is 0
-        if (items.get(currentTrack).getClass() != Track.class) {
+    public static void play(int order) {
+        currentTrackIndex = order;
+        lastTrackIndex = items.size() - 1; // because on construction length is 0
+        if (items.get(currentTrackIndex).getClass() != Track.class) {
             play(next());
         }
-        uri = Uri.parse(((Track) items.get(currentTrack)).getHref());
+        currentTrack = (Track) items.get(currentTrackIndex);
+        uri = Uri.parse(currentTrack.getHref());
 
-        PlayerHelper.updatePlayState(items, (Track) items.get(currentTrack));
+        PlayerHelper.updatePlayState(items, currentTrack);
         adapterThis.notifyDataSetChanged();
 
         if (mediaPlayer == null) {
@@ -73,7 +89,11 @@ public class Player {
         mediaPlayer.start();
     }
 
-    private void killMediaPlayer() {
+    public Track getCurrentTrack() {
+        return currentTrack;
+    }
+
+    private static void killMediaPlayer() {
         if (mediaPlayer != null) {
             try {
                 mediaPlayer.reset();

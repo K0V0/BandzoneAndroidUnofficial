@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,60 +24,76 @@ import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Track;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
     private List<BandProfileItem> listRecyclerItem;
-    private PlayerHelper playerHelper;
+    //private PlayerHelper playerHelper;
+    //private RecyclerView parent;
+    //private TracksAdapter totok;
+    //private Player player;
 
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
         this.listRecyclerItem = listRecyclerItem;
-        this.playerHelper = new PlayerHelper(this.context);
+        System.out.println("on adapter constructor");
+        //totok = this;
+        PlayerStatic.init(this.context, this);
+        //this.player = new Player(this.context, listRecyclerItem, this);
     }
 
     public class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        //private View trackView;
         private TextView title;
         private TextView album;
+        private LinearLayout pauseHolder;
+        private SeekBar progressHolder;
 
         public TrackViewHolder(@NonNull View itemView) {
             super(itemView);
+            //trackView = itemView;
             title = (TextView) itemView.findViewById(R.id.trackName);
             album = (TextView) itemView.findViewById(R.id.albumName);
+            pauseHolder = (LinearLayout) itemView.findViewById(R.id.pauseButtonHolder);
+            progressHolder = (SeekBar) itemView.findViewById(R.id.seekBar);
             itemView.setOnClickListener(this);
         }
 
         public void bindView(int position) {
+            // behavior of PLAYER lib and bindView():
+
+            // STATIC lib
+            // plays when opened profile of another band
+            // run on click
+            // run when app opened and next track played
+            // does not run when app on background and track changed
+            // when of profile of other band, plays track with next index of new band
+            // ^^^ app crash when on profile of another band trying to play next track [RESOLVED]
+
+            // INSTANCE
+            // stops when opened profile of another band
+            // run on click
+            // run in next track when opened
+            // does not run when on backgound
+            // --
+
             Track track = (Track) listRecyclerItem.get(position);
             title.setText(track.getTitle());
             title.setTag(track);
             album.setText(track.getAlbum());
+            PlayerHelper.updateUIanimation(context, pauseHolder, progressHolder, track);
+            System.out.println("player bind");
         }
 
         @Override
         public void onClick(View v) {
-            Track tag = (Track) v.findViewById(R.id.trackName).getTag();
-            Player.play(tag.getOrder());
-            System.out.println(listRecyclerItem);
-
-            playerHelper.closeAnimations(v);
-            //playerHelper.openAnimations(v);
-            //playerHelper.closeAnimations(v);
-        }
-
-        private void updateArrayList(int i) {
-            /*for (BandProfileItem item : listRecyclerItem) {
-                if (item.getClass() == Track.class) {
-                    System.out.println("ono");
-                    if (((Track) item).getOrder() == i) {
-                        ((Track) item).setPlaying(true);
-                    }
-                }
-            }*/
+            Track track = (Track) v.findViewById(R.id.trackName).getTag();
+            //player.play(listRecyclerItem.indexOf(track));
+            PlayerStatic.setTracklist(listRecyclerItem);
+            PlayerStatic.play(listRecyclerItem.indexOf(track));
         }
     }
 
@@ -108,7 +125,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             changeLayout();
-                            Player.init(context, listRecyclerItem);
+                            //Player.init(context, listRecyclerItem, totok);
                             return false;
                         }
                     })
@@ -119,43 +136,47 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        switch (i) {
-            case BandProfileItem.TYPE_TRACK:
-                View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(
-                        R.layout.band_tracks_list, viewGroup, false);
-                return new TrackViewHolder(itemView);
-            case BandProfileItem.TYPE_BAND:
-                View loadingView = LayoutInflater.from(viewGroup.getContext()).inflate(
-                        R.layout.band_info, viewGroup, false);
-                return new BandInfoViewHolder(loadingView);
-            default:
-                return null;
+        //this.parent = ((RecyclerView) viewGroup);
+        if (i > 0) {
+            View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(
+                    R.layout.band_tracks_list, viewGroup, false);
+            return new TrackViewHolder(itemView);
+        } else if (i < 0) {
+            View loadingView = LayoutInflater.from(viewGroup.getContext()).inflate(
+                    R.layout.band_info, viewGroup, false);
+            return new BandInfoViewHolder(loadingView);
+        } else {
+            return null;
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        //viewHolder.setIsRecyclable(false); // BRUTAL shitty performance
         int viewType = getItemViewType(i);
-        switch (viewType) {
-            case BandProfileItem.TYPE_BAND:
-                ((BandInfoViewHolder) viewHolder).bindView(i);
-                break;
-            case BandProfileItem.TYPE_TRACK:
-                ((TrackViewHolder) viewHolder).bindView(i);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + viewType);
+        if (viewType < 0) {
+            ((BandInfoViewHolder) viewHolder).bindView(i);
+        } else if (viewType > 0) {
+            ((TrackViewHolder) viewHolder).bindView(i);
+        } else {
+            throw new IllegalStateException("Unexpected value: " + viewType);
         }
     }
+
+    /*@Override
+    public void onViewRecycled(@NonNull YourViewHolder holder) {
+        parent.getRecycledViewPool().clear();
+        setLayoutParamsToView(holder.itemView);
+    }*/
 
     @Override
     public int getItemViewType(int position) {
         String className = listRecyclerItem.get(position).getClass().getSimpleName();
         switch (className) {
             case "Track":
-                return BandProfileItem.TYPE_TRACK;
+                return BandProfileItem.TYPE_TRACK * (position+1);
             case "Band":
-                return BandProfileItem.TYPE_BAND;
+                return BandProfileItem.TYPE_BAND * (position+1);
             default:
                 return 0;
         }

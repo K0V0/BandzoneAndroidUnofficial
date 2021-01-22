@@ -12,7 +12,7 @@ public class SlideAnimation {
 
         ValueAnimator slideAnimator = ValueAnimator
                 .ofInt(currentHeight, newHeight)
-                .setDuration(500);
+                .setDuration(250);
 
         /* We use an update listener which listens to each tick
          * and manually updates the height of the view  */
