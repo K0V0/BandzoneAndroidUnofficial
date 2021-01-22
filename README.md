@@ -14,6 +14,7 @@
 | 19-jan-2021 | complete refactor of app, code cleanup, making adapter for filling bands activity with data, adding abstract classes and interfaces <br>Data and JSON deserialization adapter for Band and it's tracks |
 | 20-jan-2021 | showing band basic details works, playing with animations and layouts, waiting screen when data for bandloaded from server |
 | 21-jan-2021 | refactor of code handling opening band portfolio, first goal achieved - app is PLAYING SOUND. Insane level of pain how to synchronise the UI and state(s) of player in some nice user friendly way |
+| 22-jan-2021 | player synchronized with UI except case when You get out of band profile and back - but solution proposed, resolve recyclerView artifacts |
 
 ## TODO, ideas
 
@@ -23,4 +24,4 @@
 - [ ] Maybe apply gestures for some actions (like back from Band profile to bands search)  
 - [x] Rework band profile, find out how to put band info into list so it does not occupy space on screen and can be scrolled out  
 - [ ] Make appearing band search results animated  
-- [ ] Pre Kristovu nohu if no bands found according to user request TELL HIM about it, no blank screen
+- [ ] Pre Kristovu nohu if no bands found according to user request TELL HIM about it, no blank screen  
