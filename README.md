@@ -27,3 +27,4 @@
 - [ ] Pre Kristovu nohu if no bands found according to user request TELL HIM about it, no blank screen  
 - [ ] Resolve recyclerView artifacts - sometimes wiew with hidden buttons appearing for a wile can be seen (recycled view)  
 - [ ] Put some small player widget on the bottom when in bands index/other band profile to give a user possibility to switch/stop currently playing track and give him clue what is he listening to  
+- [ ] Few bands unable to load, inpect this cases
