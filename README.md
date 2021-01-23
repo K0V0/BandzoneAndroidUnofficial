@@ -25,3 +25,4 @@
 - [x] Rework band profile, find out how to put band info into list so it does not occupy space on screen and can be scrolled out  
 - [ ] Make appearing band search results animated  
 - [ ] Pre Kristovu nohu if no bands found according to user request TELL HIM about it, no blank screen  
+- [ ] Resolve recyclerView artifacts - sometimes wiew with hidden buttons appearing for a wile can be seen (recycled view)  

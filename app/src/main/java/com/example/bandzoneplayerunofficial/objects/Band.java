@@ -2,6 +2,9 @@ package com.example.bandzoneplayerunofficial.objects;
 
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Band implements BandProfileItem {
     private String title;
     private String city;
@@ -10,6 +13,8 @@ public class Band implements BandProfileItem {
     private String slug;
     private String genre;
     //private String recent_album;
+    //private Pattern pattern;
+    //private Matcher matcher;
 
     public Band(String title, String city, String image_url, String href, String slug, String genre) {
         this.title = title;
@@ -18,8 +23,20 @@ public class Band implements BandProfileItem {
         this.href = href;
         this.slug = slug;
         this.genre = genre;
+        //this.pattern = Pattern.compile("\\/[A-Za-z0-9_\\-\\.]+$", Pattern.CASE_INSENSITIVE);
+        //this.matcher = this.pattern.matcher(this.href);
         //this.recent_album = "";
+        //afterInit();
     }
+
+    //private void afterInit() {
+        //if (this.slug == null) {
+            /*if (matcher.find()) {
+                System.out.println(matcher);
+            }*/
+        //}
+       // System.out.println(this.slug);
+    //}
 
     public Band() {
         new Band(null, null, null, null, null, null);
@@ -57,5 +74,10 @@ public class Band implements BandProfileItem {
     @Override
     public String toString() {
         return "Band [name=" + title + "]";
+    }
+
+    @Override
+    public boolean contains(BandProfileItem o) {
+        return this.slug.equals(((Band) o).getSlug());
     }
 }

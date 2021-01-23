@@ -71,4 +71,9 @@ public class Track implements BandProfileItem {
     public String toString() {
         return "Track [name=" + title + "]";
     }
+
+    @Override
+    public boolean contains(BandProfileItem o) {
+        return this.href_hash.equals(((Track) o).getHref_hash());
+    }
 }

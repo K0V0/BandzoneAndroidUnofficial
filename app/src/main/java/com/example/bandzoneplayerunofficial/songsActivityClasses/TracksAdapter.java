@@ -30,23 +30,18 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private final Context context;
     private List<BandProfileItem> listRecyclerItem;
-    //private PlayerHelper playerHelper;
-    //private RecyclerView parent;
-    //private TracksAdapter totok;
-    //private Player player;
+    private boolean playerIsPlaying;
+    private Band playingBand;
+    private Track playingTrack;
 
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
-        this.listRecyclerItem = listRecyclerItem;
-        System.out.println("on adapter constructor");
-        //totok = this;
+        this.listRecyclerItem = listRecyclerItem; // null here on init
         PlayerStatic.init(this.context, this);
-        //this.player = new Player(this.context, listRecyclerItem, this);
     }
 
     public class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        //private View trackView;
         private TextView title;
         private TextView album;
         private LinearLayout pauseHolder;
@@ -54,7 +49,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public TrackViewHolder(@NonNull View itemView) {
             super(itemView);
-            //trackView = itemView;
             title = (TextView) itemView.findViewById(R.id.trackName);
             album = (TextView) itemView.findViewById(R.id.albumName);
             pauseHolder = (LinearLayout) itemView.findViewById(R.id.pauseButtonHolder);
@@ -85,13 +79,11 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title.setTag(track);
             album.setText(track.getAlbum());
             PlayerHelper.updateUIanimation(context, pauseHolder, progressHolder, track);
-            System.out.println("player bind");
         }
 
         @Override
         public void onClick(View v) {
             Track track = (Track) v.findViewById(R.id.trackName).getTag();
-            //player.play(listRecyclerItem.indexOf(track));
             PlayerStatic.setTracklist(listRecyclerItem);
             PlayerStatic.play(listRecyclerItem.indexOf(track));
         }
@@ -125,7 +117,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             changeLayout();
-                            //Player.init(context, listRecyclerItem, totok);
+                            PlayerStatic.showPlayerIfPlaying(listRecyclerItem);
                             return false;
                         }
                     })
@@ -136,7 +128,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        //this.parent = ((RecyclerView) viewGroup);
         if (i > 0) {
             View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(
                     R.layout.band_tracks_list, viewGroup, false);
@@ -152,7 +143,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        //viewHolder.setIsRecyclable(false); // BRUTAL shitty performance
+        //viewHolder.setIsRecyclable(false); // removes artifacts but NAKOKOT shitty performance
         int viewType = getItemViewType(i);
         if (viewType < 0) {
             ((BandInfoViewHolder) viewHolder).bindView(i);
@@ -162,12 +153,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             throw new IllegalStateException("Unexpected value: " + viewType);
         }
     }
-
-    /*@Override
-    public void onViewRecycled(@NonNull YourViewHolder holder) {
-        parent.getRecycledViewPool().clear();
-        setLayoutParamsToView(holder.itemView);
-    }*/
 
     @Override
     public int getItemViewType(int position) {

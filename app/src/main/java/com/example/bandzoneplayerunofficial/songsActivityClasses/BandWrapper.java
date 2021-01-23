@@ -53,7 +53,6 @@ public abstract class BandWrapper implements DataWrapper {
         this.tracksLayoutManager = new LinearLayoutManager(activity);
         this.tracksRecyclerView.setLayoutManager(tracksLayoutManager);
         this.tracksRecyclerView.setHasFixedSize(true);
-        //this.tracksRecyclerView.setItemViewCacheSize(0);
         this.tracksAdapter = new TracksAdapter(this.context, bandProfileItems);
         this.tracksRecyclerView.setAdapter(tracksAdapter);
         this.dataSourceType = setDataSourceType();
