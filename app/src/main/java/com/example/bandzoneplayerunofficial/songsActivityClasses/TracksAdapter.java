@@ -30,9 +30,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private final Context context;
     private List<BandProfileItem> listRecyclerItem;
-    private boolean playerIsPlaying;
-    private Band playingBand;
-    private Track playingTrack;
 
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
