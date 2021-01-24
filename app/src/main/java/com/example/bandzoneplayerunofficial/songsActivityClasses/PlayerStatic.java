@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.widget.SeekBar;
+import com.example.bandzoneplayerunofficial.R;
 import com.example.bandzoneplayerunofficial.helpers.PlayerHelper;
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Band;
@@ -22,6 +24,10 @@ public class PlayerStatic {
     private static Context context;
     private static TracksAdapter adapterThis;
     private static Band currentBand;
+    private static int currentPosition;
+    private static int currentTrackLength;
+    private static SeekBar seekBar;
+    //private static int
 
     public static void init(Context c, List<BandProfileItem> i, TracksAdapter a) {
         PlayerStatic.init(c, a);
@@ -37,6 +43,7 @@ public class PlayerStatic {
             items = new ArrayList<>();
         }
         lastTrackIndex = items.size() - 1;
+        //seekBar = ((Activity)context).findViewById(R.id.seekBar);
     }
 
     public static void setTracklist(List<BandProfileItem> list) {
@@ -49,29 +56,60 @@ public class PlayerStatic {
     }
 
     public static void pause() {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+                currentPosition = mediaPlayer.getCurrentPosition();
+            }
         }
     }
 
     public static void toggle() {
         if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
+            if (pauseState() == 1) {
+                play();
             } else {
-                mediaPlayer.start();
+                pause();
             }
+        }
+    }
+
+    public static void play() {
+        if (mediaPlayer != null) {
+            mediaPlayer.seekTo(currentPosition);
+            mediaPlayer.start();
+        }
+    }
+
+    public static int getDuration() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getDuration();
+        }
+        return 0;
+    }
+
+    public static int getCurrentPosition() {
+        return mediaPlayer.getCurrentPosition();
+    }
+
+    public static void rewindTo(int progress) {
+        if (mediaPlayer != null) {
+            mediaPlayer.seekTo(progress);
         }
     }
 
     public static void play(int order) {
         currentTrackIndex = order;
+        //currentTrackLength =
         lastTrackIndex = items.size() - 1; // because on construction length is 0
         if (items.get(currentTrackIndex).getClass() != Track.class) {
-            play(next());
+            //currentTrackLength = items.get(currentTrackIndex).
+                    play(next());
         }
         currentTrack = (Track) items.get(currentTrackIndex);
         uri = Uri.parse(currentTrack.getHref());
+        //currentTrackLength = mediaPlayer.getDuration();
+       // System.out.println(currentTrackLength);
 
         PlayerHelper.updatePlayState(items, currentTrack);
         adapterThis.notifyDataSetChanged();
@@ -81,6 +119,7 @@ public class PlayerStatic {
         } else {
             killMediaPlayer();
             mediaPlayer = MediaPlayer.create((Activity) context, uri);
+            //seekBar.setMax(mediaPlayer.getDuration());
         }
 
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -130,6 +169,13 @@ public class PlayerStatic {
         } else {
             return mediaPlayer.isPlaying();
         }
+    }
+
+    public static int pauseState() {
+        if (mediaPlayer != null) {
+            return (!mediaPlayer.isPlaying() && mediaPlayer.getCurrentPosition() > 1) ? 1 : 0;
+        }
+        return -1;
     }
 
     private static void killMediaPlayer() {

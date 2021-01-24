@@ -1,15 +1,30 @@
+// behavior of PLAYER lib and bindView():
+
+// STATIC lib
+// plays when opened profile of another band
+// run on click
+// run when app opened and next track played
+// does not run when app on background and track changed
+// when of profile of other band, plays track with next index of new band
+// ^^^ app crash when on profile of another band trying to play next track [RESOLVED]
+
+// INSTANCE
+// stops when opened profile of another band
+// run on click
+// run in next track when opened
+// does not run when on backgound
+// --
+
 package com.example.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,40 +57,60 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView title;
         private TextView album;
         private LinearLayout pauseHolder;
-        private SeekBar progressHolder;
+        private SeekBar progressBar;
+        private ImageButton pauseButton;
+        private Handler mHandler = new Handler();
 
         public TrackViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.trackName);
-            album = (TextView) itemView.findViewById(R.id.albumName);
-            pauseHolder = (LinearLayout) itemView.findViewById(R.id.pauseButtonHolder);
-            progressHolder = (SeekBar) itemView.findViewById(R.id.seekBar);
+            title = itemView.findViewById(R.id.trackName);
+            album = itemView.findViewById(R.id.albumName);
+            pauseHolder = itemView.findViewById(R.id.pauseButtonHolder);
+            pauseButton = itemView.findViewById(R.id.pauseButton);
+            progressBar = itemView.findViewById(R.id.seekBar);
             itemView.setOnClickListener(this);
         }
 
         public void bindView(int position) {
-            // behavior of PLAYER lib and bindView():
-
-            // STATIC lib
-            // plays when opened profile of another band
-            // run on click
-            // run when app opened and next track played
-            // does not run when app on background and track changed
-            // when of profile of other band, plays track with next index of new band
-            // ^^^ app crash when on profile of another band trying to play next track [RESOLVED]
-
-            // INSTANCE
-            // stops when opened profile of another band
-            // run on click
-            // run in next track when opened
-            // does not run when on backgound
-            // --
-
             Track track = (Track) listRecyclerItem.get(position);
             title.setText(track.getTitle());
             title.setTag(track);
             album.setText(track.getAlbum());
-            PlayerHelper.updateUIanimation(context, pauseHolder, progressHolder, track);
+            pauseButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("click");
+                    if (PlayerStatic.isPlaying()) {
+                        PlayerStatic.pause();
+                    } else if (PlayerStatic.pauseState() == 1) {
+                        PlayerStatic.play();
+                    }
+                }
+            });
+            progressBar.setMax(PlayerStatic.getDuration());
+            ((Activity) context).runOnUiThread(new Runnable() {
+               @Override
+               public void run() {
+                   if(PlayerStatic.getCurrentTrack() != null){
+                    int mCurrentPosition = PlayerStatic.getCurrentPosition();
+                    progressBar.setProgress(mCurrentPosition);
+                   }
+                   mHandler.postDelayed(this, 1000);
+               }
+            });
+            progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    PlayerStatic.rewindTo(seekBar.getProgress());
+                }
+            });
+            PlayerHelper.updateUIanimation(context, pauseHolder, progressBar, track);
         }
 
         @Override
