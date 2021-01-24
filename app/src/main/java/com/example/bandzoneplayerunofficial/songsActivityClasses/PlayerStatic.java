@@ -2,15 +2,23 @@ package com.example.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Handler;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import androidx.annotation.RequiresApi;
 import com.example.bandzoneplayerunofficial.R;
 import com.example.bandzoneplayerunofficial.helpers.PlayerHelper;
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Track;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +34,9 @@ public class PlayerStatic {
     private static Band currentBand;
     private static int currentPosition;
     private static int currentTrackLength;
-    private static SeekBar seekBar;
-    //private static int
+    private static ProgressBar trackLoadingWheel;
+    private static ImageButton pauseButton;
+    private static SeekBar progressBar;
 
     public static void init(Context c, List<BandProfileItem> i, TracksAdapter a) {
         PlayerStatic.init(c, a);
@@ -44,6 +53,56 @@ public class PlayerStatic {
         }
         lastTrackIndex = items.size() - 1;
         //seekBar = ((Activity)context).findViewById(R.id.seekBar);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private static void createPlayer() {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+        );
+        try {
+            mediaPlayer.setDataSource(context, uri);
+            mediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getSeekbarBack(Handler mHandler) {
+        progressBar.setMax(PlayerStatic.getDuration());
+        ((Activity) context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(PlayerStatic.getCurrentTrack() != null){
+                    int mCurrentPosition = PlayerStatic.getCurrentPosition();
+                    progressBar.setProgress(mCurrentPosition);
+                }
+                mHandler.postDelayed(this, 1000);
+            }
+        });
+        progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                PlayerStatic.rewindTo(seekBar.getProgress());
+            }
+        });
+
+    }
+
+    public static void uiInit(ProgressBar trackProgress, ImageButton pause, SeekBar seekBar) {
+        trackLoadingWheel = trackProgress;
+        pauseButton = pause;
+        progressBar = seekBar;
     }
 
     public static void setTracklist(List<BandProfileItem> list) {
@@ -98,6 +157,7 @@ public class PlayerStatic {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void play(int order) {
         currentTrackIndex = order;
         //currentTrackLength =
@@ -115,10 +175,12 @@ public class PlayerStatic {
         adapterThis.notifyDataSetChanged();
 
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create((Activity) context, uri);
+            //mediaPlayer = MediaPlayer.create((Activity) context, uri);
+            createPlayer();
         } else {
             killMediaPlayer();
-            mediaPlayer = MediaPlayer.create((Activity) context, uri);
+            createPlayer();
+            //mediaPlayer = MediaPlayer.create((Activity) context, uri);
             //seekBar.setMax(mediaPlayer.getDuration());
         }
 
@@ -129,7 +191,18 @@ public class PlayerStatic {
             }
         });
 
-        mediaPlayer.start();
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                Handler mHandler = new Handler();
+                mediaPlayer.start();
+                trackLoadingWheel.setVisibility(View.INVISIBLE);
+                pauseButton.setVisibility(View.VISIBLE);
+                getSeekbarBack(mHandler);
+            }
+        });
+
+        //mediaPlayer.start();
     }
 
     public static void showPlayerIfPlaying(List<BandProfileItem> list) {

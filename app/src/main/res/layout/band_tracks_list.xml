@@ -14,11 +14,11 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:background="#222222">
+                android:layout_height="wrap_content" android:background="#222222" android:baselineAligned="false">
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent" android:paddingTop="2dp" android:paddingBottom="2dp"
+                    android:layout_height="wrap_content" android:paddingTop="2dp" android:paddingBottom="2dp"
                     android:paddingLeft="4dp" android:paddingRight="4dp" android:layout_weight="1000">
                 <TextView
                         android:text="@string/track"
@@ -31,17 +31,21 @@
                         android:layout_height="wrap_content" android:id="@+id/albumName" android:textColor="#888888"
                         android:textSize="8pt"/>
             </LinearLayout>
-            <LinearLayout
-                    android:orientation="vertical"
+            <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true" android:layout_weight="1" android:minWidth="48dp"
-                    android:gravity="center_vertical" android:id="@+id/pauseButtonHolder" android:alpha="0">
+                    android:layout_height="match_parent">
+                <ProgressBar
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:id="@+id/trackLoading" android:layout_margin="8dp"
+                        android:visibility="invisible"/>
                 <ImageButton
                         android:layout_width="48dp"
                         android:layout_height="48dp" app:srcCompat="@android:drawable/ic_media_pause"
-                        android:id="@+id/pauseButton" android:minWidth="64dp"/>
-            </LinearLayout>
+                        android:id="@+id/pauseButton" android:minWidth="64dp"
+                        android:visibility="invisible" android:contentDescription="play, pause"/>
+            </FrameLayout>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"

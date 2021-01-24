@@ -1,6 +1,9 @@
 package com.example.bandzoneplayerunofficial.helpers;
 
+import android.animation.Animator;
 import android.content.Context;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
@@ -41,7 +44,7 @@ public class PlayerHelper {
         }
     }
 
-    public static void updateUIanimation(Context context, LinearLayout pauseHolder, SeekBar progressHolder, Track track) {
+    public static void updateUIanimation(Context context, ImageButton pauseHolder, SeekBar progressHolder, Track track) {
         if (track.isPlaying()) {
             pauseHolder.animate().alpha(1.0f).setDuration(250);
             if (progressHolder.getHeight() == 0) {
@@ -52,7 +55,18 @@ public class PlayerHelper {
                 );
             }
         } else {
-            pauseHolder.animate().alpha(0.0f).setDuration(250);
+            pauseHolder.animate().alpha(0.0f).setDuration(250).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {}
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    pauseHolder.setVisibility(View.INVISIBLE);
+                }
+                @Override
+                public void onAnimationCancel(Animator animation) {}
+                @Override
+                public void onAnimationRepeat(Animator animation) {}
+            });
             if (progressHolder.getHeight() > 0) {
                 SlideAnimation.slideView(
                         progressHolder,

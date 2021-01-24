@@ -56,18 +56,19 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         private TextView title;
         private TextView album;
-        private LinearLayout pauseHolder;
         private SeekBar progressBar;
         private ImageButton pauseButton;
+        private ProgressBar trackLoading;
         private Handler mHandler = new Handler();
 
         public TrackViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.trackName);
             album = itemView.findViewById(R.id.albumName);
-            pauseHolder = itemView.findViewById(R.id.pauseButtonHolder);
             pauseButton = itemView.findViewById(R.id.pauseButton);
             progressBar = itemView.findViewById(R.id.seekBar);
+            trackLoading = itemView.findViewById(R.id.trackLoading);
+            //PlayerStatic.uiInit(trackLoading, pauseButton, progressBar);
             itemView.setOnClickListener(this);
         }
 
@@ -76,10 +77,11 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title.setText(track.getTitle());
             title.setTag(track);
             album.setText(track.getAlbum());
+            //PlayerStatic.getStateBack();
+
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("click");
                     if (PlayerStatic.isPlaying()) {
                         PlayerStatic.pause();
                     } else if (PlayerStatic.pauseState() == 1) {
@@ -87,35 +89,19 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
-            progressBar.setMax(PlayerStatic.getDuration());
-            ((Activity) context).runOnUiThread(new Runnable() {
-               @Override
-               public void run() {
-                   if(PlayerStatic.getCurrentTrack() != null){
-                    int mCurrentPosition = PlayerStatic.getCurrentPosition();
-                    progressBar.setProgress(mCurrentPosition);
-                   }
-                   mHandler.postDelayed(this, 1000);
-               }
-            });
-            progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                }
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    PlayerStatic.rewindTo(seekBar.getProgress());
-                }
-            });
-            PlayerHelper.updateUIanimation(context, pauseHolder, progressBar, track);
+
+            if (PlayerStatic.isPlaying()) {
+                PlayerStatic.getSeekbarBack(mHandler);
+            }
+
+            PlayerHelper.updateUIanimation(context, pauseButton, progressBar, track);
         }
 
         @Override
         public void onClick(View v) {
             Track track = (Track) v.findViewById(R.id.trackName).getTag();
+            trackLoading.setVisibility(View.VISIBLE);
+            PlayerStatic.uiInit(trackLoading, pauseButton, progressBar);
             PlayerStatic.setTracklist(listRecyclerItem);
             PlayerStatic.play(listRecyclerItem.indexOf(track));
         }
