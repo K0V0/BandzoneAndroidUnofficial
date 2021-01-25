@@ -76,13 +76,16 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title.setText(track.getTitle());
             title.setTag(track);
             album.setText(track.getAlbum());
+            pauseButton.setBackgroundResource(R.mipmap.pause);
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (Player.isPlaying()) {
                         Player.pause();
+                        v.setBackgroundResource(R.mipmap.play);
                     } else if (Player.pauseState() == 1) {
                         Player.play();
+                        v.setBackgroundResource(R.mipmap.pause);
                     }
                 }
             });
