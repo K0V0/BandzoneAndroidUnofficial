@@ -16,6 +16,7 @@
 | 21-jan-2021 | refactor of code handling opening band portfolio, first goal achieved - app is PLAYING SOUND. Insane level of pain how to synchronise the UI and state(s) of player in some nice user friendly way |
 | 22-jan-2021 | player synchronized with UI ~~except case when You get out of band profile and back - but solution proposed~~, resolve recyclerView artifacts |
 | 23-jan-2021 | pause and rewind and progressbar working now, get sober, 3.6 promile for me not terrible but for app not great |
+| 24-jan-2021 | UI animations, bugs, icons and look, no band found text, moving player loading to background thread |
 
 ## TODO, ideas
 
@@ -25,8 +26,11 @@
 - [ ] Maybe apply gestures for some actions (like back from Band profile to bands search)  
 - [x] Rework band profile, find out how to put band info into list so it does not occupy space on screen and can be scrolled out  
 - [ ] Make appearing band search results animated  
-- [ ] Pre Kristovu nohu if no bands found according to user request TELL HIM about it, no blank screen  
+- [x] Pre Kristovu nohu if no bands found according to user request TELL HIM about it, no blank screen  
 - [x] ~~Resolve recyclerView artifacts - sometimes wiew with hidden buttons appearing for a wile can be seen (recycled view)~~ they dissappeared, but I did nothing  
 - [ ] Put some small player widget on the bottom when in bands index/other band profile to give a user possibility to switch/stop currently playing track and give him clue what is he listening to  
 - [x] Few bands unable to load, inpect this cases - [RESOLVED] - bands with at least one song that is less than miute long - bug in a Ruby on Rails scraper, not app itself  
-- [ ] Get rid of some HANDROid ugly stock icons  
+- [x] Get rid of some HANDROid ugly stock icons  
+- [x] [SERIOUS] Run player on background thread, loading track freezes UI
+- [ ] [SERIOUS] Spaces in searchfield causes exception, scraper working OK, mistake here
+- [ ] develop some mechanism to try to repeat lost request

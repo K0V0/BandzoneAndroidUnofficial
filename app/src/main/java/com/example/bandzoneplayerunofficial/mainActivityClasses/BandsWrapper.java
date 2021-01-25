@@ -1,7 +1,10 @@
 package com.example.bandzoneplayerunofficial.mainActivityClasses;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bandzoneplayerunofficial.R;
@@ -22,6 +25,7 @@ public abstract class BandsWrapper implements DataWrapper {
     protected RecyclerView.LayoutManager bandsLayoutManager;
     protected ToastMessage toastMessage;
     protected SearchFieldProgress searchFieldProgress;
+    protected TextView noBandsText;
 
     protected int currentPage;
     protected int itemsPerPage;
@@ -48,6 +52,7 @@ public abstract class BandsWrapper implements DataWrapper {
         this.bandsRecyclerView.setAdapter(bandsAdapter);
         this.toastMessage = new ToastMessage(context);
         this.searchFieldProgress = new SearchFieldProgress(this.context);
+        this.noBandsText = activity.findViewById(R.id.noBandsText);
         this.dataSourceType = setDataSourceType();
         afterConstruction();
     }
@@ -93,11 +98,32 @@ public abstract class BandsWrapper implements DataWrapper {
         this.bands.clear();
         this.bands.addAll(selectiveAdd(this.bands, bands));
         this.bandsAdapter.notifyDataSetChanged();
+        checkIfNotEmpty();
     }
 
     private void addBands(List<Band> bands) {
         this.bands.addAll(bands);
         this.bandsAdapter.notifyItemInserted(this.bands.size() - 1);
+        checkIfNotEmpty();
+    }
+
+    private void checkIfNotEmpty() {
+        if (this.bands.size() <= 0) {
+           noBandsText.animate().alpha(1.0F).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                   noBandsText.setVisibility(View.VISIBLE);
+                }
+                @Override
+                public void onAnimationEnd(Animator animation) {}
+                @Override
+                public void onAnimationCancel(Animator animation) {}
+                @Override
+                public void onAnimationRepeat(Animator animation) {}
+            });
+        } else {
+            activity.findViewById(R.id.noBandsText).setVisibility(View.GONE);
+        }
     }
 
     public void update(Page page) {

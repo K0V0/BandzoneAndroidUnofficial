@@ -12,4 +12,5 @@
     <string name="track">track</string>
     <string name="album">album</string>
     <string name="moment">Moment...</string>
+    <string name="noBandsFound">Žiadne kapely neboli nájdené</string>
 </resources>
