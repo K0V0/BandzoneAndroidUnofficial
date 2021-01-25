@@ -20,7 +20,6 @@ package com.example.bandzoneplayerunofficial.songsActivityClasses;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.helpers.PlayerHelper;
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Track;
@@ -49,26 +47,27 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
         this.listRecyclerItem = listRecyclerItem; // null here on init
-        PlayerStatic.init(this.context, this);
+        Player.init(this.context, this);
     }
 
     public class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private View view;
         private TextView title;
         private TextView album;
         private SeekBar progressBar;
         private ImageButton pauseButton;
         private ProgressBar trackLoading;
-        private Handler mHandler = new Handler();
 
         public TrackViewHolder(@NonNull View itemView) {
             super(itemView);
+            view = itemView;
             title = itemView.findViewById(R.id.trackName);
             album = itemView.findViewById(R.id.albumName);
             pauseButton = itemView.findViewById(R.id.pauseButton);
             progressBar = itemView.findViewById(R.id.seekBar);
             trackLoading = itemView.findViewById(R.id.trackLoading);
-            //PlayerStatic.uiInit(trackLoading, pauseButton, progressBar);
+            PlayerAnimations.init(context);
             itemView.setOnClickListener(this);
         }
 
@@ -77,33 +76,37 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title.setText(track.getTitle());
             title.setTag(track);
             album.setText(track.getAlbum());
-            //PlayerStatic.getStateBack();
-
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (PlayerStatic.isPlaying()) {
-                        PlayerStatic.pause();
-                    } else if (PlayerStatic.pauseState() == 1) {
-                        PlayerStatic.play();
+                    if (Player.isPlaying()) {
+                        Player.pause();
+                    } else if (Player.pauseState() == 1) {
+                        Player.play();
                     }
                 }
             });
-
-            if (PlayerStatic.isPlaying()) {
-                PlayerStatic.getSeekbarBack(mHandler);
+            if (track.isPlaying()) { // it is not actually playing, it is set to be played
+                Player.uiInit(trackLoading, pauseButton, progressBar, track);
             }
+            PlayerAnimations.animate(pauseButton, progressBar, track);
+        }
 
-            PlayerHelper.updateUIanimation(context, pauseButton, progressBar, track);
+        private void runPlayer(View v) {
+            Track track = (Track) v.findViewById(R.id.trackName).getTag();
+            Player.uiInit(
+                    v.findViewById(R.id.trackLoading),
+                    v.findViewById(R.id.pauseButton),
+                    v.findViewById(R.id.seekBar),
+                    track);
+            PlayerAnimations.showLoading(true, v.findViewById(R.id.trackLoading));
+            Player.setTracklist(listRecyclerItem);
+            Player.play(listRecyclerItem.indexOf(track));
         }
 
         @Override
         public void onClick(View v) {
-            Track track = (Track) v.findViewById(R.id.trackName).getTag();
-            trackLoading.setVisibility(View.VISIBLE);
-            PlayerStatic.uiInit(trackLoading, pauseButton, progressBar);
-            PlayerStatic.setTracklist(listRecyclerItem);
-            PlayerStatic.play(listRecyclerItem.indexOf(track));
+            runPlayer(v);
         }
     }
 
@@ -135,7 +138,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             changeLayout();
-                            PlayerStatic.showPlayerIfPlaying(listRecyclerItem);
+                            Player.showPlayerIfPlaying(listRecyclerItem);
                             return false;
                         }
                     })
