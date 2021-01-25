@@ -7,15 +7,16 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import androidx.annotation.RequiresApi;
+import com.example.bandzoneplayerunofficial.R;
 import com.example.bandzoneplayerunofficial.helpers.PlayerHelper;
 import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Track;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,17 +79,19 @@ public class Player {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 play(next());
+                View w = PlayerAnimations.getBackCurrentView(currentTrack);
+                ProgressBar loading = w.findViewById(R.id.trackLoading);
+                PlayerAnimations.showLoading(true, loading);
             }
         });
 
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                mediaPlayer.start();
                 PlayerHelper.updatePlayState(items, currentTrack);
                 adapterThis.notifyDataSetChanged();
+                mediaPlayer.start();
                 PlayerAnimations.showLoading(false, trackLoadingWheel);
-                PlayerAnimations.showPauseButton(true, pauseButton);
                 runSeekbar();
             }
         });
@@ -111,7 +114,6 @@ public class Player {
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                System.out.println("progress changed");
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -131,6 +133,8 @@ public class Player {
     private static void killMediaPlayer() {
         if (mediaPlayer != null) {
             try {
+                PlayerAnimations.showPauseButton(false, pauseButton);
+                PlayerAnimations.showSeekBar(false, progressBar);
                 mediaPlayer.stop();
                 mediaPlayer.reset();
                 mediaPlayer.release();

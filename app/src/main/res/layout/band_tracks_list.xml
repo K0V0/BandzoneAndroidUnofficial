@@ -46,8 +46,8 @@
                         android:layout_height="48dp"
                         android:id="@+id/pauseButton" android:minWidth="64dp"
                         android:visibility="invisible" android:contentDescription="play, pause"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_marginTop="4dp" android:layout_marginRight="4dp"/>
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:layout_marginTop="4dp" android:layout_marginRight="4dp" android:src="@mipmap/pause"/>
             </FrameLayout>
         </LinearLayout>
         <LinearLayout

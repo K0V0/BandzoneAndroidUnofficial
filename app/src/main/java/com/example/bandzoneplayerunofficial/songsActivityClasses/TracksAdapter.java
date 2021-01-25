@@ -37,6 +37,7 @@ import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.example.bandzoneplayerunofficial.objects.Band;
 import com.example.bandzoneplayerunofficial.objects.Track;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -48,6 +49,18 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
         this.listRecyclerItem = listRecyclerItem; // null here on init
         Player.init(this.context, this);
+    }
+
+    public void runPlayer(View v) {
+        Track track = (Track) v.findViewById(R.id.trackName).getTag();
+        Player.uiInit(
+                v.findViewById(R.id.trackLoading),
+                v.findViewById(R.id.pauseButton),
+                v.findViewById(R.id.seekBar),
+                track);
+        PlayerAnimations.showLoading(true, v.findViewById(R.id.trackLoading));
+        Player.setTracklist(listRecyclerItem);
+        Player.play(listRecyclerItem.indexOf(track));
     }
 
     public class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -76,35 +89,23 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title.setText(track.getTitle());
             title.setTag(track);
             album.setText(track.getAlbum());
-            pauseButton.setBackgroundResource(R.mipmap.pause);
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (Player.isPlaying()) {
                         Player.pause();
-                        v.setBackgroundResource(R.mipmap.play);
+                        ((ImageButton) v).setImageResource(R.mipmap.play);
                     } else if (Player.pauseState() == 1) {
                         Player.play();
-                        v.setBackgroundResource(R.mipmap.pause);
+                        ((ImageButton) v).setImageResource(R.mipmap.pause);
                     }
                 }
             });
+            PlayerAnimations.animate(pauseButton, progressBar, trackLoading, track);
             if (track.isPlaying()) { // it is not actually playing, it is set to be played
+                //PlayerAnimations.showLoading(true, trackLoading);
                 Player.uiInit(trackLoading, pauseButton, progressBar, track);
             }
-            PlayerAnimations.animate(pauseButton, progressBar, track);
-        }
-
-        private void runPlayer(View v) {
-            Track track = (Track) v.findViewById(R.id.trackName).getTag();
-            Player.uiInit(
-                    v.findViewById(R.id.trackLoading),
-                    v.findViewById(R.id.pauseButton),
-                    v.findViewById(R.id.seekBar),
-                    track);
-            PlayerAnimations.showLoading(true, v.findViewById(R.id.trackLoading));
-            Player.setTracklist(listRecyclerItem);
-            Player.play(listRecyclerItem.indexOf(track));
         }
 
         @Override
