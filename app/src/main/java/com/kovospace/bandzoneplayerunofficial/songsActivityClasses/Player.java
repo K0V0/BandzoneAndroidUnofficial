@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.songsActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,11 +12,12 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import androidx.annotation.RequiresApi;
-import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.helpers.PlayerHelper;
-import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
-import com.example.bandzoneplayerunofficial.objects.Band;
-import com.example.bandzoneplayerunofficial.objects.Track;
+import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.helpers.PlayerHelper;
+import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
+import com.kovospace.bandzoneplayerunofficial.objects.Track;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +81,10 @@ public class Player {
             public void onCompletion(MediaPlayer mp) {
                 play(next());
                 View w = PlayerAnimations.getBackCurrentView(currentTrack);
-                ProgressBar loading = w.findViewById(R.id.trackLoading);
-                PlayerAnimations.showLoading(true, loading);
+                if (w != null) {
+                    ProgressBar loading = w.findViewById(R.id.trackLoading);
+                    PlayerAnimations.showLoading(true, loading);
+                }
             }
         });
 

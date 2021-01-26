@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.songsActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
 public class BandWrapperOffline extends BandWrapper {
 

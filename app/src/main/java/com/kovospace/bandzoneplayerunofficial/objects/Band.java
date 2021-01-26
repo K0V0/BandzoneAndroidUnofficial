@@ -1,9 +1,6 @@
-package com.example.bandzoneplayerunofficial.objects;
+package com.kovospace.bandzoneplayerunofficial.objects;
 
-import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 
 public class Band implements BandProfileItem {
     private String title;

@@ -15,7 +15,7 @@
 // does not run when on backgound
 // --
 
-package com.example.bandzoneplayerunofficial.songsActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,12 +32,10 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
-import com.example.bandzoneplayerunofficial.objects.Band;
-import com.example.bandzoneplayerunofficial.objects.Track;
-
-import java.util.HashMap;
+import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
+import com.kovospace.bandzoneplayerunofficial.objects.Track;
 import java.util.List;
 
 public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

@@ -1,9 +1,9 @@
-package com.example.bandzoneplayerunofficial.helpers;
+package com.kovospace.bandzoneplayerunofficial.helpers;
 
 import android.content.Context;
-import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
-import com.example.bandzoneplayerunofficial.objects.Band;
-import com.example.bandzoneplayerunofficial.objects.Track;
+import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
+import com.kovospace.bandzoneplayerunofficial.objects.Track;
 import java.util.List;
 
 public class PlayerHelper {

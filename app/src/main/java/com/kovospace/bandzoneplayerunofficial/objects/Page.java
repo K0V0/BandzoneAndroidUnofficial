@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.objects;
+package com.kovospace.bandzoneplayerunofficial.objects;
 
 import java.util.ArrayList;
 import java.util.List;

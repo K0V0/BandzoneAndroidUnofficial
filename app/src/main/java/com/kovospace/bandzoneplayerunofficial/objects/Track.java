@@ -1,6 +1,6 @@
-package com.example.bandzoneplayerunofficial.objects;
+package com.kovospace.bandzoneplayerunofficial.objects;
 
-import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
+import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 
 public class Track implements BandProfileItem {
     private String full_title;

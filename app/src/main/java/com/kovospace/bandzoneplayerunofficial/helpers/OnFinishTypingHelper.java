@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.helpers;
+package com.kovospace.bandzoneplayerunofficial.helpers;
 
 import android.os.Handler;
 import android.text.Editable;

@@ -1,10 +1,10 @@
-package com.example.bandzoneplayerunofficial.songsActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import com.example.bandzoneplayerunofficial.helpers.JsonRequest;
-import com.example.bandzoneplayerunofficial.objects.Band;
-import com.example.bandzoneplayerunofficial.objects.Track;
+import com.kovospace.bandzoneplayerunofficial.helpers.JsonRequest;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
+import com.kovospace.bandzoneplayerunofficial.objects.Track;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;

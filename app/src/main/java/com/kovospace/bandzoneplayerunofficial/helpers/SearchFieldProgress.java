@@ -1,13 +1,11 @@
-package com.example.bandzoneplayerunofficial.helpers;
+package com.kovospace.bandzoneplayerunofficial.helpers;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import com.example.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.R;
 
 public class SearchFieldProgress {
     private Context context;

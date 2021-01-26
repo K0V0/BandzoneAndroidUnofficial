@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.helpers;
+package com.kovospace.bandzoneplayerunofficial.helpers;
 
 import android.content.Context;
 import android.view.Gravity;

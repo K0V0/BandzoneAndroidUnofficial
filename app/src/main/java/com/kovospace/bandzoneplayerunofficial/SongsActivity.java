@@ -1,11 +1,11 @@
-package com.example.bandzoneplayerunofficial;
+package com.kovospace.bandzoneplayerunofficial;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.bandzoneplayerunofficial.helpers.TestConnection;
-import com.example.bandzoneplayerunofficial.songsActivityClasses.BandWrapper;
-import com.example.bandzoneplayerunofficial.songsActivityClasses.BandWrapperNet;
-import com.example.bandzoneplayerunofficial.songsActivityClasses.BandWrapperOffline;
+import androidx.appcompat.app.AppCompatActivity;
+import com.kovospace.bandzoneplayerunofficial.helpers.TestConnection;
+import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.BandWrapper;
+import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.BandWrapperNet;
+import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.BandWrapperOffline;
 
 public class SongsActivity extends AppCompatActivity {
     public String slug;

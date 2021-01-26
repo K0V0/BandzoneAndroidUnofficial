@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.mainActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.SongsActivity;
-import com.example.bandzoneplayerunofficial.objects.Band;
+import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.SongsActivity;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
+
 import java.util.List;
 
 public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

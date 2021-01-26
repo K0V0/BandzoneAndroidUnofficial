@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.songsActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.animation.Animator;
 import android.app.Activity;
@@ -9,10 +9,10 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.helpers.Misc;
-import com.example.bandzoneplayerunofficial.helpers.SlideAnimation;
-import com.example.bandzoneplayerunofficial.objects.Track;
+import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.helpers.Misc;
+import com.kovospace.bandzoneplayerunofficial.helpers.SlideAnimation;
+import com.kovospace.bandzoneplayerunofficial.objects.Track;
 
 public class PlayerAnimations {
     private static Context context;
@@ -91,8 +91,6 @@ public class PlayerAnimations {
                 t = (Track) tv.getTag();
                 if (t.getHref_hash().equals(currentTrack.getHref_hash())) {
                     return rv.getChildAt(i);
-                    //PlayerAnimations.showLoading(true, rv.getChildAt(i).findViewById(R.id.trackLoading));
-                    //PlayerAnimations.showSeekBar(true, rv.getChildAt(i).findViewById(R.id.seekBar));
                 }
             }
         }

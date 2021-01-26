@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.songsActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,11 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.interfaces.BandProfileItem;
-import com.example.bandzoneplayerunofficial.interfaces.DataWrapper;
-import com.example.bandzoneplayerunofficial.objects.Band;
-import com.example.bandzoneplayerunofficial.objects.Track;
+import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
+import com.kovospace.bandzoneplayerunofficial.interfaces.DataWrapper;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
+import com.kovospace.bandzoneplayerunofficial.objects.Track;
 
 import java.util.ArrayList;
 import java.util.List;

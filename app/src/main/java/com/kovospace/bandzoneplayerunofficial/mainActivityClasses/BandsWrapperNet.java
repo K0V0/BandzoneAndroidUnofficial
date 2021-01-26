@@ -1,14 +1,13 @@
-package com.example.bandzoneplayerunofficial.mainActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import com.example.bandzoneplayerunofficial.MainActivity;
-import com.example.bandzoneplayerunofficial.helpers.JsonRequest;
-import com.example.bandzoneplayerunofficial.interfaces.DataWrapper;
-import com.example.bandzoneplayerunofficial.objects.Band;
-import com.example.bandzoneplayerunofficial.objects.Page;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kovospace.bandzoneplayerunofficial.MainActivity;
+import com.kovospace.bandzoneplayerunofficial.helpers.JsonRequest;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
+import com.kovospace.bandzoneplayerunofficial.objects.Page;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

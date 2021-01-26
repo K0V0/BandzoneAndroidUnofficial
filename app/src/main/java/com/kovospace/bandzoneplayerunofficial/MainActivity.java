@@ -1,12 +1,11 @@
-package com.example.bandzoneplayerunofficial;
+package com.kovospace.bandzoneplayerunofficial;
 
 import android.content.Context;
-import android.view.View;
+import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import com.example.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
+import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
 
 public class MainActivity extends AppCompatActivity {
 

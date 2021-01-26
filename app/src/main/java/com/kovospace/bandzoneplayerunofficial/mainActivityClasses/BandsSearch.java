@@ -1,9 +1,9 @@
-package com.example.bandzoneplayerunofficial.mainActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import com.example.bandzoneplayerunofficial.MainActivity;
-import com.example.bandzoneplayerunofficial.helpers.*;
+import com.kovospace.bandzoneplayerunofficial.MainActivity;
+import com.kovospace.bandzoneplayerunofficial.helpers.*;
 
 public class BandsSearch extends OnFinishTypingHelper {
 

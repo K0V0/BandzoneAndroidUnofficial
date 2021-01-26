@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.mainActivityClasses;
+package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.animation.Animator;
 import android.app.Activity;
@@ -7,12 +7,12 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.bandzoneplayerunofficial.R;
-import com.example.bandzoneplayerunofficial.helpers.SearchFieldProgress;
-import com.example.bandzoneplayerunofficial.helpers.ToastMessage;
-import com.example.bandzoneplayerunofficial.interfaces.DataWrapper;
-import com.example.bandzoneplayerunofficial.objects.Band;
-import com.example.bandzoneplayerunofficial.objects.Page;
+import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
+import com.kovospace.bandzoneplayerunofficial.helpers.ToastMessage;
+import com.kovospace.bandzoneplayerunofficial.interfaces.DataWrapper;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
+import com.kovospace.bandzoneplayerunofficial.objects.Page;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.bandzoneplayerunofficial.interfaces;
+package com.kovospace.bandzoneplayerunofficial.interfaces;
 
 public interface DataWrapper {
     int DATA_SOURCE_INTERNET = 1;
