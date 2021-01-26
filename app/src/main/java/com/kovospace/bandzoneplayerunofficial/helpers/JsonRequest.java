@@ -41,7 +41,12 @@ public abstract class JsonRequest {
         requestData();
     }
 
+    private void validateQuery() {
+        this.query = this.query.replace(" ", "%20");
+    }
+
     private void requestData() {
+        validateQuery();
         StringRequest request = new StringRequest(Request.Method.GET, this.query, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {

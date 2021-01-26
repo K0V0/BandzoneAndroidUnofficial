@@ -36,5 +36,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" android:id="@+id/songsList"/>
         </LinearLayout>
+        <TextView
+                android:text="@string/noTracksText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/noTracksText" android:layout_weight="1"
+                android:visibility="gone" android:textColor="#FFC107" android:textSize="16pt"
+                android:gravity="center_horizontal"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

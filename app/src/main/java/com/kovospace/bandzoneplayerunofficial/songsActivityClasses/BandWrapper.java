@@ -2,6 +2,8 @@ package com.example.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bandzoneplayerunofficial.R;
@@ -26,6 +28,7 @@ public abstract class BandWrapper implements DataWrapper {
     protected RecyclerView.Adapter tracksAdapter;
     protected RecyclerView.LayoutManager tracksLayoutManager;
     protected int dataSourceType;
+    protected TextView noTracksText;
 
     public BandWrapper() {}
 
@@ -45,7 +48,7 @@ public abstract class BandWrapper implements DataWrapper {
     }
 
     private void loadStaticUI() {
-
+        this.noTracksText = activity.findViewById(R.id.noTracksText);
     }
 
     private void loadTracksUI() {
@@ -67,11 +70,24 @@ public abstract class BandWrapper implements DataWrapper {
         return trackList;
     }
 
+    private void noTracksMessage() {
+        int trackCount = 0;
+        for (BandProfileItem item : bandProfileItems) {
+            if (item.getClass() == Track.class) {
+                trackCount++;
+            }
+        }
+        if (trackCount == 0) {
+            noTracksText.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void triggerShow() {
         bandProfileItems.clear();
         bandProfileItems.add(band);
         bandProfileItems.addAll(addIndexes(tracks));
         tracksAdapter.notifyItemInserted(bandProfileItems.size() - 1);
+        noTracksMessage();
     }
 
 }
