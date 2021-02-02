@@ -54,8 +54,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Player.uiInit(
                 v.findViewById(R.id.trackLoading),
                 v.findViewById(R.id.pauseButton),
-                v.findViewById(R.id.seekBar),
-                track);
+                v.findViewById(R.id.seekBar));
         PlayerAnimations.showLoading(true, v.findViewById(R.id.trackLoading));
         Player.setTracklist(listRecyclerItem);
         Player.play(listRecyclerItem.indexOf(track));
@@ -101,8 +100,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             PlayerAnimations.animate(pauseButton, progressBar, trackLoading, track);
             if (track.isPlaying()) { // it is not actually playing, it is set to be played
-                //PlayerAnimations.showLoading(true, trackLoading);
-                Player.uiInit(trackLoading, pauseButton, progressBar, track);
+                Player.uiInit(trackLoading, pauseButton, progressBar);
             }
         }
 

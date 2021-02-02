@@ -2,7 +2,10 @@ package com.kovospace.bandzoneplayerunofficial.helpers;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.os.Build;
 
 public class TestConnection {
     private Context context;
@@ -14,11 +17,24 @@ public class TestConnection {
 
     // controls only if is wifi or 3g turned on, dorobiť v budúcnosti
     public boolean isActive() {
-        ConnectivityManager connectivityManager
+        /*ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        return isConnected;
+        isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();*/
+        return isActive2();
+    }
+
+    private Boolean isActive2() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network nw = connectivityManager.getActiveNetwork();
+            if (nw == null) return false;
+            NetworkCapabilities actNw = connectivityManager.getNetworkCapabilities(nw);
+            return actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
+        } else {
+            NetworkInfo nwInfo = connectivityManager.getActiveNetworkInfo();
+            return nwInfo != null && nwInfo.isConnected();
+        }
     }
 
 }

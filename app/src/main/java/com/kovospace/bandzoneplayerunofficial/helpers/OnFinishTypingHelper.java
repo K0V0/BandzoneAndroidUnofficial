@@ -1,11 +1,12 @@
 package com.kovospace.bandzoneplayerunofficial.helpers;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 
 public abstract class OnFinishTypingHelper {
-    private Handler handler = new Handler();
+    private Handler handler = new Handler(Looper.getMainLooper());
     private long delay = 1000;
     private long last_text_edit = 0;
     private String text = "";

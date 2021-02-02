@@ -67,7 +67,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="$USER_HOME$/Plocha/Bez názvu.png" />
+                                                <entry key="imagePath" value="$USER_HOME$/Dokumenty/transparent.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -91,8 +91,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="$USER_HOME$/Plocha/bandzone5.png" />
-                                                <entry key="scalingPercent" value="69" />
+                                                <entry key="imagePath" value="$USER_HOME$/Plocha/list.png" />
+                                                <entry key="scalingPercent" value="40" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -120,6 +120,11 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="outputName" value="bands" />
                                     </map>
                                   </option>
                                 </PersistentState>

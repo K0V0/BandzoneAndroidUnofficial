@@ -38,6 +38,7 @@ public class Player {
     private static SeekBar progressBar;
     private static Handler mHandler;
     private static Runnable seekBarRunnable;
+    private static int direction = 0;
 
     public static void init(Context c, TracksAdapter a) {
         context = c;
@@ -48,7 +49,7 @@ public class Player {
         lastTrackIndex = items.size() - 1;
     }
 
-    public static void uiInit(ProgressBar trackProgress, ImageButton pause, SeekBar seekBar, Track track) {
+    public static void uiInit(ProgressBar trackProgress, ImageButton pause, SeekBar seekBar) {
         trackLoadingWheel = trackProgress;
         pauseButton = pause;
         progressBar = seekBar;
@@ -155,7 +156,13 @@ public class Player {
     }
 
     public static int next() {
-        return (currentTrackIndex < lastTrackIndex) ? (currentTrackIndex +1) : (0);
+        direction = 1;
+        return (currentTrackIndex < lastTrackIndex) ? (currentTrackIndex + direction) : (0);
+    }
+
+    public static int prev() {
+        direction = -1;
+        return (currentTrackIndex == 0) ? (lastTrackIndex) : (currentTrackIndex + direction);
     }
 
     public static void pause() {
@@ -184,6 +191,12 @@ public class Player {
         }
     }
 
+    public static void stop() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
     public static int getDuration() {
         if (mediaPlayer != null) {
             return mediaPlayer.getDuration();
@@ -206,7 +219,11 @@ public class Player {
         currentTrackIndex = order;
         lastTrackIndex = items.size() - 1; // because on construction length is 0
         if (items.get(currentTrackIndex).getClass() != Track.class) {
-            play(next());
+            if (direction >= 0) {
+                play(next());
+            } else {
+                play(prev());
+            }
         }
         currentTrack = (Track) items.get(currentTrackIndex);
         uri = Uri.parse(currentTrack.getHref());
@@ -238,7 +255,7 @@ public class Player {
         return currentTrack;
     }
 
-    public static Band getBandFromPlayer() {
+    public static Band getCurrentBand() {
         return currentBand;
     }
 
@@ -248,6 +265,10 @@ public class Player {
         } else {
             return mediaPlayer.isPlaying();
         }
+    }
+
+    public static boolean isPaused() {
+        return (pauseState() >= 0);
     }
 
     public static int pauseState() {

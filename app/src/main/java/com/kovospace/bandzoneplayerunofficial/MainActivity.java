@@ -6,20 +6,31 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
+import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PlayerWidget;
 
 public class MainActivity extends AppCompatActivity {
+    private EditText bandSearchField;
+    private BandsSearch bandsSearch;
+    private PlayerWidget playerWidget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText bandSearchField = findViewById(R.id.bandInput);
-        BandsSearch bandsSearch = new BandsSearch(MainActivity.this, this);
+        bandSearchField = findViewById(R.id.bandInput);
+        bandsSearch = new BandsSearch(MainActivity.this, this);
+        playerWidget = new PlayerWidget(this);
 
         bandSearchField.addTextChangedListener(
                 bandsSearch.watchText()
         );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        playerWidget.check();
     }
 
     @Override

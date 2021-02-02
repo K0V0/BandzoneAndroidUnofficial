@@ -17,10 +17,11 @@
 | 22-jan-2021 | player synchronized with UI ~~except case when You get out of band profile and back - but solution proposed~~, resolve recyclerView artifacts |
 | 23-jan-2021 | pause and rewind and progressbar working now, get sober, 3.6 promile for me not terrible but for app not great |
 | 24-jan-2021 | UI animations, bugs, icons and look, no band found text, moving player loading to background thread |
+| 01-feb-2020 | Resolving deprecation warnings, design of player widget |
 
 ## TODO, ideas
 
-- [ ] Show user that band has no published tracks  
+- [x] Show user that band has no published tracks  
 - [x] When search deleted, load random bands  
 - [x] Notify user somehow that search is being performed (maybe little spinner in search field)  
 - [ ] Maybe apply gestures for some actions (like back from Band profile to bands search)  
@@ -31,6 +32,22 @@
 - [ ] Put some small player widget on the bottom when in bands index/other band profile to give a user possibility to switch/stop currently playing track and give him clue what is he listening to  
 - [x] Few bands unable to load, inpect this cases - [RESOLVED] - bands with at least one song that is less than miute long - bug in a Ruby on Rails scraper, not app itself  
 - [x] Get rid of some HANDROid ugly stock icons  
-- [x] [SERIOUS] Run player on background thread, loading track freezes UI
-- [ ] [SERIOUS] Spaces in searchfield causes exception, scraper working OK, mistake here
-- [ ] develop some mechanism to try to repeat lost request
+- [x] [SERIOUS] Run player on background thread, loading track freezes UI  
+- [x] [SERIOUS] Spaces in searchfield causes exception, scraper working OK, mistake here  
+- [x] [SERIOUS] (in 0.1-alpha) If list of the track longer than screen and last track ends, app will crash  
+- [ ] develop some mechanism to try to repeat lost request  
+- [ ] [SERIOUS] Bandzone.cz has maintenance shutdown from 3:00 to 3:15 am, track this event, if I cannot do anything with it at least inform user about it.  
+
+## Devices tested & issues
+
+```
+[Android version] (App version) Phone brand and model - state/issues
+
+```
+
+- [x] [6.0 + EMUI 4.1] (v0.1.1-alpha) Honor 7 lite - OK  
+- [ ] [10.0] (v0.1.1-alpha) Samsung Galaxy S10 - App runs, unable to connect and fetch data, test again after deprecations removed  
+- [x] [5.1.1] (v0.1.1-alpha) Lenovo A6020 - OK  
+
+
+
