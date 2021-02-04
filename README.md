@@ -49,6 +49,7 @@
 - [x] [6.0 + EMUI 4.1] (v0.1.1-alpha) Honor 7 lite - OK  
 - [ ] [10.0] (v0.1.1-alpha) Samsung Galaxy S10 - App runs, unable to connect and fetch data, test again after deprecations removed  
 - [x] [5.1.1] (v0.1.1-alpha) Lenovo A6020 - OK  
+- [ ] [9.0] (v0.2.0-alpha candidate) BlackView GBW9100 - same problem as on Samsung Galaxy S10
 
 
 
