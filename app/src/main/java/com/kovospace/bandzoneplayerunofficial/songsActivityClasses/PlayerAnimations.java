@@ -85,12 +85,14 @@ public class PlayerAnimations {
         RecyclerView rv = (RecyclerView) ((Activity) context).findViewById(R.id.songsList);
         TextView tv;
         Track t;
-        for (int i = 0; i < rv.getChildCount(); i++) {
-            tv = rv.getChildAt(i).findViewById(R.id.trackName);
-            if (tv != null) {
-                t = (Track) tv.getTag();
-                if (t.getHref_hash().equals(currentTrack.getHref_hash())) {
-                    return rv.getChildAt(i);
+        if (rv != null) {
+            for (int i = 0; i < rv.getChildCount(); i++) {
+                tv = rv.getChildAt(i).findViewById(R.id.trackName);
+                if (tv != null) {
+                    t = (Track) tv.getTag();
+                    if (t.getHref_hash().equals(currentTrack.getHref_hash())) {
+                        return rv.getChildAt(i);
+                    }
                 }
             }
         }

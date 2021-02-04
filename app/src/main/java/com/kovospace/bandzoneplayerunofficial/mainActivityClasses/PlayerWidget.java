@@ -31,6 +31,7 @@ public class PlayerWidget {
     private ImageButton stopTrack;
     private ImageButton minimize;
     private ImageButton openBand;
+    private ProgressBar progressBar;
 
     public PlayerWidget(Context context) {
         this.context = context;
@@ -47,6 +48,7 @@ public class PlayerWidget {
         this.stopTrack = playerHolder.findViewById(R.id.widgetPlayerStopTrack);
         this.minimize = playerHolder.findViewById(R.id.widgetPlayerMinimize);
         this.openBand = playerHolder.findViewById(R.id.widgetPlayerOpenBand);
+        this.progressBar = playerHolder.findViewById(R.id.playerWidgetLoading);
         this.hiddenHeight = Misc.getPixels(this.context, 120);
         check();
         attachActions();
@@ -55,6 +57,7 @@ public class PlayerWidget {
     public void check() {
         if (Player.isPlaying() || Player.isPaused()) {
             playerHolder.setVisibility(View.VISIBLE);
+            initPlayerClass();
             update();
         } else {
             playerHolder.setVisibility(View.GONE);
@@ -71,15 +74,18 @@ public class PlayerWidget {
         updatePauseButton();
     }
 
-    private void initPlayer() {
-        Player.uiInit(ProgressBar trackProgress, pausePlay, SeekBar seekBar);
+    private void initPlayerClass() {
+        Player.init(this.context);
+        Player.uiInit(progressBar, pausePlay, seekBar);
     }
 
     private void updatePauseButton() {
-        if (Player.isPlaying()) {
+        if (Player.pauseState() == 0) {
             pausePlay.setImageResource(R.mipmap.pause);
-        } else if (Player.isPaused()) {
+        } else if (Player.pauseState() == 1) {
             pausePlay.setImageResource(R.mipmap.play);
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 

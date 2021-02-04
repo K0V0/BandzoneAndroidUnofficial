@@ -39,6 +39,8 @@ public class Player {
     private static Handler mHandler;
     private static Runnable seekBarRunnable;
     private static int direction = 0;
+    private static boolean trackLoaded;
+    private static boolean fromBandsList;
 
     public static void init(Context c, TracksAdapter a) {
         context = c;
@@ -47,6 +49,13 @@ public class Player {
             items = new ArrayList<>();
         }
         lastTrackIndex = items.size() - 1;
+    }
+
+    public static void init(Context c) {
+        // used by playerwidget in bands activitiy
+        context = c;
+        PlayerAnimations.init(context);
+        fromBandsList = true;
     }
 
     public static void uiInit(ProgressBar trackProgress, ImageButton pause, SeekBar seekBar) {
@@ -62,6 +71,7 @@ public class Player {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static void createPlayer() {
+        trackLoaded = false;
         mHandler = new Handler();
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(
@@ -85,6 +95,8 @@ public class Player {
                 if (w != null) {
                     ProgressBar loading = w.findViewById(R.id.trackLoading);
                     PlayerAnimations.showLoading(true, loading);
+                } else {
+                    PlayerAnimations.showLoading(true, trackLoadingWheel);
                 }
             }
         });
@@ -92,10 +104,13 @@ public class Player {
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                trackLoaded = true;
                 PlayerHelper.updatePlayState(items, currentTrack);
                 adapterThis.notifyDataSetChanged();
                 mediaPlayer.start();
                 PlayerAnimations.showLoading(false, trackLoadingWheel);
+                PlayerAnimations.showSeekBar(true, progressBar);
+                PlayerAnimations.showPauseButton(true, pauseButton);
                 runSeekbar();
             }
         });
@@ -104,6 +119,7 @@ public class Player {
     }
 
     private static void attachSeekBar() {
+        System.out.println("----- attach seekbar");
         mHandler = new Handler();
         seekBarRunnable = new Runnable() {
             @Override
@@ -130,6 +146,7 @@ public class Player {
     }
 
     private static void runSeekbar() {
+        System.out.println("----- rund seekbar");
         progressBar.setMax(Player.getDuration());
         ((Activity) context).runOnUiThread(seekBarRunnable);
     }
@@ -272,8 +289,15 @@ public class Player {
     }
 
     public static int pauseState() {
+        // 1 - pausing
+        // 0 - playing or stopped
+        // -1 - not playing or loading
         if (mediaPlayer != null) {
-            return (!mediaPlayer.isPlaying() && mediaPlayer.getCurrentPosition() > 1) ? 1 : 0;
+            if (trackLoaded) {
+                return (!mediaPlayer.isPlaying() && mediaPlayer.getCurrentPosition() > 1) ? 1 : 0;
+            } else {
+                return -1;
+            }
         }
         return -1;
     }

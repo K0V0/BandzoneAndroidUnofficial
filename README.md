@@ -18,6 +18,7 @@
 | 23-jan-2021 | pause and rewind and progressbar working now, get sober, 3.6 promile for me not terrible but for app not great |
 | 24-jan-2021 | UI animations, bugs, icons and look, no band found text, moving player loading to background thread |
 | 01-feb-2020 | Resolving deprecation warnings, design of player widget |
+| 04-feb-2020 | Give "life" to player widget (player in bands list) |
 
 ## TODO, ideas
 
