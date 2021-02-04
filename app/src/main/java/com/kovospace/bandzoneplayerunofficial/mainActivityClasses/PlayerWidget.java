@@ -1,5 +1,6 @@
 package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -57,6 +58,7 @@ public class PlayerWidget {
     public void check() {
         if (Player.isPlaying() || Player.isPaused()) {
             playerHolder.setVisibility(View.VISIBLE);
+            playerHolder.setAlpha(1.0f);
             initPlayerClass();
             update();
         } else {
@@ -147,12 +149,28 @@ public class PlayerWidget {
             @Override
             public void onClick(View v) {
                 Player.stop();
+                playerHolder.animate().alpha(0.0f).setDuration(250).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {}
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        playerHolder.setVisibility(View.GONE);
+                        playerWidgetSeekbarHolder.getLayoutParams().height = 0;
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {}
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {}
+                });
             }
         });
         minimize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                unfoldPlayer();
             }
         });
     }

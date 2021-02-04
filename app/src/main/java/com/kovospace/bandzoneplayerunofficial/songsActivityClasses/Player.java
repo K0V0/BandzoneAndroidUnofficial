@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+    private static final int SEEKBAR_REFRESH_RATE = 250;
     private static MediaPlayer mediaPlayer;
     private static List<BandProfileItem> items;
     private static Track currentTrack;
@@ -40,7 +41,6 @@ public class Player {
     private static Runnable seekBarRunnable;
     private static int direction = 0;
     private static boolean trackLoaded;
-    private static boolean fromBandsList;
 
     public static void init(Context c, TracksAdapter a) {
         context = c;
@@ -52,10 +52,9 @@ public class Player {
     }
 
     public static void init(Context c) {
-        // used by playerwidget in bands activitiy
+        // used by playerwidget in bands activity
         context = c;
         PlayerAnimations.init(context);
-        fromBandsList = true;
     }
 
     public static void uiInit(ProgressBar trackProgress, ImageButton pause, SeekBar seekBar) {
@@ -119,7 +118,6 @@ public class Player {
     }
 
     private static void attachSeekBar() {
-        System.out.println("----- attach seekbar");
         mHandler = new Handler();
         seekBarRunnable = new Runnable() {
             @Override
@@ -128,7 +126,7 @@ public class Player {
                     int mCurrentPosition = Player.getCurrentPosition();
                     progressBar.setProgress(mCurrentPosition);
                 }
-                mHandler.postDelayed(this, 1000);
+                mHandler.postDelayed(this, SEEKBAR_REFRESH_RATE);
             }
         };
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -146,7 +144,6 @@ public class Player {
     }
 
     private static void runSeekbar() {
-        System.out.println("----- rund seekbar");
         progressBar.setMax(Player.getDuration());
         ((Activity) context).runOnUiThread(seekBarRunnable);
     }
