@@ -29,7 +29,6 @@ public class SearchFieldProgress {
     }
 
     public void start() {
-        System.out.println(occupied());
         if (!occupied()) {
             searchFieldContainer.addView(spinWheel);
         }

@@ -3,7 +3,9 @@ package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 import android.app.Activity;
 import android.content.Context;
 import com.kovospace.bandzoneplayerunofficial.MainActivity;
-import com.kovospace.bandzoneplayerunofficial.helpers.*;
+import com.kovospace.bandzoneplayerunofficial.helpers.OnFinishTypingHelper;
+import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
+import com.kovospace.bandzoneplayerunofficial.helpers.TestConnection;
 
 public class BandsSearch extends OnFinishTypingHelper {
 
