@@ -41,6 +41,8 @@
 - [ ] develop some mechanism to try to repeat lost request  
 - [ ] [SERIOUS] Bandzone.cz has maintenance shutdown from 3:00 to 3:15 am, track this event, if I cannot do anything with it at least inform user about it.  
 - [ ] provide actual screenshots
+- [ ] lockscreen plaayer widget
+- [ ] notification area player widget
 
 ## Devices tested & issues
 
