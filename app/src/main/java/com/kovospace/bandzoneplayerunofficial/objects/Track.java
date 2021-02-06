@@ -10,6 +10,7 @@ public class Track implements BandProfileItem {
     private String href;
     private String href_hash;
     private String duration;
+    private long durationMilisecs;
     private int order;
     private boolean playing;
 
@@ -21,6 +22,17 @@ public class Track implements BandProfileItem {
         this.href = href;
         this.href_hash = href_hash;
         this.duration = duration;
+        this.durationMilisecs = durationToMilisec(duration);
+    }
+
+    private long durationToMilisec(String duration) {
+        long result = 0;
+        String[] parts = duration.split(":",0);
+        for (int i = 0; i < parts.length - 1; i++) {
+            result += (long) Integer.parseInt(parts[i]) * Math.pow(60, parts.length-i-1) * 1000;
+        }
+        result += (long) Integer.parseInt(parts[parts.length-1]) * 1000;
+        return result;
     }
 
     public String getFull_title() {
@@ -49,6 +61,10 @@ public class Track implements BandProfileItem {
 
     public String getDuration() {
         return duration;
+    }
+
+    public long getDurationMilisecs() {
+        return durationMilisecs;
     }
 
     public int getOrder() {

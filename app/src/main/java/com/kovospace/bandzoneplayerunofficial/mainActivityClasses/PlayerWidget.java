@@ -26,13 +26,16 @@ public class PlayerWidget {
     private TextView trackName;
     private TextView albumName;
     private TextView bandName;
-    private SeekBar seekBar;
+    private LinearLayout progressBarHolder;
+    private SeekBar progressBar;
     private ImageButton prevTrack;
     private ImageButton nextTrack;
     private ImageButton stopTrack;
     private ImageButton minimize;
     private ImageButton openBand;
-    private ProgressBar progressBar;
+    private ProgressBar loadingWheel;
+    private TextView currentTime;
+    private TextView totalTime;
 
     public PlayerWidget(Context context) {
         this.context = context;
@@ -43,13 +46,16 @@ public class PlayerWidget {
         this.trackName = playerHolder.findViewById(R.id.playerWidgetTrackName);
         this.albumName = playerHolder.findViewById(R.id.playerWidgetAlbumName);
         this.bandName = playerHolder.findViewById(R.id.playerWidgetBandName);
-        this.seekBar = playerHolder.findViewById(R.id.playerWidgetSeekbar);
+        this.progressBarHolder = playerHolder.findViewById(R.id.playerWidgetSeekbarHolder);
+        this.progressBar = progressBarHolder.findViewById(R.id.playerWidgetSeekbar);
+        this.currentTime = progressBarHolder.findViewById(R.id.playerWidgetTime);
+        this.totalTime = progressBarHolder.findViewById(R.id.playerWidgetTimeTotal);
         this.prevTrack = playerHolder.findViewById(R.id.widgetPlayerPrevTrack);
         this.nextTrack = playerHolder.findViewById(R.id.widgetPlayerNextTrack);
         this.stopTrack = playerHolder.findViewById(R.id.widgetPlayerStopTrack);
         this.minimize = playerHolder.findViewById(R.id.widgetPlayerMinimize);
         this.openBand = playerHolder.findViewById(R.id.widgetPlayerOpenBand);
-        this.progressBar = playerHolder.findViewById(R.id.playerWidgetLoading);
+        this.loadingWheel = playerHolder.findViewById(R.id.playerWidgetLoading);
         this.hiddenHeight = Misc.getPixels(this.context, 120);
         check();
         attachActions();
@@ -78,7 +84,7 @@ public class PlayerWidget {
 
     private void initPlayerClass() {
         Player.init(this.context);
-        Player.uiInit(progressBar, pausePlay, seekBar);
+        Player.uiInit(loadingWheel, pausePlay, progressBarHolder, progressBar, currentTime, totalTime);
     }
 
     private void updatePauseButton() {
@@ -87,7 +93,7 @@ public class PlayerWidget {
         } else if (Player.pauseState() == 1) {
             pausePlay.setImageResource(R.mipmap.play);
         } else {
-            progressBar.setVisibility(View.VISIBLE);
+            loadingWheel.setVisibility(View.VISIBLE);
         }
     }
 

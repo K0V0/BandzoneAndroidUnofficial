@@ -54,7 +54,11 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Player.uiInit(
                 v.findViewById(R.id.trackLoading),
                 v.findViewById(R.id.pauseButton),
-                v.findViewById(R.id.seekBar));
+                v.findViewById(R.id.seekbarHolder),
+                v.findViewById(R.id.seekBar),
+                v.findViewById(R.id.trackTimeCurrent),
+                v.findViewById(R.id.trackTimeTotal)
+        );
         PlayerAnimations.showLoading(true, v.findViewById(R.id.trackLoading));
         Player.setTracklist(listRecyclerItem);
         Player.play(listRecyclerItem.indexOf(track));
@@ -67,7 +71,10 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView album;
         private SeekBar progressBar;
         private ImageButton pauseButton;
+        private LinearLayout progressbarHolder;
         private ProgressBar trackLoading;
+        private TextView currentTime;
+        private TextView totalTime;
 
         public TrackViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +84,10 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             pauseButton = itemView.findViewById(R.id.pauseButton);
             progressBar = itemView.findViewById(R.id.seekBar);
             trackLoading = itemView.findViewById(R.id.trackLoading);
+            progressbarHolder = itemView.findViewById(R.id.seekbarHolder);
+            progressBar = progressbarHolder.findViewById(R.id.seekBar);
+            currentTime = progressbarHolder.findViewById(R.id.trackTimeCurrent);
+            totalTime = progressbarHolder.findViewById(R.id.trackTimeTotal);
             PlayerAnimations.init(context);
             itemView.setOnClickListener(this);
         }
@@ -98,9 +109,9 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
-            PlayerAnimations.animate(pauseButton, progressBar, trackLoading, track);
+            PlayerAnimations.animate(pauseButton, progressbarHolder, trackLoading, track);
             if (track.isPlaying()) { // it is not actually playing, it is set to be played
-                Player.uiInit(trackLoading, pauseButton, progressBar);
+                Player.uiInit(trackLoading, pauseButton, progressbarHolder, progressBar, currentTime, totalTime);
             }
         }
 

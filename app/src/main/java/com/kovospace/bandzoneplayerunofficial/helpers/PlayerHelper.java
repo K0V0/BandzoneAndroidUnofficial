@@ -54,4 +54,32 @@ public class PlayerHelper {
         return index;
     }
 
+    public static String milisecondsToHuman(long milliseconds) {
+        String result = "";
+        final long MILI_TO_HOUR = 3600000;
+        final long MILI_TO_MINS = 60000;
+        int hrs = 0;
+        int mins = 0;
+        int secs = 0;
+        hrs = (int) (milliseconds / MILI_TO_HOUR);
+        mins = (int) ((milliseconds % MILI_TO_HOUR) / MILI_TO_MINS);
+        secs = (int) (((milliseconds % MILI_TO_HOUR) % MILI_TO_MINS) / 1000);
+        if (hrs > 0) {
+            result = hrs + ":" + timeNum(mins) + ":" + timeNum(secs);
+        } else if (mins > 0) {
+            result = mins + ":" + timeNum(secs);
+        } else {
+            result = "0:" + timeNum(secs);
+        }
+        return result;
+    }
+
+    private static String timeNum(int num) {
+        if (num < 10) {
+            return "0" + num;
+        } else {
+            return "" + num;
+        }
+    }
+
 }

@@ -8,9 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
+import android.widget.*;
 import androidx.annotation.RequiresApi;
 import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.helpers.PlayerHelper;
@@ -24,6 +22,10 @@ import java.util.List;
 
 public class Player {
     private static final int SEEKBAR_REFRESH_RATE = 250;
+    private static final int USED_IN_BAND_PROFILE = 1;
+    private static final int USED_IN_BANDS_LIST = 2;
+
+    private static int playerUsedIn;
     private static MediaPlayer mediaPlayer;
     private static List<BandProfileItem> items;
     private static Track currentTrack;
@@ -36,11 +38,14 @@ public class Player {
     private static int currentPosition;
     private static ProgressBar trackLoadingWheel;
     private static ImageButton pauseButton;
+    private static LinearLayout progressBarHolder;
     private static SeekBar progressBar;
     private static Handler mHandler;
     private static Runnable seekBarRunnable;
     private static int direction = 0;
     private static boolean trackLoaded;
+    private static TextView currentTime;
+    private static TextView totalTime;
 
     public static void init(Context c, TracksAdapter a) {
         context = c;
@@ -52,15 +57,20 @@ public class Player {
     }
 
     public static void init(Context c) {
-        // used by playerwidget in bands activity
+        playerUsedIn = USED_IN_BANDS_LIST;
         context = c;
         PlayerAnimations.init(context);
+        playerUsedIn = USED_IN_BANDS_LIST;
     }
 
-    public static void uiInit(ProgressBar trackProgress, ImageButton pause, SeekBar seekBar) {
-        trackLoadingWheel = trackProgress;
+    public static void uiInit(ProgressBar loading, ImageButton pause, LinearLayout progressHolder, SeekBar progress, TextView current, TextView total) {
+        playerUsedIn = USED_IN_BAND_PROFILE;
+        trackLoadingWheel = loading;
         pauseButton = pause;
-        progressBar = seekBar;
+        progressBarHolder = progressHolder;
+        progressBar = progress;
+        currentTime = current;
+        totalTime = total;
         if (isPlaying()) { // player - case when returning to profile of actually played band
             mHandler.removeCallbacks(seekBarRunnable);
             attachSeekBar();
@@ -108,7 +118,9 @@ public class Player {
                 adapterThis.notifyDataSetChanged();
                 mediaPlayer.start();
                 PlayerAnimations.showLoading(false, trackLoadingWheel);
-                PlayerAnimations.showSeekBar(true, progressBar);
+                if (!(playerUsedIn == USED_IN_BAND_PROFILE)) {
+                    PlayerAnimations.showSeekBar(true, progressBarHolder);
+                }
                 PlayerAnimations.showPauseButton(true, pauseButton);
                 runSeekbar();
             }
@@ -125,6 +137,7 @@ public class Player {
                 if(Player.getCurrentTrack() != null) {
                     int mCurrentPosition = Player.getCurrentPosition();
                     progressBar.setProgress(mCurrentPosition);
+                    currentTime.setText(PlayerHelper.milisecondsToHuman(mCurrentPosition));
                 }
                 mHandler.postDelayed(this, SEEKBAR_REFRESH_RATE);
             }
@@ -145,6 +158,7 @@ public class Player {
 
     private static void runSeekbar() {
         progressBar.setMax(Player.getDuration());
+        totalTime.setText(PlayerHelper.milisecondsToHuman(mediaPlayer.getDuration()));
         ((Activity) context).runOnUiThread(seekBarRunnable);
     }
 
@@ -152,7 +166,9 @@ public class Player {
         if (mediaPlayer != null) {
             try {
                 PlayerAnimations.showPauseButton(false, pauseButton);
-                PlayerAnimations.showSeekBar(false, progressBar);
+                if (!(playerUsedIn == USED_IN_BAND_PROFILE)) {
+                    PlayerAnimations.showSeekBar(false, progressBarHolder);
+                }
                 mediaPlayer.stop();
                 mediaPlayer.reset();
                 mediaPlayer.release();

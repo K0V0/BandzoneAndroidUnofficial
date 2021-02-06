@@ -19,7 +19,7 @@
 | 24-jan-2021 | UI animations, bugs, icons and look, no band found text, moving player loading to background thread |
 | 01-feb-2020 | Resolving deprecation warnings, design of player widget |
 | 04-feb-2020 | Give "life" to player widget (player in bands list) |
-| 05-feb-2020 | Resolved bug app not loading content on newer androids |
+| 05-feb-2020 | Resolved bug app not loading content on newer androids, adding time informations to player(s) |
 
 ## TODO, ideas
 

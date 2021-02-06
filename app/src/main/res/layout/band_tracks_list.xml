@@ -53,10 +53,29 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:background="#222222" android:id="@+id/seekbarHolder">
+                android:layout_height="0dp" android:background="#222222" android:id="@+id/seekbarHolder">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" android:layout_weight="0" android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp">
+                <TextView
+                        android:text="@string/defaultTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp" android:id="@+id/trackTimeCurrent"
+                        android:layout_weight="1" android:textColor="#888888"/>
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="16dp" android:id="@+id/textView3" android:layout_weight="100"/>
+                <TextView
+                        android:text="@string/defaultTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp" android:id="@+id/trackTimeTotal"
+                        android:layout_weight="1" android:textColor="#888888"/>
+            </LinearLayout>
             <SeekBar
                     android:layout_width="match_parent"
-                    android:layout_height="0dp" android:id="@+id/seekBar" android:layout_weight="0"/>
+                    android:layout_height="24dp" android:id="@+id/seekBar" android:layout_weight="0"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

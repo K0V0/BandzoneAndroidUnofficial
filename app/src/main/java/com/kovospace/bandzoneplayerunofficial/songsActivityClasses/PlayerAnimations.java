@@ -4,10 +4,7 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.recyclerview.widget.RecyclerView;
 import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.helpers.Misc;
@@ -16,12 +13,13 @@ import com.kovospace.bandzoneplayerunofficial.objects.Track;
 
 public class PlayerAnimations {
     private static Context context;
+    private static final int PROGRESSBAR_HOLDER_HEIGHT = 40;
 
     public static void init(Context c) {
         context = c;
     }
 
-    public static void animate(ImageButton pauseHolder, SeekBar progressHolder, ProgressBar loadingHolder, Track track) {
+    public static void animate(ImageButton pauseHolder, LinearLayout progressHolder, ProgressBar loadingHolder, Track track) {
         if (track.isPlaying()) {
             showSeekBar(true, progressHolder);
             showPauseButton(true, pauseHolder);
@@ -69,14 +67,14 @@ public class PlayerAnimations {
         }
     }
 
-    public static void showSeekBar(boolean start, SeekBar s) {
+    public static void showSeekBar(boolean start, LinearLayout s) {
         if (start) {
             if (s.getHeight() == 0) {
-                SlideAnimation.slideView(s, 0, Misc.getPixels(context, 24));
+                SlideAnimation.slideView(s, 0, Misc.getPixels(context, 40));
             }
         } else {
             if (s.getHeight() > 0) {
-                SlideAnimation.slideView(s, Misc.getPixels(context, 24),0);
+                SlideAnimation.slideView(s, Misc.getPixels(context, 40),0);
             }
         }
     }
