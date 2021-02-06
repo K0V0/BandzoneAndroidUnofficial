@@ -43,6 +43,7 @@
 - [ ] provide actual screenshots
 - [ ] lockscreen plaayer widget
 - [ ] notification area player widget
+- [ ] text on widget in bands list not changeing when song changed automatically
 
 ## Devices tested & issues
 
