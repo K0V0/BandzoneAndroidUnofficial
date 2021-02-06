@@ -46,6 +46,7 @@ public class Player {
     private static boolean trackLoaded;
     private static TextView currentTime;
     private static TextView totalTime;
+    private static Runnable onPlayStart;
 
     public static void init(Context c, TracksAdapter a) {
         context = c;
@@ -117,6 +118,7 @@ public class Player {
                 PlayerHelper.updatePlayState(items, currentTrack);
                 adapterThis.notifyDataSetChanged();
                 mediaPlayer.start();
+                onPlayStart.run();
                 PlayerAnimations.showLoading(false, trackLoadingWheel);
                 if (!(playerUsedIn == USED_IN_BAND_PROFILE)) {
                     PlayerAnimations.showSeekBar(true, progressBarHolder);
@@ -299,6 +301,10 @@ public class Player {
 
     public static boolean isPaused() {
         return (pauseState() >= 0);
+    }
+
+    public static void setOnPlayStart(Runnable runnable) {
+        onPlayStart = runnable;
     }
 
     public static int pauseState() {

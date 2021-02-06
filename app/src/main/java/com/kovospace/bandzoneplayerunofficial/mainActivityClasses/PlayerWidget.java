@@ -114,6 +114,12 @@ public class PlayerWidget {
     }
 
     private void attachActions() {
+        Player.setOnPlayStart(new Runnable() {
+            @Override
+            public void run() {
+                update();
+            }
+        });
         pausePlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,17 +145,11 @@ public class PlayerWidget {
         });
         prevTrack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Player.play(Player.prev());
-                update();
-            }
+            public void onClick(View v) { Player.play(Player.prev()); }
         });
         nextTrack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Player.play(Player.next());
-                update();
-            }
+            public void onClick(View v) { Player.play(Player.next()); }
         });
         stopTrack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,16 +158,13 @@ public class PlayerWidget {
                 playerHolder.animate().alpha(0.0f).setDuration(250).setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {}
-
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         playerHolder.setVisibility(View.GONE);
                         playerWidgetSeekbarHolder.getLayoutParams().height = 0;
                     }
-
                     @Override
                     public void onAnimationCancel(Animator animation) {}
-
                     @Override
                     public void onAnimationRepeat(Animator animation) {}
                 });
