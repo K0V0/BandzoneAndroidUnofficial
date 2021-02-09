@@ -88,8 +88,6 @@ public class PlayerWidget {
     }
 
     private void updatePauseButton() {
-        System.out.println("------- player pauestate");
-        System.out.println(Player.pauseState());
         if (Player.pauseState() == 0) {
             pausePlay.setImageResource(R.mipmap.pause);
         } else if (Player.pauseState() == 1) {

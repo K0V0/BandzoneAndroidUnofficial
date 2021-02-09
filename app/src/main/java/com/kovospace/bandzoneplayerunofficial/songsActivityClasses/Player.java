@@ -47,6 +47,7 @@ public class Player {
     private static TextView currentTime;
     private static TextView totalTime;
     private static Runnable onPlayStart;
+    private static Mp3File mp3File;
 
     public static void init(Context c, TracksAdapter a) {
         context = c;
@@ -55,6 +56,7 @@ public class Player {
             items = new ArrayList<>();
         }
         lastTrackIndex = items.size() - 1;
+        mp3File = new Mp3File(context);
     }
 
     public static void init(Context c) {
@@ -258,7 +260,7 @@ public class Player {
             }
         }
         currentTrack = (Track) items.get(currentTrackIndex);
-        uri = Uri.parse(currentTrack.getHref());
+        uri = Uri.parse(currentTrack.getLocalOrHref());
         if (mediaPlayer == null) {
             createPlayer();
         } else {

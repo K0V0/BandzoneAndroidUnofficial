@@ -2,6 +2,8 @@ package com.kovospace.bandzoneplayerunofficial.objects;
 
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 
+import java.io.File;
+
 public class Track implements BandProfileItem {
     private String full_title;
     private String title;
@@ -108,6 +110,15 @@ public class Track implements BandProfileItem {
 
     public void setTrackFullLocalPath(String trackFullLocalPath) {
         this.trackFullLocalPath = trackFullLocalPath;
+    }
+
+    public String getLocalOrHref() {
+        File file = new File(getTrackFullLocalPath());
+        if (file.exists() && !file.isDirectory()) {
+            return getTrackFullLocalPath();
+        } else {
+            return getHref();
+        }
     }
 
     @Override
