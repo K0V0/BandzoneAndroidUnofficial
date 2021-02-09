@@ -24,4 +24,6 @@
     <string name="stop_track">stop track</string>
     <string name="minimize_player">minimize player</string>
     <string name="open_band_profile">open band profile</string>
+    <string name="play_pause">play, pause</string>
+    <string name="remove_downloaded_track">Remove downloaded track</string>
 </resources>

@@ -97,4 +97,19 @@ public class PlayerAnimations {
         return null;
     }
 
+    public static void downloadComplete(ImageButton downloadButton, ProgressBar downloadLoading) {
+        downloadLoading.animate().alpha(0.0f).setDuration(200).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {}
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                downloadButton.setImageResource(R.mipmap.remove_foreground);
+            }
+            @Override
+            public void onAnimationCancel(Animator animation) {}
+            @Override
+            public void onAnimationRepeat(Animator animation) {}
+        });
+    }
+
 }

@@ -67,7 +67,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="$USER_HOME$/Dokumenty/transparent.png" />
+                                                <entry key="imagePath" value="$USER_HOME$/Dokumenty/Grafika/BandzonePlayer/transparent.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -91,7 +91,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="$USER_HOME$/Dokumenty/Grafika/BandzonePlayer/download2.png" />
+                                                <entry key="imagePath" value="$USER_HOME$/Dokumenty/Grafika/BandzonePlayer/remove3.png" />
                                                 <entry key="scalingPercent" value="40" />
                                               </map>
                                             </option>
@@ -124,7 +124,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="download" />
+                                      <entry key="outputName" value="remove" />
                                     </map>
                                   </option>
                                 </PersistentState>

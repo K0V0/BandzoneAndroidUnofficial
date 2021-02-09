@@ -84,13 +84,33 @@ public abstract class FileStorage {
         workingDirectory = new File(appDataPath + "/" + path);
     }
 
-    protected boolean isDirectory(String path) {
-        File f = new File(appDataPath + "/" + path);
-        if(f.isDirectory()) {
-            return true;
-        }
-        return false;
+    public String getWorkingDirectoryPath() {
+        return workingDirectory.toString();
     }
 
+    public boolean fileExists(String path) {
+        File f = new File(path);
+        return fileExists(f);
+    }
+
+    public boolean fileExists(File file) {
+        return file.exists() && !file.isDirectory();
+    }
+
+    public void removeFile(String path) {
+        File f = new File(path);
+        if (fileExists(f)) {
+            f.delete();
+        }
+    }
+
+    public boolean isDirectory(String path) {
+        File f = new File(appDataPath + "/" + path);
+        return isDirectory(f);
+    }
+
+    public boolean isDirectory(File file) {
+        return file.isDirectory();
+    }
 
 }

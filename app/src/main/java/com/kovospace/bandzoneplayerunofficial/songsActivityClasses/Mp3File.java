@@ -8,5 +8,6 @@ public class Mp3File extends FileStorage {
     public Mp3File(Context context) {
         super(context);
         createDirIfNotExist("music");
+        setWorkingDirectory("music");
     }
 }

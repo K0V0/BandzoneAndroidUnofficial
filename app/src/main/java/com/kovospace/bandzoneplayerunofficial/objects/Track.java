@@ -13,6 +13,9 @@ public class Track implements BandProfileItem {
     private long durationMilisecs;
     private int order;
     private boolean playing;
+    private String bandName;
+    private String bandSlug;
+    private String trackFullLocalPath;
 
     public Track(String full_title, String title, String album, int plays_count, String href, String href_hash, String duration) {
         this.full_title = full_title;
@@ -71,16 +74,40 @@ public class Track implements BandProfileItem {
         return order;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
     public boolean isPlaying() {
         return playing;
     }
 
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
     public void setPlaying(boolean playing) {
         this.playing = playing;
+    }
+
+    public String getBandName() {
+        return bandName;
+    }
+
+    public String getBandSlug() {
+        return bandSlug;
+    }
+
+    public String getTrackFullLocalPath() {
+        return trackFullLocalPath;
+    }
+
+    public void setBandName(String bandName) {
+        this.bandName = bandName;
+    }
+
+    public void setBandSlug(String bandSlug) {
+        this.bandSlug = bandSlug;
+    }
+
+    public void setTrackFullLocalPath(String trackFullLocalPath) {
+        this.trackFullLocalPath = trackFullLocalPath;
     }
 
     @Override

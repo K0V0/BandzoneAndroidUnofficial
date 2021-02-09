@@ -32,24 +32,30 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.downloader.Error;
+import com.downloader.OnDownloadListener;
+import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
+
 import java.util.List;
 
 public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
     private List<BandProfileItem> listRecyclerItem;
+    private Mp3File mp3File;
 
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
         this.listRecyclerItem = listRecyclerItem; // null here on init
+        this.mp3File = new Mp3File(this.context);
         Player.init(this.context, this);
     }
 
-    public void runPlayer(View v) {
+    private void runPlayer(View v) {
         Track track = (Track) v.findViewById(R.id.trackName).getTag();
         Player.uiInit(
                 v.findViewById(R.id.trackLoading),
@@ -62,6 +68,45 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         PlayerAnimations.showLoading(true, v.findViewById(R.id.trackLoading));
         Player.setTracklist(listRecyclerItem);
         Player.play(listRecyclerItem.indexOf(track));
+    }
+
+    private void togglePlay(View v) {
+        if (Player.isPlaying()) {
+            Player.pause();
+            ((ImageButton) v).setImageResource(R.mipmap.play);
+        } else if (Player.pauseState() == 1) {
+            Player.play();
+            ((ImageButton) v).setImageResource(R.mipmap.pause);
+        }
+    }
+
+    private void downloadMP3(View view, Track track) {
+        ProgressBar downloadLoading = view.findViewById(R.id.downloadLoading);
+        ImageButton downloadButton = view.findViewById(R.id.downloadButton);
+
+        if (!mp3File.fileExists(track.getTrackFullLocalPath())) {
+            PRDownloader.download(
+                    track.getHref(),
+                    mp3File.getWorkingDirectoryPath() + "/" + track.getBandSlug(),
+                    track.getTitle() + ".mp3"
+            )
+                    .build()
+                    .start(new OnDownloadListener() {
+                        @Override
+                        public void onDownloadComplete() {
+                            PlayerAnimations.downloadComplete(downloadButton, downloadLoading);
+                        }
+                        @Override
+                        public void onError(Error error) {
+                            System.out.println("error");
+                        }
+                    });
+            downloadLoading.animate().alpha(1.0f).setDuration(200);
+        } else {
+            // remove download
+            mp3File.removeFile(track.getTrackFullLocalPath());
+            downloadButton.setImageResource(R.mipmap.download_foreground);
+        }
     }
 
     public class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -104,28 +149,19 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             album.setText(track.getAlbum());
             baseHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    runPlayer(view);
-                }
+                public void onClick(View v) { runPlayer(view); }
             });
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    if (Player.isPlaying()) {
-                        Player.pause();
-                        ((ImageButton) v).setImageResource(R.mipmap.play);
-                    } else if (Player.pauseState() == 1) {
-                        Player.play();
-                        ((ImageButton) v).setImageResource(R.mipmap.pause);
-                    }
-                }
+                public void onClick(View v) { togglePlay(v); }
             });
             downloadButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    System.out.println("stiahni mp3 KURWAAAAAAAAAA");
-                }
+                public void onClick(View v) { downloadMP3(view, track); }
             });
+            if (mp3File.fileExists(track.getTrackFullLocalPath())) {
+                downloadButton.setImageResource(R.mipmap.remove_foreground);
+            }
             PlayerAnimations.animate(pauseButton, progressbarHolder, trackLoading, track);
             if (track.isPlaying()) { // it is not actually playing, it is set to be played
                 Player.uiInit(trackLoading, pauseButton, progressbarHolder, progressBar, currentTime, totalTime);
@@ -133,9 +169,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @Override
-        public void onClick(View v) {
-            //runPlayer(v);
-        }
+        public void onClick(View v) {}
     }
 
     public class BandInfoViewHolder extends RecyclerView.ViewHolder {

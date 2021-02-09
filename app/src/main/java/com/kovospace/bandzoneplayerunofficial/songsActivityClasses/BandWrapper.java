@@ -63,10 +63,13 @@ public abstract class BandWrapper implements DataWrapper {
         this.dataSourceType = setDataSourceType();
     }
 
-    private List<Track> addIndexes(List<Track> trackList) {
+    private List<Track> addExtraData(List<Track> trackList) {
         int i = 0;
         for (Track track : trackList) {
             track.setOrder(i);
+            track.setBandName(band.getTitle());
+            track.setBandSlug(band.getSlug());
+            track.setTrackFullLocalPath(mp3File.getWorkingDirectoryPath() + "/" + track.getBandSlug() + "/" + track.getTitle() + ".mp3");
             i++;
         }
         return trackList;
@@ -88,7 +91,7 @@ public abstract class BandWrapper implements DataWrapper {
         // runs after data retrieved from wrapper (JSON or local)
         bandProfileItems.clear();
         bandProfileItems.add(band);
-        bandProfileItems.addAll(addIndexes(tracks));
+        bandProfileItems.addAll(addExtraData(tracks));
         tracksAdapter.notifyItemInserted(bandProfileItems.size() - 1);
         noTracksMessage();
     }
