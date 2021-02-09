@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PlayerWidget;
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         bandSearchField.addTextChangedListener(
                 bandsSearch.watchText()
         );
+
+        PRDownloader.initialize(getApplicationContext());
     }
 
     @Override

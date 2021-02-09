@@ -23,6 +23,7 @@ public abstract class BandWrapper implements DataWrapper {
     protected Band band;
     protected List<Track> tracks;
     protected List<BandProfileItem> bandProfileItems;
+    protected Mp3File mp3File;
 
     protected RecyclerView tracksRecyclerView;
     protected RecyclerView.Adapter tracksAdapter;
@@ -45,6 +46,7 @@ public abstract class BandWrapper implements DataWrapper {
         this.dataSourceType = setDataSourceType();
         this.tracks = new ArrayList<>();
         this.bandProfileItems = new ArrayList<>();
+        this.mp3File = new Mp3File(this.context);
     }
 
     private void loadStaticUI() {
@@ -83,6 +85,7 @@ public abstract class BandWrapper implements DataWrapper {
     }
 
     public void triggerShow() {
+        // runs after data retrieved from wrapper (JSON or local)
         bandProfileItems.clear();
         bandProfileItems.add(band);
         bandProfileItems.addAll(addIndexes(tracks));

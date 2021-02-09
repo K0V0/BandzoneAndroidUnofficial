@@ -67,6 +67,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public class TrackViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private View view;
+        private LinearLayout baseHolder;
         private TextView title;
         private TextView album;
         private SeekBar progressBar;
@@ -75,19 +76,23 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ProgressBar trackLoading;
         private TextView currentTime;
         private TextView totalTime;
+        private ImageButton downloadButton;
+        private ProgressBar downloadLoading;
 
         public TrackViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
-            title = itemView.findViewById(R.id.trackName);
-            album = itemView.findViewById(R.id.albumName);
-            pauseButton = itemView.findViewById(R.id.pauseButton);
-            progressBar = itemView.findViewById(R.id.seekBar);
-            trackLoading = itemView.findViewById(R.id.trackLoading);
+            baseHolder = itemView.findViewById(R.id.baseHolder);
+                title = baseHolder.findViewById(R.id.trackName);
+                album = baseHolder.findViewById(R.id.albumName);
+                pauseButton = baseHolder.findViewById(R.id.pauseButton);
+                trackLoading = baseHolder.findViewById(R.id.trackLoading);
             progressbarHolder = itemView.findViewById(R.id.seekbarHolder);
-            progressBar = progressbarHolder.findViewById(R.id.seekBar);
-            currentTime = progressbarHolder.findViewById(R.id.trackTimeCurrent);
-            totalTime = progressbarHolder.findViewById(R.id.trackTimeTotal);
+                progressBar = progressbarHolder.findViewById(R.id.seekBar);
+                currentTime = progressbarHolder.findViewById(R.id.trackTimeCurrent);
+                totalTime = progressbarHolder.findViewById(R.id.trackTimeTotal);
+                downloadButton = progressbarHolder.findViewById(R.id.downloadButton);
+                downloadLoading = progressbarHolder.findViewById(R.id.downloadLoading);
             PlayerAnimations.init(context);
             itemView.setOnClickListener(this);
         }
@@ -97,6 +102,12 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title.setText(track.getTitle());
             title.setTag(track);
             album.setText(track.getAlbum());
+            baseHolder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    runPlayer(view);
+                }
+            });
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -109,6 +120,12 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
+            downloadButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("stiahni mp3 KURWAAAAAAAAAA");
+                }
+            });
             PlayerAnimations.animate(pauseButton, progressbarHolder, trackLoading, track);
             if (track.isPlaying()) { // it is not actually playing, it is set to be played
                 Player.uiInit(trackLoading, pauseButton, progressbarHolder, progressBar, currentTime, totalTime);
@@ -117,7 +134,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onClick(View v) {
-            runPlayer(v);
+            //runPlayer(v);
         }
     }
 

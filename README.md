@@ -20,6 +20,7 @@
 | 01-feb-2020 | Resolving deprecation warnings, design of player widget |
 | 04-feb-2020 | Give "life" to player widget (player in bands list) |
 | 05-feb-2020 | Resolved bug app not loading content on newer androids, adding time informations to player(s) |
+| 08-feb-2020 | UI changes, click listeners on player, started studying android storage and implementing file download |
 
 ## TODO, ideas
 
@@ -44,6 +45,8 @@
 - [ ] lockscreen plaayer widget
 - [ ] notification area player widget
 - [ ] text on widget in bands list not changeing when song changed automatically
+- [x] change click listeners on track - missclick on free space in player causes track play again
+- [ ] ability to download tracks and in gerenal ability to run offline with downloaded content - bands info and tracklist must be downloaded if at least one track is downloaded from band
 
 ## Devices tested & issues
 

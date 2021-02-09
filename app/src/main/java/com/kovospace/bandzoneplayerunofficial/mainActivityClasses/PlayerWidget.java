@@ -88,6 +88,8 @@ public class PlayerWidget {
     }
 
     private void updatePauseButton() {
+        System.out.println("------- player pauestate");
+        System.out.println(Player.pauseState());
         if (Player.pauseState() == 0) {
             pausePlay.setImageResource(R.mipmap.pause);
         } else if (Player.pauseState() == 1) {
@@ -145,11 +147,17 @@ public class PlayerWidget {
         });
         prevTrack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { Player.play(Player.prev()); }
+            public void onClick(View v) {
+                Player.play(Player.prev());
+                updatePauseButton();
+            }
         });
         nextTrack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { Player.play(Player.next()); }
+            public void onClick(View v) {
+                Player.play(Player.next());
+                updatePauseButton();
+            }
         });
         stopTrack.setOnClickListener(new View.OnClickListener() {
             @Override

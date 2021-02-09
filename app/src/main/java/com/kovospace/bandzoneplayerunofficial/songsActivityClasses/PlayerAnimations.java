@@ -70,11 +70,11 @@ public class PlayerAnimations {
     public static void showSeekBar(boolean start, LinearLayout s) {
         if (start) {
             if (s.getHeight() == 0) {
-                SlideAnimation.slideView(s, 0, Misc.getPixels(context, 40));
+                SlideAnimation.slideView(s, 0, Misc.getPixels(context, 92));
             }
         } else {
             if (s.getHeight() > 0) {
-                SlideAnimation.slideView(s, Misc.getPixels(context, 40),0);
+                SlideAnimation.slideView(s, Misc.getPixels(context, 92),0);
             }
         }
     }
