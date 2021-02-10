@@ -41,6 +41,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //compile 'com.snatik:storage:2.1.0'
     implementation 'com.mindorks.android:prdownloader:0.6.0'
+    compile 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 }
 
 repositories {

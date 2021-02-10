@@ -36,6 +36,7 @@ import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.databases.BandsDbHelper;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
@@ -52,6 +53,8 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
         this.listRecyclerItem = listRecyclerItem; // null here on init
         this.mp3File = new Mp3File(this.context);
+        BandsDbHelper.init(this.context);
+        System.out.println(BandsDbHelper.getAll());
         Player.init(this.context, this);
     }
 
@@ -83,7 +86,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private void downloadMP3(View view, Track track) {
         ProgressBar downloadLoading = view.findViewById(R.id.downloadLoading);
         ImageButton downloadButton = view.findViewById(R.id.downloadButton);
-
         if (!mp3File.fileExists(track.getTrackFullLocalPath())) {
             PRDownloader.download(
                     track.getHref(),
@@ -95,10 +97,13 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public void onDownloadComplete() {
                             PlayerAnimations.downloadComplete(downloadButton, downloadLoading);
+                            BandsDbHelper.insertIfNotExist((Band) listRecyclerItem.get(0));
+                            // ^ do buducnosti rerobit, v niektorom vyuziti
+                            // tohoto adaptera bude moct byt viac kapiel mozno / nemusi byt pozicia 0
                         }
                         @Override
                         public void onError(Error error) {
-                            System.out.println("error");
+                            System.out.println("----- download error -----");
                         }
                     });
             downloadLoading.animate().alpha(1.0f).setDuration(200);

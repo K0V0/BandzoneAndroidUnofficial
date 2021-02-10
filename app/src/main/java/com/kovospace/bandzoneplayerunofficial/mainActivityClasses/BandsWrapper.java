@@ -20,6 +20,7 @@ import java.util.List;
 public abstract class BandsWrapper implements DataWrapper {
     protected Context context;
     protected Activity activity;
+    //protected OfflineBandsRoomDatabase offlineBandsRoomDatabase;
     protected RecyclerView bandsRecyclerView;
     protected RecyclerView.Adapter bandsAdapter;
     protected RecyclerView.LayoutManager bandsLayoutManager;
@@ -44,6 +45,7 @@ public abstract class BandsWrapper implements DataWrapper {
     public BandsWrapper(Activity activity, Context context) {
         this.activity = activity;
         this.context = context;
+        //this.offlineBandsRoomDatabase = OfflineBandsRoomDatabase.getInstance(activity);
         this.bandsRecyclerView = this.activity.findViewById(R.id.bandsList);
         this.bandsLayoutManager = new LinearLayoutManager(this.activity);
         this.bandsRecyclerView.setLayoutManager(bandsLayoutManager);
