@@ -13,6 +13,7 @@ import com.kovospace.bandzoneplayerunofficial.helpers.ToastMessage;
 import com.kovospace.bandzoneplayerunofficial.interfaces.DataWrapper;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Page;
+import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.ImageFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public abstract class BandsWrapper implements DataWrapper {
     protected Context context;
     protected Activity activity;
+    protected ImageFile imageFile;
     //protected OfflineBandsRoomDatabase offlineBandsRoomDatabase;
     protected RecyclerView bandsRecyclerView;
     protected RecyclerView.Adapter bandsAdapter;
@@ -45,6 +47,7 @@ public abstract class BandsWrapper implements DataWrapper {
     public BandsWrapper(Activity activity, Context context) {
         this.activity = activity;
         this.context = context;
+        this.imageFile = new ImageFile(this.context);
         //this.offlineBandsRoomDatabase = OfflineBandsRoomDatabase.getInstance(activity);
         this.bandsRecyclerView = this.activity.findViewById(R.id.bandsList);
         this.bandsLayoutManager = new LinearLayoutManager(this.activity);
@@ -128,14 +131,22 @@ public abstract class BandsWrapper implements DataWrapper {
         }
     }
 
+    private List<Band> insertLocalImagePath(List<Band> bands) {
+        for (int i = 0; i < bands.size(); i++) {
+            Band band = bands.get(i);
+            band.setImageFullLocalPath(imageFile);
+        }
+        return bands;
+    }
+
     public void update(Page page) {
         updateData(page);
-        updateBands(page.getBands());
+        updateBands(insertLocalImagePath(page.getBands()));
     }
 
     public void add(Page page) {
         updateData(page);
-        addBands(page.getBands());
+        addBands(insertLocalImagePath(page.getBands()));
     }
 
     public void search(String searchString) {

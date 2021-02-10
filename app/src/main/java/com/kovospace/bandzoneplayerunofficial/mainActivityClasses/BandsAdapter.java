@@ -96,7 +96,7 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 BandViewHolder bandViewHolder = (BandViewHolder) viewHolder;
                 Band bands = (Band) listRecyclerItem.get(i);
                 bandViewHolder.name.setText(bands.getTitle());
-                Glide.with(this.context).load(bands.getImage_url()).into(bandViewHolder.coverArt);
+                Glide.with(this.context).load(bands.getLocalOrHref()).into(bandViewHolder.coverArt);
                 bandViewHolder.styl.setText(bands.getGenre() + " - " + bands.getCity());
                 break;
             default:

@@ -48,13 +48,15 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final Context context;
     private List<BandProfileItem> listRecyclerItem;
     private Mp3File mp3File;
+    private ImageFile imageFile;
 
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
         this.listRecyclerItem = listRecyclerItem; // null here on init
         this.mp3File = new Mp3File(this.context);
+        this.imageFile = new ImageFile(this.context);
         BandsDbHelper.init(this.context);
-        System.out.println(BandsDbHelper.getAll());
+        //System.out.println(BandsDbHelper.getAll());
         Player.init(this.context, this);
     }
 
@@ -196,7 +198,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             genre.setText(band.getGenre());
             Glide
                     .with(context)
-                    .load(band.getImage_url())
+                    .load(band.getLocalOrHref())
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -205,6 +207,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             changeLayout();
+                            imageFile.saveDrawableIfNotExist(band, resource);
                             Player.showPlayerIfPlaying(listRecyclerItem);
                             return false;
                         }

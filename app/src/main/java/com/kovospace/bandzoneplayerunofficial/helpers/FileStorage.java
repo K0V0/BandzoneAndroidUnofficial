@@ -14,6 +14,7 @@ public abstract class FileStorage {
     protected String storageSdcardDataPath;
     protected String storageEmulatedDataPath;
     protected File workingDirectory;
+    protected String workingDirectoryPath;
     //protected String storageInternalDataPath;
 
     public FileStorage(Context context) {
@@ -41,21 +42,23 @@ public abstract class FileStorage {
             // ani jedno
         }
         workingDirectory = appDataStorage;
+        workingDirectoryPath = appDataPath;
     }
 
     protected void createDirIfNotExist(String path) {
         if (!isDirectory(path)) {
-            File f = new File(appDataPath + "/" + path);
+            File f = new File(workingDirectoryPath + "/" + path);
             f.mkdir();
         }
     }
 
     protected void setWorkingDirectory(String path) {
-        workingDirectory = new File(appDataPath + "/" + path);
+        workingDirectoryPath = appDataPath + "/" + path;
+        workingDirectory = new File(workingDirectoryPath);
     }
 
     public String getWorkingDirectoryPath() {
-        return workingDirectory.toString();
+        return workingDirectoryPath;
     }
 
     public boolean fileExists(String path) {
@@ -75,7 +78,7 @@ public abstract class FileStorage {
     }
 
     public boolean isDirectory(String path) {
-        File f = new File(appDataPath + "/" + path);
+        File f = new File(workingDirectoryPath + "/" + path);
         return isDirectory(f);
     }
 

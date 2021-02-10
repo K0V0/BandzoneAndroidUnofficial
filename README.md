@@ -22,6 +22,7 @@
 | 05-feb-2020 | Resolved bug app not loading content on newer androids, adding time informations to player(s) |
 | 08-feb-2020 | UI changes, click listeners on player, started studying android storage and implementing file download |
 | 09-feb-2020 | File downloading and removing implemented, playing downloaded files from mem implemented, started studying and implementing SQL database, very basic core functionality implemented |
+| 10-feb-2020 | Caching (saving) of images of visited band profile |
 
 ## TODO, ideas
 

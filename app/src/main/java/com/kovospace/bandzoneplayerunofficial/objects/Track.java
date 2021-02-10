@@ -1,6 +1,7 @@
 package com.kovospace.bandzoneplayerunofficial.objects;
 
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
+import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.Mp3File;
 
 import java.io.File;
 
@@ -110,6 +111,10 @@ public class Track implements BandProfileItem {
 
     public void setTrackFullLocalPath(String trackFullLocalPath) {
         this.trackFullLocalPath = trackFullLocalPath;
+    }
+
+    public void setTrackFullLocalPath(Mp3File mp3File) {
+        this.trackFullLocalPath = mp3File.getWorkingDirectoryPath() + "/" + bandSlug + "/" + title + ".mp3";
     }
 
     public String getLocalOrHref() {

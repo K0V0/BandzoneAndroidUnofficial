@@ -24,6 +24,7 @@ public abstract class BandWrapper implements DataWrapper {
     protected List<Track> tracks;
     protected List<BandProfileItem> bandProfileItems;
     protected Mp3File mp3File;
+    protected ImageFile imageFile;
 
     protected RecyclerView tracksRecyclerView;
     protected RecyclerView.Adapter tracksAdapter;
@@ -47,6 +48,7 @@ public abstract class BandWrapper implements DataWrapper {
         this.tracks = new ArrayList<>();
         this.bandProfileItems = new ArrayList<>();
         this.mp3File = new Mp3File(this.context);
+        this.imageFile = new ImageFile(this.context);
     }
 
     private void loadStaticUI() {
@@ -69,7 +71,7 @@ public abstract class BandWrapper implements DataWrapper {
             track.setOrder(i);
             track.setBandName(band.getTitle());
             track.setBandSlug(band.getSlug());
-            track.setTrackFullLocalPath(mp3File.getWorkingDirectoryPath() + "/" + track.getBandSlug() + "/" + track.getTitle() + ".mp3");
+            track.setTrackFullLocalPath(mp3File);
             i++;
         }
         return trackList;
@@ -90,6 +92,7 @@ public abstract class BandWrapper implements DataWrapper {
     public void triggerShow() {
         // runs after data retrieved from wrapper (JSON or local)
         bandProfileItems.clear();
+        band.setImageFullLocalPath(imageFile);
         bandProfileItems.add(band);
         bandProfileItems.addAll(addExtraData(tracks));
         tracksAdapter.notifyItemInserted(bandProfileItems.size() - 1);

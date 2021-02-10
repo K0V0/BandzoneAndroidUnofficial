@@ -1,6 +1,9 @@
 package com.kovospace.bandzoneplayerunofficial.objects;
 
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
+import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.ImageFile;
+
+import java.io.File;
 
 public class Band implements BandProfileItem {
     private String title;
@@ -9,6 +12,7 @@ public class Band implements BandProfileItem {
     private String href;
     private String slug;
     private String genre;
+    private String imageFullLocalPath;
     //private String recent_album;
     //private Pattern pattern;
     //private Matcher matcher;
@@ -76,5 +80,27 @@ public class Band implements BandProfileItem {
     @Override
     public boolean contains(BandProfileItem o) {
         return this.slug.equals(((Band) o).getSlug());
+    }
+
+    public String getImageFullLocalPath() {
+        return imageFullLocalPath;
+    }
+
+    public void setImageFullLocalPath(String path) {
+        this.imageFullLocalPath = path;
+    }
+
+    public void setImageFullLocalPath(ImageFile imageFile) {
+        setImageFullLocalPath(imageFile.getWorkingDirectoryPath() + "/" + slug + "/" + title + ".jpg");
+    }
+
+    @Override
+    public String getLocalOrHref() {
+        File file = new File(getImageFullLocalPath());
+        if (file.exists() && !file.isDirectory()) {
+            return getImageFullLocalPath();
+        } else {
+            return getImage_url();
+        }
     }
 }
