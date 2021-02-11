@@ -37,6 +37,8 @@ import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.databases.BandsDbHelper;
+import com.kovospace.bandzoneplayerunofficial.databases.DbHelper;
+import com.kovospace.bandzoneplayerunofficial.databases.TracksDbHelper;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
@@ -52,12 +54,16 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
-        this.listRecyclerItem = listRecyclerItem; // null here on init
+        this.listRecyclerItem = listRecyclerItem; // null here on init or zero size - check
         this.mp3File = new Mp3File(this.context);
         this.imageFile = new ImageFile(this.context);
         BandsDbHelper.init(this.context);
-        //System.out.println(BandsDbHelper.getAll());
+        TracksDbHelper.init(this.context);
         Player.init(this.context, this);
+    }
+
+    private void afterEverythingLoaded() {
+
     }
 
     private void runPlayer(View v) {
@@ -99,9 +105,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         @Override
                         public void onDownloadComplete() {
                             PlayerAnimations.downloadComplete(downloadButton, downloadLoading);
-                            BandsDbHelper.insertIfNotExist((Band) listRecyclerItem.get(0));
-                            // ^ do buducnosti rerobit, v niektorom vyuziti
-                            // tohoto adaptera bude moct byt viac kapiel mozno / nemusi byt pozicia 0
+                            DbHelper.rememberBandAndTracksForOffline(listRecyclerItem);
                         }
                         @Override
                         public void onError(Error error) {
@@ -187,9 +191,9 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public BandInfoViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.bandName);
-            genre = (TextView) itemView.findViewById(R.id.bandGenreAndCity);
-            image = (ImageView) itemView.findViewById(R.id.bandImage);
+            title = itemView.findViewById(R.id.bandName);
+            genre = itemView.findViewById(R.id.bandGenreAndCity);
+            image = itemView.findViewById(R.id.bandImage);
         }
 
         public void bindView(int position) {

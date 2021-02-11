@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.databases.DbHelper;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.interfaces.DataWrapper;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
@@ -49,6 +50,7 @@ public abstract class BandWrapper implements DataWrapper {
         this.bandProfileItems = new ArrayList<>();
         this.mp3File = new Mp3File(this.context);
         this.imageFile = new ImageFile(this.context);
+        DbHelper.init(this.context);
     }
 
     private void loadStaticUI() {
@@ -95,6 +97,7 @@ public abstract class BandWrapper implements DataWrapper {
         band.setImageFullLocalPath(imageFile);
         bandProfileItems.add(band);
         bandProfileItems.addAll(addExtraData(tracks));
+        DbHelper.rememberBandAndTracksForOffline(bandProfileItems);
         tracksAdapter.notifyItemInserted(bandProfileItems.size() - 1);
         noTracksMessage();
     }

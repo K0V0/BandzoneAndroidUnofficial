@@ -21,7 +21,6 @@ public class BandsDbHelper {
             bandEntity = new BandEntity(band);
             List<BandEntity> found = offlineBandsRoomDatabase.bandEntityDao().find(bandEntity.getSlug());
             if (found.size() == 0) {
-                bandEntity = new BandEntity(band);
                 offlineBandsRoomDatabase.bandEntityDao().insert(bandEntity);
             }
         }
@@ -29,5 +28,10 @@ public class BandsDbHelper {
 
     public static List<BandEntity> getAll() {
         return offlineBandsRoomDatabase.bandEntityDao().getAll();
+    }
+
+    public static void delete(Band band) {
+        bandEntity = new BandEntity(band);
+        offlineBandsRoomDatabase.bandEntityDao().delete(bandEntity);
     }
 }

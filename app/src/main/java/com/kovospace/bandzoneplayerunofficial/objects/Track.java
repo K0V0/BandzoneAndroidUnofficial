@@ -117,9 +117,13 @@ public class Track implements BandProfileItem {
         this.trackFullLocalPath = mp3File.getWorkingDirectoryPath() + "/" + bandSlug + "/" + title + ".mp3";
     }
 
-    public String getLocalOrHref() {
+    public boolean hasOfflineCopy() {
         File file = new File(getTrackFullLocalPath());
-        if (file.exists() && !file.isDirectory()) {
+        return file.exists() && !file.isDirectory();
+    }
+
+    public String getLocalOrHref() {
+        if (hasOfflineCopy()) {
             return getTrackFullLocalPath();
         } else {
             return getHref();

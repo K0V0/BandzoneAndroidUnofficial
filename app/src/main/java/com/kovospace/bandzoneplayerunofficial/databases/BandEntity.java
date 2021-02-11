@@ -20,8 +20,6 @@ public class BandEntity {
     @ColumnInfo(name = "bandSlug")
     private String slug;
 
-    // mozem dat konstruktor
-
     public BandEntity() {}
 
     public BandEntity(Band band) {

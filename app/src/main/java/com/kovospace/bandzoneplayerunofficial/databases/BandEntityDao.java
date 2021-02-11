@@ -31,4 +31,7 @@ public interface BandEntityDao {
 
     @Delete
     void delete(BandEntity... bandEntities);
+
+    @Query("DELETE FROM offlineBands")
+    void deleteAll();
 }
