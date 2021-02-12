@@ -5,4 +5,5 @@ public interface BandProfileItem {
     int TYPE_BAND = -1;
     boolean contains(BandProfileItem o);
     String getLocalOrHref();
+    boolean hasOfflineCopy();
 }

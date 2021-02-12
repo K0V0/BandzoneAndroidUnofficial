@@ -19,6 +19,7 @@ public class Track implements BandProfileItem {
     private String bandName;
     private String bandSlug;
     private String trackFullLocalPath;
+    private boolean trackAvailableOffline;
 
     public Track(String full_title, String title, String album, int plays_count, String href, String href_hash, String duration) {
         this.full_title = full_title;
@@ -119,15 +120,20 @@ public class Track implements BandProfileItem {
 
     public boolean hasOfflineCopy() {
         File file = new File(getTrackFullLocalPath());
-        return file.exists() && !file.isDirectory();
+        trackAvailableOffline = file.exists() && !file.isDirectory();
+        return trackAvailableOffline;
     }
 
     public String getLocalOrHref() {
-        if (hasOfflineCopy()) {
+        if (trackAvailableOffline) {
             return getTrackFullLocalPath();
         } else {
             return getHref();
         }
+    }
+
+    public boolean isAvailableOffline() {
+        return trackAvailableOffline;
     }
 
     @Override

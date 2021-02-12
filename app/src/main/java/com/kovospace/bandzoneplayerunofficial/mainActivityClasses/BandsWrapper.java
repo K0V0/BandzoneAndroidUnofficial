@@ -138,22 +138,26 @@ public abstract class BandsWrapper implements DataWrapper {
         for (int i = 0; i < bands.size(); i++) {
             Band band = bands.get(i);
             band.setImageFullLocalPath(imageFile);
+            band.hasOfflineCopy();
         }
         return bands;
     }
 
     public void update(Page page) {
         updateData(page);
-        updateBands(insertLocalImagePath(page.getBands()));
+        updateBands(
+                insertLocalImagePath(page.getBands())
+        );
     }
 
     public void add(Page page) {
         updateData(page);
-        addBands(insertLocalImagePath(page.getBands()));
+        addBands(
+                insertLocalImagePath(page.getBands())
+        );
     }
 
     public void search (String searchString) {
-        searchFieldProgress.start();
         this.searchString = searchString;
         performSearch(this.searchString);
     }

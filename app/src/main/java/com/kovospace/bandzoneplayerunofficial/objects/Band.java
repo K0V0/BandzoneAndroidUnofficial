@@ -13,6 +13,7 @@ public class Band implements BandProfileItem {
     private String slug;
     private String genre;
     private String imageFullLocalPath;
+    private boolean imageAvailableOffline;
     //private String recent_album;
     //private Pattern pattern;
     //private Matcher matcher;
@@ -94,13 +95,23 @@ public class Band implements BandProfileItem {
         setImageFullLocalPath(imageFile.getWorkingDirectoryPath() + "/" + slug + "/" + title + ".jpg");
     }
 
+    public boolean isImageAvailableOffline() {
+        return imageAvailableOffline;
+    }
+
     @Override
     public String getLocalOrHref() {
-        File file = new File(getImageFullLocalPath());
-        if (file.exists() && !file.isDirectory()) {
+        if (imageAvailableOffline) {
             return getImageFullLocalPath();
         } else {
             return getImage_url();
         }
+    }
+
+    @Override
+    public boolean hasOfflineCopy() {
+        File file = new File(getImageFullLocalPath());
+        imageAvailableOffline = file.exists() && !file.isDirectory();
+        return imageAvailableOffline;
     }
 }

@@ -3,6 +3,7 @@ package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 import android.content.Context;
 import com.kovospace.bandzoneplayerunofficial.MainActivity;
 import com.kovospace.bandzoneplayerunofficial.helpers.OnFinishTypingHelper;
+import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
 import com.kovospace.bandzoneplayerunofficial.helpers.TestConnection;
 
 public class BandsSearch extends OnFinishTypingHelper {
@@ -11,11 +12,13 @@ public class BandsSearch extends OnFinishTypingHelper {
     private BandsWrapper bandsWrapper;
     private Context context;
     private MainActivity mainActivity;
+    protected SearchFieldProgress searchFieldProgress;
 
     public BandsSearch(MainActivity mainActivity, Context context) {
         super();
         this.mainActivity = mainActivity;
         this.context = context;
+        this.searchFieldProgress = new SearchFieldProgress(this.context);
         this.testConnection = new TestConnection(this.context);
         search("");
     }
@@ -29,6 +32,7 @@ public class BandsSearch extends OnFinishTypingHelper {
     }
 
     private void search(String search) {
+        searchFieldProgress.start();
         decideWrapperOnConnection();
         bandsWrapper.search(search);
     }

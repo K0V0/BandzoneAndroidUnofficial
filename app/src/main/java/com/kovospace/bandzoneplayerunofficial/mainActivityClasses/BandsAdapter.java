@@ -94,10 +94,10 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 break;
             case VIEW_TYPE_ITEM:
                 BandViewHolder bandViewHolder = (BandViewHolder) viewHolder;
-                Band bands = (Band) listRecyclerItem.get(i);
-                bandViewHolder.name.setText(bands.getTitle());
-                Glide.with(this.context).load(bands.getLocalOrHref()).into(bandViewHolder.coverArt);
-                bandViewHolder.styl.setText(bands.getGenre() + " - " + bands.getCity());
+                Band band = (Band) listRecyclerItem.get(i);
+                bandViewHolder.name.setText(band.getTitle());
+                Glide.with(this.context).load(band.getLocalOrHref()).into(bandViewHolder.coverArt);
+                bandViewHolder.styl.setText(band.getGenre() + " - " + band.getCity());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + viewType);
