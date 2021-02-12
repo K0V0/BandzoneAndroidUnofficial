@@ -5,7 +5,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {TrackEntity.class}, version = 3)
+@Database(entities = {TrackEntity.class}, version = 4)
 public abstract class OfflineTracksRoomDatabase extends RoomDatabase {
 
     public abstract TrackEntityDao trackEntityDao();

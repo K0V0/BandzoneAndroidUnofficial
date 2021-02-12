@@ -13,6 +13,9 @@ public interface TrackEntityDao {
     @Query("DELETE FROM offlineTracks WHERE bandSlug = :slug")
     void deleteByBand(String slug);
 
+    @Query("SELECT * FROM offlineTracks WHERE bandSlug = :slug AND trackTitle = :title")
+    List<TrackEntity> findByBandAndTitle(String slug, String title);
+
     @Query("SELECT * FROM offlineTracks")
     List<TrackEntity> getAll();
 

@@ -60,6 +60,9 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         BandsDbHelper.init(this.context);
         TracksDbHelper.init(this.context);
         Player.init(this.context, this);
+        System.out.println("----------------------------");
+        System.out.println(TracksDbHelper.getAll());
+
     }
 
     private void afterEverythingLoaded() {

@@ -20,7 +20,9 @@ public class TracksDbHelper {
     public static void insertBandTrackIfNotExist(Track track) {
         if (track != null && track.getBandSlug() != null && track.getTitle() != null) {
             trackEntity = new TrackEntity(track);
-            List<TrackEntity> found = offlineTracksRoomDatabase.trackEntityDao().findByBand(trackEntity.getBandSlug());
+            List<TrackEntity> found = offlineTracksRoomDatabase
+                    .trackEntityDao()
+                    .findByBandAndTitle(trackEntity.getBandSlug(), trackEntity.getTitle());
             if (found.size() == 0) {
                 offlineTracksRoomDatabase.trackEntityDao().insert(trackEntity);
             }
