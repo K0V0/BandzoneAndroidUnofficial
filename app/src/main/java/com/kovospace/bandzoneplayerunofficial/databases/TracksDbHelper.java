@@ -7,10 +7,8 @@ import com.kovospace.bandzoneplayerunofficial.objects.Track;
 
 import java.util.List;
 
-public class TracksDbHelper {
-    private static Context context;
+public class TracksDbHelper extends DbHelper {
     private static TrackEntity trackEntity;
-    private static OfflineTracksRoomDatabase offlineTracksRoomDatabase;
 
     public static void init(Context c) {
         context = c;

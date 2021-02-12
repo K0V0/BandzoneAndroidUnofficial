@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" android:background="#000000" android:orientation="vertical">
+        tools:context=".BandsActivity" android:background="#000000" android:orientation="vertical">
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -24,11 +24,17 @@
                     android:id="@+id/bandInput" android:textColor="#FFFFFF" android:textColorHint="#888888"
                     android:autoText="false"
                     android:hint="@string/zadajKapelu" android:layout_weight="1000"/>
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="24dp"
-                    android:layout_height="match_parent" android:layout_weight="0" android:id="@+id/placeForWheel">
-            </LinearLayout>
+            <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="match_parent" android:layout_weight="1"
+                    android:id="@+id/placeForSearchStatusIcon">
+
+                <ProgressBar
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="32dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/loadingSearch"/>
+            </FrameLayout>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
                 android:focusableInTouchMode="true"

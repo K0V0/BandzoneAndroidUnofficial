@@ -7,13 +7,6 @@ import com.kovospace.bandzoneplayerunofficial.objects.Track;
 import java.util.List;
 
 public class PlayerHelper {
-    private Context context;
-
-    public PlayerHelper() {}
-
-    public PlayerHelper(Context context) {
-        this.context = context;
-    }
 
     public static void updatePlayState(List<BandProfileItem> itemsList, Track currentTrack) {
         for (int i = 0; i < itemsList.size(); i++) {

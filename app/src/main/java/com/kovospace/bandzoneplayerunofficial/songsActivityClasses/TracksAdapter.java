@@ -36,9 +36,7 @@ import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.R;
-import com.kovospace.bandzoneplayerunofficial.databases.BandsDbHelper;
 import com.kovospace.bandzoneplayerunofficial.databases.DbHelper;
-import com.kovospace.bandzoneplayerunofficial.databases.TracksDbHelper;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
@@ -57,16 +55,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.listRecyclerItem = listRecyclerItem; // null here on init or zero size - check
         this.mp3File = new Mp3File(this.context);
         this.imageFile = new ImageFile(this.context);
-        BandsDbHelper.init(this.context);
-        TracksDbHelper.init(this.context);
         Player.init(this.context, this);
-        System.out.println("----------------------------");
-        System.out.println(TracksDbHelper.getAll());
-
-    }
-
-    private void afterEverythingLoaded() {
-
     }
 
     private void runPlayer(View v) {

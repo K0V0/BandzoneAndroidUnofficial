@@ -1,13 +1,13 @@
 package com.kovospace.bandzoneplayerunofficial;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.helpers.TestConnection;
 import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.BandWrapper;
 import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.BandWrapperNet;
 import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.BandWrapperOffline;
 
-public class SongsActivity extends AppCompatActivity {
+public class SongsActivity extends MainActivity {
     public String slug;
     private BandWrapper bandWrapper;
     private TestConnection testConnection;
@@ -17,6 +17,9 @@ public class SongsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
         slug = getIntent().getStringExtra("slug");
+
+        PRDownloader.initialize(getApplicationContext());
+
         testConnection = new TestConnection(this);
 
         if (testConnection.isActive()) {

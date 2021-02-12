@@ -2,44 +2,33 @@ package com.kovospace.bandzoneplayerunofficial.helpers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import com.kovospace.bandzoneplayerunofficial.R;
 
 public class SearchFieldProgress {
-    private Context context;
-    private LayoutInflater li;
-    private RelativeLayout spinWheel;
-    private LinearLayout searchFieldContainer;
+    private static Context context;
+    private static FrameLayout spinWheelContainer;
+    private static ProgressBar spinWheel;
 
     public SearchFieldProgress(Context context) {
         this.context = context;
-        init();
+        init(context);
     }
 
-    private void init() {
-        li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        spinWheel = (RelativeLayout) li.inflate(R.layout.search_progress, null);
-        searchFieldContainer = (LinearLayout) ((Activity)context).findViewById(R.id.placeForWheel);
+    public static void init(Context c) {
+        context = c;
+        spinWheelContainer = ((Activity) context).findViewById(R.id.placeForSearchStatusIcon);
+        spinWheel = spinWheelContainer.findViewById(R.id.loadingSearch);
     }
 
-    private boolean occupied() {
-        return searchFieldContainer.getChildCount() > 0;
+    public static void start() {
+        spinWheel.setVisibility(View.VISIBLE);
     }
 
-    public void start() {
-        if (!occupied()) {
-            searchFieldContainer.addView(spinWheel);
-        }
-    }
-
-    public void stop() {
-        if (occupied()) {
-            searchFieldContainer.removeView(
-                    searchFieldContainer.findViewById(R.id.searchLoading)
-            );
-        }
+    public static void stop() {
+        spinWheel.setVisibility(View.INVISIBLE);
     }
 
 }

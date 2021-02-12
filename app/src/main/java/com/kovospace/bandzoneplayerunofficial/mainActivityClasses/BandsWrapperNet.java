@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.kovospace.bandzoneplayerunofficial.MainActivity;
+import com.kovospace.bandzoneplayerunofficial.BandsActivity;
 import com.kovospace.bandzoneplayerunofficial.helpers.JsonRequest;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Page;
@@ -25,8 +25,8 @@ public class BandsWrapperNet extends BandsWrapper {
     private String query;
     private Page page;
 
-    public BandsWrapperNet(MainActivity mainActivity, Context context) {
-        super(mainActivity, context);
+    public BandsWrapperNet(BandsActivity bandsActivity, Context context) {
+        super(bandsActivity, context);
         bandsJsonRequest = new BandsJsonRequest(activity);
     }
 

@@ -1,46 +1,16 @@
 package com.kovospace.bandzoneplayerunofficial;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
-import com.downloader.PRDownloader;
-import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
-import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PlayerWidget;
+import com.droidnet.DroidListener;
 
-public class MainActivity extends AppCompatActivity {
-    private EditText bandSearchField;
-    private BandsSearch bandsSearch;
-    private PlayerWidget playerWidget;
+public class MainActivity extends AppCompatActivity implements DroidListener {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected) {
 
-        PRDownloader.initialize(getApplicationContext());
+        } else {
 
-        bandSearchField = findViewById(R.id.bandInput);
-        bandsSearch = new BandsSearch(MainActivity.this, this);
-        playerWidget = new PlayerWidget(this);
-
-        bandSearchField.addTextChangedListener(
-                bandsSearch.watchText()
-        );
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        playerWidget.check();
-    }
-
-    @Override
-    public void onUserInteraction() {
-        if (getCurrentFocus() != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 }

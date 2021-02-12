@@ -23,7 +23,6 @@ public class BandsWrapperOffline extends BandsWrapper {
 
     public BandsWrapperOffline(Activity activity, Context context) {
         super(activity, context);
-        BandsDbHelper.init(this.context);
         this.bandsList = new ArrayList<>();
         this.bandEntities = new ArrayList<>();
     }

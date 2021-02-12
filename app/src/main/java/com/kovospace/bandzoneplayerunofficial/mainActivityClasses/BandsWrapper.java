@@ -22,12 +22,10 @@ public abstract class BandsWrapper implements DataWrapper {
     protected Context context;
     protected Activity activity;
     protected ImageFile imageFile;
-    //protected OfflineBandsRoomDatabase offlineBandsRoomDatabase;
     protected RecyclerView bandsRecyclerView;
     protected RecyclerView.Adapter bandsAdapter;
     protected RecyclerView.LayoutManager bandsLayoutManager;
     protected ToastMessage toastMessage;
-    protected SearchFieldProgress searchFieldProgress;
     protected TextView noBandsText;
 
     protected int currentPage;
@@ -48,7 +46,6 @@ public abstract class BandsWrapper implements DataWrapper {
         this.activity = activity;
         this.context = context;
         this.imageFile = new ImageFile(this.context);
-        //this.offlineBandsRoomDatabase = OfflineBandsRoomDatabase.getInstance(activity);
         this.bandsRecyclerView = this.activity.findViewById(R.id.bandsList);
         this.bandsLayoutManager = new LinearLayoutManager(this.activity);
         this.bandsRecyclerView.setLayoutManager(bandsLayoutManager);
@@ -56,9 +53,9 @@ public abstract class BandsWrapper implements DataWrapper {
         this.bandsAdapter = new BandsAdapter(this.context, bands);
         this.bandsRecyclerView.setAdapter(bandsAdapter);
         this.toastMessage = new ToastMessage(context);
-        this.searchFieldProgress = new SearchFieldProgress(this.context);
         this.noBandsText = activity.findViewById(R.id.noBandsText);
         this.dataSourceType = setDataSourceType();
+        SearchFieldProgress.init(this.context);
         afterConstruction();
     }
 
@@ -99,7 +96,7 @@ public abstract class BandsWrapper implements DataWrapper {
         if (dataSourceType == DATA_SOURCE_INTERNET) {
             removeLoadingDialog();
         }
-        searchFieldProgress.stop();
+        SearchFieldProgress.stop();
     }
 
     private void updateBands(List<Band> bands) {

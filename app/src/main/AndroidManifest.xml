@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+            android:name="com.kovospace.bandzoneplayerunofficial.Main"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -19,7 +20,7 @@
         <activity android:name=".SongsActivity">
         </activity>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".BandsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

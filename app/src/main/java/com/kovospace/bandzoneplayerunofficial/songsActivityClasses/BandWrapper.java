@@ -50,7 +50,6 @@ public abstract class BandWrapper implements DataWrapper {
         this.bandProfileItems = new ArrayList<>();
         this.mp3File = new Mp3File(this.context);
         this.imageFile = new ImageFile(this.context);
-        DbHelper.init(this.context);
     }
 
     private void loadStaticUI() {

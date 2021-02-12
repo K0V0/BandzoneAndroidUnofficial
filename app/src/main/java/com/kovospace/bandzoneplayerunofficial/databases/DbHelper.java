@@ -7,10 +7,10 @@ import com.kovospace.bandzoneplayerunofficial.objects.Track;
 
 import java.util.List;
 
-public class DbHelper {
-    private static Context context;
-    private static OfflineBandsRoomDatabase offlineBandsRoomDatabase;
-    private static OfflineTracksRoomDatabase offlineTracksRoomDatabase;
+public abstract class DbHelper {
+    protected static Context context;
+    protected static OfflineBandsRoomDatabase offlineBandsRoomDatabase;
+    protected static OfflineTracksRoomDatabase offlineTracksRoomDatabase;
 
     public static void init(Context c) {
         context = c;

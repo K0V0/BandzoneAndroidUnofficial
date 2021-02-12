@@ -6,10 +6,8 @@ import com.kovospace.bandzoneplayerunofficial.objects.Band;
 
 import java.util.List;
 
-public class BandsDbHelper {
-    private static Context context;
+public class BandsDbHelper extends DbHelper {
     private static BandEntity bandEntity;
-    private static OfflineBandsRoomDatabase offlineBandsRoomDatabase;
 
     public static void init(Context c) {
         context = c;

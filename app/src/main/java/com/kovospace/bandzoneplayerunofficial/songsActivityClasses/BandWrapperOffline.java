@@ -22,8 +22,6 @@ public class BandWrapperOffline extends BandWrapper {
 
     public BandWrapperOffline(Activity activity, Context context, String extra) {
         super(activity, context, extra);
-        BandsDbHelper.init(this.context);
-        TracksDbHelper.init(this.context);
         populateData();
         applyData();
         triggerShow();
