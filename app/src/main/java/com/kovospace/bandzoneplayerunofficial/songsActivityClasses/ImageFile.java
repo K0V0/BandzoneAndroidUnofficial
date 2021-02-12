@@ -19,7 +19,7 @@ public class ImageFile extends FileStorage {
     }
 
     public void saveDrawableIfNotExist(Band band, Drawable drawable) {
-        if (!fileExists(band.getImageFullLocalPath())) {
+        if (!band.isImageAvailableOffline()) {
             createDirIfNotExist(band.getSlug());
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             File imageFile = new File(band.getImageFullLocalPath());

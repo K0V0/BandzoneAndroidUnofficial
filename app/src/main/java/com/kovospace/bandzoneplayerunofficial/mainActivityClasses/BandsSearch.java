@@ -34,6 +34,7 @@ public class BandsSearch extends OnFinishTypingHelper {
     private void search(String search) {
         searchFieldProgress.start();
         decideWrapperOnConnection();
+        // ^ dat do nejakeho eventu po zmene siete, debilne riesenie toto, blbnu toast messages
         bandsWrapper.search(search);
     }
 

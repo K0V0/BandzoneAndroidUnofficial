@@ -96,6 +96,7 @@ public abstract class BandWrapper implements DataWrapper {
         // runs after data retrieved from wrapper (JSON or local)
         bandProfileItems.clear();
         band.setImageFullLocalPath(imageFile);
+        band.hasOfflineCopy();
         bandProfileItems.add(band);
         bandProfileItems.addAll(addExtraData(tracks));
         DbHelper.rememberBandAndTracksForOffline(bandProfileItems);
