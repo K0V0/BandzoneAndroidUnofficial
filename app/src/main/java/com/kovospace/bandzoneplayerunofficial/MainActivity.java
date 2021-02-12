@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        PRDownloader.initialize(getApplicationContext());
+
         bandSearchField = findViewById(R.id.bandInput);
         bandsSearch = new BandsSearch(MainActivity.this, this);
         playerWidget = new PlayerWidget(this);
@@ -26,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         bandSearchField.addTextChangedListener(
                 bandsSearch.watchText()
         );
-
-        PRDownloader.initialize(getApplicationContext());
     }
 
     @Override

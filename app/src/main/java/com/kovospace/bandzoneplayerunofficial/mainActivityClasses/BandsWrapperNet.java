@@ -70,11 +70,9 @@ public class BandsWrapperNet extends BandsWrapper {
     }
 
     @Override
-    public void search(String s) {
+    protected void performSearch(String s) {
         operation = OPERATION_SEARCH;
-        super.search(s);
-        query = QUERY_URL + searchString;
-        bandsJsonRequest.fetch(query);
+        bandsJsonRequest.fetch(QUERY_URL + s);
     }
 
     @Override

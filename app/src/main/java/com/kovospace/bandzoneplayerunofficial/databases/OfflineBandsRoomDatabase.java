@@ -5,7 +5,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {BandEntity.class}, version = 1)
+@Database(entities = {BandEntity.class}, version = 2)
 public abstract class OfflineBandsRoomDatabase extends RoomDatabase {
 
     public abstract BandEntityDao bandEntityDao();
@@ -23,7 +23,9 @@ public abstract class OfflineBandsRoomDatabase extends RoomDatabase {
         return Room.databaseBuilder(context,
                 OfflineBandsRoomDatabase.class,
                 "offlineBands_database")
-                .allowMainThreadQueries().build();
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
     }
 
     public void cleanUp(){

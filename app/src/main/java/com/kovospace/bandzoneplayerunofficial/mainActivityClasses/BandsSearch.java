@@ -1,10 +1,8 @@
 package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 
-import android.app.Activity;
 import android.content.Context;
 import com.kovospace.bandzoneplayerunofficial.MainActivity;
 import com.kovospace.bandzoneplayerunofficial.helpers.OnFinishTypingHelper;
-import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
 import com.kovospace.bandzoneplayerunofficial.helpers.TestConnection;
 
 public class BandsSearch extends OnFinishTypingHelper {
@@ -12,28 +10,27 @@ public class BandsSearch extends OnFinishTypingHelper {
     private TestConnection testConnection;
     private BandsWrapper bandsWrapper;
     private Context context;
-    private Activity mainActivity;
-    private SearchFieldProgress searchFieldProgress;
+    private MainActivity mainActivity;
 
     public BandsSearch(MainActivity mainActivity, Context context) {
         super();
         this.mainActivity = mainActivity;
         this.context = context;
         this.testConnection = new TestConnection(this.context);
-        this.searchFieldProgress = new SearchFieldProgress(context);
-
-        if (testConnection.isActive()) {
-            this.bandsWrapper = new BandsWrapperNet(mainActivity, context);
-        } else {
-            this.bandsWrapper = new BandsWrapperOffline();
-        }
-
         search("");
     }
 
+    private void decideWrapperOnConnection() {
+        if (testConnection.isActive()) {
+            this.bandsWrapper = new BandsWrapperNet(mainActivity, context);
+        } else {
+            this.bandsWrapper = new BandsWrapperOffline(mainActivity, context);
+        }
+    }
+
     private void search(String search) {
+        decideWrapperOnConnection();
         bandsWrapper.search(search);
-        searchFieldProgress.start();
     }
 
     @Override

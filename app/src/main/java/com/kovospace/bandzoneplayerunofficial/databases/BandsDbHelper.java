@@ -19,7 +19,7 @@ public class BandsDbHelper {
     public static void insertIfNotExist(Band band) {
         if (band != null && band.getTitle() != null) {
             bandEntity = new BandEntity(band);
-            List<BandEntity> found = offlineBandsRoomDatabase.bandEntityDao().find(bandEntity.getSlug());
+            List<BandEntity> found = offlineBandsRoomDatabase.bandEntityDao().findBySlug(bandEntity.getSlug());
             if (found.size() == 0) {
                 offlineBandsRoomDatabase.bandEntityDao().insert(bandEntity);
             }
@@ -33,5 +33,9 @@ public class BandsDbHelper {
     public static void delete(Band band) {
         bandEntity = new BandEntity(band);
         offlineBandsRoomDatabase.bandEntityDao().delete(bandEntity);
+    }
+
+    public static List<BandEntity> findByName(String bandName) {
+        return offlineBandsRoomDatabase.bandEntityDao().findByName(bandName);
     }
 }

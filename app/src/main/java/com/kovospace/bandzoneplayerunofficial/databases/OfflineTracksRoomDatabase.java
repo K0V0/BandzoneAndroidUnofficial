@@ -23,7 +23,9 @@ public abstract class OfflineTracksRoomDatabase extends RoomDatabase {
         return Room.databaseBuilder(context,
                 OfflineTracksRoomDatabase.class,
                 "offlineTracks_database")
-                .allowMainThreadQueries().build();
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
     }
 
     public void cleanUp(){

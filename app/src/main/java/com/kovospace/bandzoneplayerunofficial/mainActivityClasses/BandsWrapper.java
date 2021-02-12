@@ -62,6 +62,9 @@ public abstract class BandsWrapper implements DataWrapper {
         afterConstruction();
     }
 
+    protected abstract void performSearch(String s);
+    protected abstract void loadNextContent();
+
     private void calculateNextPage() {
         if (currentPage + 1 <= pages) {
             nextPageToLoad = currentPage + 1;
@@ -149,11 +152,11 @@ public abstract class BandsWrapper implements DataWrapper {
         addBands(insertLocalImagePath(page.getBands()));
     }
 
-    public void search(String searchString) {
+    public void search (String searchString) {
+        searchFieldProgress.start();
         this.searchString = searchString;
+        performSearch(this.searchString);
     }
-
-    public void loadNextContent() {}
 
     public void clear() {
         this.preventMultipleLoads = false;

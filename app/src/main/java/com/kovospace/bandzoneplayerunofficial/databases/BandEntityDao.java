@@ -6,16 +6,12 @@ import java.util.List;
 
 @Dao
 public interface BandEntityDao {
-    /*
-    @Query("DELETE FROM offlineBands WHERE bandSlug = :slug")
-    void deleteProduct(String slug);
-
-    @Query("SELECT * FROM offlineBands")
-    LiveData<List<BandEntity>> getAllOfflineBands();
-    */
 
     @Query("SELECT * FROM offlineBands WHERE bandSlug = :slug")
-    List<BandEntity> find(String slug);
+    List<BandEntity> findBySlug(String slug);
+
+    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%'")
+    List<BandEntity> findByName(String title);
 
     @Query("SELECT * FROM offlineBands")
     List<BandEntity> getAll();
