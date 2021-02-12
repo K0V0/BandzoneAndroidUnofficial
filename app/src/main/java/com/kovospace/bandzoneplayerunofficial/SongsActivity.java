@@ -22,7 +22,7 @@ public class SongsActivity extends AppCompatActivity {
         if (testConnection.isActive()) {
             bandWrapper = new BandWrapperNet(SongsActivity.this, this, slug);
         } else {
-            bandWrapper = new BandWrapperOffline();
+            bandWrapper = new BandWrapperOffline(SongsActivity.this, this, slug);
         }
     }
 }

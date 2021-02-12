@@ -23,7 +23,7 @@
 | 08-feb-2020 | UI changes, click listeners on player, started studying android storage and implementing file download |
 | 09-feb-2020 | File downloading and removing implemented, playing downloaded files from mem implemented, started studying and implementing SQL database, very basic core functionality implemented |
 | 10-feb-2020 | Caching (saving) of images of visited band profile, basic operations on databases done (adding band profile if at least one track downloaded, removing if all downloads deleted) |
-| 11-feb-2020 | Started mplementing adapters for running app from local dbs and stored files | 
+| 11-feb-2020 | Started implementing adapters for running app from local dbs and stored files, tryied to offload recycler views from unnecessary ofline assets chekcs | 
 
 ## TODO, ideas
 
@@ -50,6 +50,7 @@
 - [ ] text on widget in bands list not changeing when song changed automatically
 - [x] change click listeners on track - missclick on free space in player causes track play again
 - [ ] ability to download tracks and in gerenal ability to run offline with downloaded content - bands info and tracklist must be downloaded if at least one track is downloaded from band
+- [ ] add incremental loading (pagination) for offline bands too (if for example 1000 results is issue for recycler view and sqlite, do research)
 
 ## Devices tested & issues
 

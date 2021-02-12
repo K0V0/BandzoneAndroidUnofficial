@@ -28,7 +28,7 @@ public class BandsWrapperOffline extends BandsWrapper {
         this.bandEntities = new ArrayList<>();
     }
 
-    private void populateBandsList() {
+    private void populateData() {
         BandEntity bandEntity;
         for (int i = 0; i < bandEntities.size(); i++) {
             bandEntity = bandEntities.get(i);
@@ -60,7 +60,7 @@ public class BandsWrapperOffline extends BandsWrapper {
     @Override
     protected void performSearch(String s) {
         this.bandEntities = BandsDbHelper.findByName(s);
-        populateBandsList();
+        populateData();
         applyData();
     }
 

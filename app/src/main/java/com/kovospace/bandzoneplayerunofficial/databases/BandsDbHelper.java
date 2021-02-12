@@ -38,4 +38,8 @@ public class BandsDbHelper {
     public static List<BandEntity> findByName(String bandName) {
         return offlineBandsRoomDatabase.bandEntityDao().findByName(bandName);
     }
+
+    public static BandEntity findFirstBySlug(String slug) {
+        return offlineBandsRoomDatabase.bandEntityDao().findFirstBySlug(slug).get(0);
+    }
 }

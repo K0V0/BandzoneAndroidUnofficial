@@ -10,6 +10,9 @@ public interface BandEntityDao {
     @Query("SELECT * FROM offlineBands WHERE bandSlug = :slug")
     List<BandEntity> findBySlug(String slug);
 
+    @Query("SELECT * FROM offlineBands WHERE bandSlug = :slug LIMIT 1")
+    List<BandEntity> findFirstBySlug(String slug);
+
     @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%'")
     List<BandEntity> findByName(String title);
 

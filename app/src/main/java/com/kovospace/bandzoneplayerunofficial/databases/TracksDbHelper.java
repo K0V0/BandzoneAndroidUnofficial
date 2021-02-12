@@ -39,4 +39,8 @@ public class TracksDbHelper {
         return offlineTracksRoomDatabase.trackEntityDao().findByBand(band.getSlug());
     }
 
+    public static List<TrackEntity> getBandTracks(String slug) {
+        return offlineTracksRoomDatabase.trackEntityDao().findByBand(slug);
+    }
+
 }
