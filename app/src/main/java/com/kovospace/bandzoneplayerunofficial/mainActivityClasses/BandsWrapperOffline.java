@@ -29,6 +29,7 @@ public class BandsWrapperOffline extends BandsWrapper {
 
     private void populateData() {
         BandEntity bandEntity;
+        bandsList.clear();
         for (int i = 0; i < bandEntities.size(); i++) {
             bandEntity = bandEntities.get(i);
             bandsList.add(new Band(

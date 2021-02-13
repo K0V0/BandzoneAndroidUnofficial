@@ -7,7 +7,7 @@ import android.widget.EditText;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PlayerWidget;
 
-public class BandsActivity extends MainActivity {
+public class BandsActivity extends Activity {
     private EditText bandSearchField;
     private BandsSearch bandsSearch;
     private PlayerWidget playerWidget;

@@ -2,13 +2,13 @@ package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.content.Context;
 import com.kovospace.bandzoneplayerunofficial.BandsActivity;
+import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.OnFinishTypingHelper;
 import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
-import com.kovospace.bandzoneplayerunofficial.helpers.TestConnection;
 
 public class BandsSearch extends OnFinishTypingHelper {
 
-    private TestConnection testConnection;
+    private Connection conectionTester;
     private BandsWrapper bandsWrapper;
     private Context context;
     private BandsActivity bandsActivity;
@@ -17,16 +17,19 @@ public class BandsSearch extends OnFinishTypingHelper {
         super();
         this.bandsActivity = bandsActivity;
         this.context = context;
-        this.testConnection = new TestConnection(this.context);
+        this.conectionTester = new Connection(this.context);
         SearchFieldProgress.init(this.context);
         search("");
     }
 
     private void decideWrapperOnConnection() {
-        if (testConnection.isActive()) {
-            this.bandsWrapper = new BandsWrapperNet(bandsActivity, context);
-        } else {
-            this.bandsWrapper = new BandsWrapperOffline(bandsActivity, context);
+        conectionTester.getConnectionMethod();
+        if (conectionTester.isConnectionChanged()) {
+            if (conectionTester.isConnectionAvailable()) {
+                this.bandsWrapper = new BandsWrapperNet(bandsActivity, context, conectionTester);
+            } else {
+                this.bandsWrapper = new BandsWrapperOffline(bandsActivity, context);
+            }
         }
     }
 
@@ -34,6 +37,7 @@ public class BandsSearch extends OnFinishTypingHelper {
         SearchFieldProgress.start();
         decideWrapperOnConnection();
         // ^ dat do nejakeho eventu po zmene siete, debilne riesenie toto, blbnu toast messages
+        // OK RESOLVED
         bandsWrapper.search(search);
     }
 
@@ -48,4 +52,5 @@ public class BandsSearch extends OnFinishTypingHelper {
     public void doStuffOnZero() {
         search("");
     }
+
 }

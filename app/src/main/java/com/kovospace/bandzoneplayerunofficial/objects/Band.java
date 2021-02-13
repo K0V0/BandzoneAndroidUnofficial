@@ -114,4 +114,9 @@ public class Band implements BandProfileItem {
         imageAvailableOffline = file.exists() && !file.isDirectory();
         return imageAvailableOffline;
     }
+
+    @Override
+    public boolean isAvailableOffline() {
+        return imageAvailableOffline;
+    }
 }

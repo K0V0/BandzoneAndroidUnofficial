@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kovospace.bandzoneplayerunofficial.BandsActivity;
+import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.JsonRequest;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Page;
@@ -24,9 +25,11 @@ public class BandsWrapperNet extends BandsWrapper {
     private BandsJsonRequest bandsJsonRequest;
     private String query;
     private Page page;
+    private Connection connectionTester;
 
-    public BandsWrapperNet(BandsActivity bandsActivity, Context context) {
+    public BandsWrapperNet(BandsActivity bandsActivity, Context context, Connection testConnection) {
         super(bandsActivity, context);
+        connectionTester = testConnection;
         bandsJsonRequest = new BandsJsonRequest(activity);
     }
 
@@ -77,6 +80,20 @@ public class BandsWrapperNet extends BandsWrapper {
 
     @Override
     public void loadNextContent() {
+        connectionTester.getConnectionMethod();
+        if (connectionTester.isConnectionChanged()) {
+            if (connectionTester.isConnectionAvailable()) {
+                doLoad();
+            } else {
+                // toast ze pripojenie je fuc, eventualne refresh a dat do offline rezimu
+            }
+        } else {
+            // ak program bezi tu, musi byt online
+            doLoad();
+        }
+    }
+
+    private void doLoad() {
         operation = OPERATION_NEXTPAGE;
         query = QUERY_URL + searchString + "&p=" + nextPageToLoad;
         bandsJsonRequest.fetch(query);

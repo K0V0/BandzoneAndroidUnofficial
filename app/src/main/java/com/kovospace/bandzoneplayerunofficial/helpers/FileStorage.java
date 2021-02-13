@@ -15,7 +15,6 @@ public abstract class FileStorage {
     protected String storageEmulatedDataPath;
     protected File workingDirectory;
     protected String workingDirectoryPath;
-    //protected String storageInternalDataPath;
 
     public FileStorage(Context context) {
         this.context = context;

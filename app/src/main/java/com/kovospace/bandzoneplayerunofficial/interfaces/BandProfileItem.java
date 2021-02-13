@@ -6,4 +6,5 @@ public interface BandProfileItem {
     boolean contains(BandProfileItem o);
     String getLocalOrHref();
     boolean hasOfflineCopy();
+    boolean isAvailableOffline();
 }

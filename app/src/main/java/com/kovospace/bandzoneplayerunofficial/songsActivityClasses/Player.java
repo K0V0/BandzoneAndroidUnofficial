@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.RequiresApi;
 import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.PlayerHelper;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
@@ -48,6 +49,7 @@ public class Player {
     private static TextView totalTime;
     private static Runnable onPlayStart;
     private static Mp3File mp3File;
+    private static Connection connectionTester;
 
     public static void init(Context c, TracksAdapter a) {
         context = c;
@@ -57,6 +59,7 @@ public class Player {
         }
         lastTrackIndex = items.size() - 1;
         mp3File = new Mp3File(context);
+        connectionTester = new Connection(context);
     }
 
     public static void init(Context c) {
@@ -252,12 +255,13 @@ public class Player {
     public static void play(int order) {
         currentTrackIndex = order;
         lastTrackIndex = items.size() - 1; // because on construction length is 0
+        connectionTester.getConnectionMethod();
+        boolean connected = connectionTester.isConnectionAvailable();
         if (items.get(currentTrackIndex).getClass() != Track.class) {
-            if (direction >= 0) {
-                play(next());
-            } else {
-                play(prev());
-            }
+            switchTrack();
+        }
+        if (!connected && !items.get(currentTrackIndex).isAvailableOffline()) {
+            switchTrack();
         }
         currentTrack = (Track) items.get(currentTrackIndex);
         uri = Uri.parse(currentTrack.getLocalOrHref());
@@ -266,6 +270,14 @@ public class Player {
         } else {
             killMediaPlayer();
             createPlayer();
+        }
+    }
+
+    private static void switchTrack() {
+        if (direction >= 0) {
+            play(next());
+        } else {
+            play(prev());
         }
     }
 
