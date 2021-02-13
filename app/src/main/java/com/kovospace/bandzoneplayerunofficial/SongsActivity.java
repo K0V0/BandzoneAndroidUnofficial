@@ -1,5 +1,6 @@
 package com.kovospace.bandzoneplayerunofficial;
 
+import android.content.Context;
 import android.os.Bundle;
 import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.BandWrapper;
@@ -9,26 +10,35 @@ import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.BandWrapperOf
 public class SongsActivity extends Activity {
     public String slug;
     private BandWrapper bandWrapper;
+    private Context context;
 
     @Override
     protected void onNetworkChanged() {
-        loadSongs();
+        if (connectionTest.isConnectionChanged()) {
+            loadSongs(this);
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.context = this;
         setContentView(R.layout.activity_songs);
         slug = getIntent().getStringExtra("slug");
         PRDownloader.initialize(getApplicationContext());
-        loadSongs();
+        loadSongs(this);
     }
 
-    private void loadSongs() {
+    protected void onResume() {
+        super.onResume();
+        //loadSongs(this);
+    }
+
+    private void loadSongs(Context context) {
         if (connectionTest.isConnectionAvailable()) {
-            bandWrapper = new BandWrapperNet(SongsActivity.this, this, slug);
+            bandWrapper = new BandWrapperNet(SongsActivity.this, context, slug);
         } else {
-            bandWrapper = new BandWrapperOffline(SongsActivity.this, this, slug);
+            bandWrapper = new BandWrapperOffline(SongsActivity.this, context, slug);
         }
     }
 }

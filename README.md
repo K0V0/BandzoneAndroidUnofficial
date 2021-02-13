@@ -62,6 +62,8 @@
 - [x] [IMPORTANT] reload activities when connection on phone changed
 - [x] bug somewhere in db queries, removein all downloaded songs but band remains there
 - [x] sometimes when turning off data and paused player in band profile does not dissapear from not downloaded track
+- [x] maybe add bands that have downloaded tracks as first when app opened/searchfiled cleared
+- [x] [SERIOUS] bug resuming band profile activity while playing track - player missing, if clicked, app crashes
 
 ## Devices tested & issues
 

@@ -32,10 +32,10 @@ public abstract class Activity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        connectionTest.getConnectionMethod();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeReceiver, intentFilter);
-        connectionTest.getConnectionMethod();
     }
 
     @Override
