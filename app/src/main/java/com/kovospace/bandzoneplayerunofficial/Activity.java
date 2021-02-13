@@ -22,6 +22,11 @@ public abstract class Activity extends AppCompatActivity {
         }
     };
 
+    /*@Override
+    protected void onStart() {
+        super.onStart();
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,5 +48,10 @@ public abstract class Activity extends AppCompatActivity {
         super.onPause();
         unregisterReceiver(networkChangeReceiver);
     }
+
+    /*@Override
+    protected void onStop() {
+        super.onStop();
+    }*/
 
 }

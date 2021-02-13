@@ -23,7 +23,8 @@
 | 08-feb-2020 | UI changes, click listeners on player, started studying android storage and implementing file download |
 | 09-feb-2020 | File downloading and removing implemented, playing downloaded files from mem implemented, started studying and implementing SQL database, very basic core functionality implemented |
 | 10-feb-2020 | Caching (saving) of images of visited band profile, basic operations on databases done (adding band profile if at least one track downloaded, removing if all downloads deleted) |
-| 11-feb-2020 | Started implementing adapters for running app from local dbs and stored files, tried to offload recycler views from unnecessary ofline assets chekcs | 
+| 11-feb-2020 | Started implementing adapters for running app from local dbs and stored files, tried to offload recycler views from unnecessary ofline assets chekcs |
+| 13-feb-2020 | Offline mode fully implemented, implemented changing mode based on phone connection state, 0.3-a release |
 
 ## TODO, ideas
 

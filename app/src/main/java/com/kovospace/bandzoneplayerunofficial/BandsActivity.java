@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import com.kovospace.bandzoneplayerunofficial.eventBus.ReloadBandsList;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PlayerWidget;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class BandsActivity extends Activity {
     private EditText bandSearchField;
@@ -15,7 +19,15 @@ public class BandsActivity extends Activity {
 
     @Override
     protected void onNetworkChanged() {
-        refreshActivityOnNetChange();
+        if (connectionTest.isConnectionChanged()) {
+            refreshActivity();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -35,8 +47,16 @@ public class BandsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshActivityOnNetChange();
+        if (connectionTest.isConnectionChanged()) {
+            refreshActivity();
+        }
         playerWidget.check();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -47,11 +67,17 @@ public class BandsActivity extends Activity {
         }
     }
 
-    private void refreshActivityOnNetChange() {
-        if (connectionTest.isConnectionChanged()) {
-            Intent intent = new Intent(this, BandsActivity.class);
-            startActivity(intent);
-            finish();
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onEvent(ReloadBandsList reload) {
+        if (reload.isReload()) {
+            refreshActivity();
         }
+        EventBus.getDefault().removeStickyEvent(reload);
+    }
+
+    private void refreshActivity() {
+        Intent intent = new Intent(this, BandsActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

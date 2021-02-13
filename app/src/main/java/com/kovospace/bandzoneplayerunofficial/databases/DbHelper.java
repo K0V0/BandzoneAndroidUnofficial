@@ -1,9 +1,11 @@
 package com.kovospace.bandzoneplayerunofficial.databases;
 
 import android.content.Context;
+import com.kovospace.bandzoneplayerunofficial.eventBus.ReloadBandsList;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -36,6 +38,8 @@ public abstract class DbHelper {
         } else {
             BandsDbHelper.delete(band.getSlug());
             TracksDbHelper.removeBandTracks(band);
+            EventBus.getDefault().postSticky(new ReloadBandsList(true));
+            System.out.println("------------ db remove all query");
         }
         // ^ do buducnosti rerobit, v niektorom vyuziti
         // tohoto adaptera bude moct byt viac kapiel mozno / nemusi byt pozicia 0
