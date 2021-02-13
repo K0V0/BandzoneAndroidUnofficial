@@ -230,7 +230,8 @@ public class Player {
 
     public static void stop() {
         if (mediaPlayer != null) {
-            mediaPlayer.stop();
+            //mediaPlayer.stop();
+            killMediaPlayer();
         }
     }
 

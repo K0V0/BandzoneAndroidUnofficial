@@ -33,6 +33,10 @@ public class BandsDbHelper extends DbHelper {
         offlineBandsRoomDatabase.bandEntityDao().delete(bandEntity);
     }
 
+    public static void delete(String slug) {
+        offlineBandsRoomDatabase.bandEntityDao().delete(slug);
+    }
+
     public static List<BandEntity> findByName(String bandName) {
         return offlineBandsRoomDatabase.bandEntityDao().findByName(bandName);
     }

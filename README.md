@@ -56,9 +56,11 @@
 - [ ] add icon next to searchfield (in lace when loading wheel occurs) in bands list signalizing player mode (offline/online)  
 - [ ] ^ use that icon as basic settings menu to toggle player mode by user  
 - [ ] ^ in that menu, give user the possibility to work in offline mode even if data on (architecture done, just do menu)  
-- [ ] [IMPORTANT] in offline mode, grey out and remove click listeners on tracks that has not been downloaded  
-- [ ] ^ change download icon on that tracks to something that will inform user that he must download it first when online  
-- [ ] [SERIOUS] when going into band profile in offline mode, something black occupy half of the screen until track played, then content jumps  
+- [x] [IMPORTANT] in offline mode, grey out and remove click listeners on tracks that has not been downloaded  
+- [x] ^ change download icon on that tracks to something that will inform user that he must download it first when online  
+- [x] [SERIOUS] when going into band profile in offline mode, something black occupy half of the screen until track played, then content jumps  
+- [ ] [IMPORTANT] reload activities when connection on phone changed
+- [x] bug somewhere in db queries, removein all downloaded songs but band remains there
 
 ## Devices tested & issues
 

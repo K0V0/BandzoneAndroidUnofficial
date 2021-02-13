@@ -17,6 +17,7 @@
 
 package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -36,7 +37,10 @@ import com.downloader.Error;
 import com.downloader.OnDownloadListener;
 import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.R;
+import com.kovospace.bandzoneplayerunofficial.databases.BandsDbHelper;
 import com.kovospace.bandzoneplayerunofficial.databases.DbHelper;
+import com.kovospace.bandzoneplayerunofficial.databases.TracksDbHelper;
+import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
@@ -49,13 +53,21 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<BandProfileItem> listRecyclerItem;
     private Mp3File mp3File;
     private ImageFile imageFile;
+    private Connection connectionTester;
+    private boolean isOnline;
 
     public TracksAdapter(Context context, List<BandProfileItem> listRecyclerItem) {
         this.context = context;
         this.listRecyclerItem = listRecyclerItem; // null here on init or zero size - check
         this.mp3File = new Mp3File(this.context);
         this.imageFile = new ImageFile(this.context);
+        this.connectionTester = new Connection(this.context);
+        connectionTester.getConnectionMethod();
+        isOnline = connectionTester.isConnectionAvailable();
         Player.init(this.context, this);
+
+        System.out.println(BandsDbHelper.getAll());
+        System.out.println(TracksDbHelper.getAll());
     }
 
     private void runPlayer(View v) {
@@ -108,7 +120,14 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             // remove download
             mp3File.removeFile(track.getTrackFullLocalPath());
-            downloadButton.setImageResource(R.mipmap.download_foreground);
+            if (!isOnline) {
+                // image to cannot download
+                downloadButton.setImageResource(R.mipmap.no_download_foreground);
+                view.setOnClickListener(null);
+            } else {
+                downloadButton.setImageResource(R.mipmap.download_foreground);
+            }
+            DbHelper.rememberBandAndTracksForOffline(listRecyclerItem);
         }
     }
 
@@ -142,7 +161,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 downloadButton = progressbarHolder.findViewById(R.id.downloadButton);
                 downloadLoading = progressbarHolder.findViewById(R.id.downloadLoading);
             PlayerAnimations.init(context);
-            itemView.setOnClickListener(this);
+            //itemView.setOnClickListener(this);
         }
 
         public void bindView(int position) {
@@ -150,18 +169,22 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             title.setText(track.getTitle());
             title.setTag(track);
             album.setText(track.getAlbum());
-            baseHolder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { runPlayer(view); }
-            });
-            pauseButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { togglePlay(v); }
-            });
-            downloadButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { downloadMP3(view, track); }
-            });
+            if (isOnline || (!isOnline && track.isAvailableOffline())) {
+                baseHolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) { runPlayer(view); }
+                });
+                pauseButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) { togglePlay(v); }
+                });
+                downloadButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) { downloadMP3(view, track); }
+                });
+            } else {
+                view.setAlpha(0.5f);
+            }
             if (mp3File.fileExists(track.getTrackFullLocalPath())) {
                 downloadButton.setImageResource(R.mipmap.remove_foreground);
             }
@@ -236,6 +259,8 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((BandInfoViewHolder) viewHolder).bindView(i);
         } else if (viewType > 0) {
             ((TrackViewHolder) viewHolder).bindView(i);
+        } else if (viewType == 0) {
+            // ziadny track
         } else {
             throw new IllegalStateException("Unexpected value: " + viewType);
         }
@@ -260,12 +285,18 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private void changeLayout() {
-        System.out.println("-----------------------");
-        System.out.println("change layout");
-        LinearLayout bandView = ((Activity) context).findViewById(R.id.bandView);
         LinearLayout bandRetarder = ((Activity) context).findViewById(R.id.bandWaiter);
-        bandView.removeView(bandRetarder);
-        LinearLayout bandHolder = ((Activity) context).findViewById(R.id.bandHolder);
-        bandHolder.animate().alpha(1.0F).setDuration(250);
+        bandRetarder.animate().alpha(0.0F).setDuration(250).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {}
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                bandRetarder.setVisibility(View.GONE);
+            }
+            @Override
+            public void onAnimationCancel(Animator animation) {}
+            @Override
+            public void onAnimationRepeat(Animator animation) {}
+        });
     }
 }

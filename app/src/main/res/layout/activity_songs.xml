@@ -6,15 +6,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".SongsActivity" android:background="#000000">
-    <LinearLayout
-            android:orientation="vertical"
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/bandView">
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" tools:showIn="@layout/activity_songs" android:id="@+id/bandHolder"
+        >
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/songsList">
+            </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                    android:text="@string/noTracksText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/noTracksText" android:layout_weight="1"
+                    android:visibility="gone" android:textColor="#FFC107" android:textSize="16pt"
+                    android:gravity="center_horizontal"/>
+        </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="0dp" android:gravity="bottom" android:id="@+id/bandWaiter"
-                android:layout_weight="1">
+                android:layout_height="match_parent" android:id="@+id/bandWaiter"
+                android:gravity="center_vertical" android:alpha="1.0">
 
 
             <LinearLayout
@@ -27,20 +43,5 @@
                         android:indeterminate="true"/>
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="0dp" tools:showIn="@layout/activity_songs" android:id="@+id/bandHolder"
-                android:alpha="0" android:layout_weight="1">
-            <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/songsList"/>
-        </LinearLayout>
-        <TextView
-                android:text="@string/noTracksText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/noTracksText" android:layout_weight="1"
-                android:visibility="gone" android:textColor="#FFC107" android:textSize="16pt"
-                android:gravity="center_horizontal"/>
-    </LinearLayout>
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

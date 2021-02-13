@@ -5,7 +5,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {BandEntity.class}, version = 3)
+@Database(entities = {BandEntity.class}, version = 4)
 public abstract class OfflineBandsRoomDatabase extends RoomDatabase {
 
     public abstract BandEntityDao bandEntityDao();

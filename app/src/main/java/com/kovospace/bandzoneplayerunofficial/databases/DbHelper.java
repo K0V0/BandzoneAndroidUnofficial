@@ -34,9 +34,13 @@ public abstract class DbHelper {
                 TracksDbHelper.insertBandTrackIfNotExist((Track) bandProfileItem.get(i));
             }
         } else {
-            BandsDbHelper.delete(band);
+            System.out.println("--------------- all deleted should be");
+            BandsDbHelper.delete(band.getSlug());
             TracksDbHelper.removeBandTracks(band);
         }
+
+        //System.out.println(BandsDbHelper.findByName(band.getTitle()));
+        //System.out.println(TracksDbHelper.getBandTracks(band));
         // ^ do buducnosti rerobit, v niektorom vyuziti
         // tohoto adaptera bude moct byt viac kapiel mozno / nemusi byt pozicia 0
     }

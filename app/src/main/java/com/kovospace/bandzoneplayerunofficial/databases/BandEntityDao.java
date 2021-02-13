@@ -26,7 +26,10 @@ public interface BandEntityDao {
     void update(BandEntity bandEntity);
 
     @Delete
-    void delete(BandEntity bandEntity);
+    void delete(BandEntity bandEntity); // not working, maybe because making "new" entity ?
+
+    @Query("DELETE FROM offlineBands WHERE bandSlug = :slug")
+    void delete(String slug);
 
     @Delete
     void delete(BandEntity... bandEntities);
