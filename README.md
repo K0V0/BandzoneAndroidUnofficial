@@ -49,7 +49,7 @@
 - [ ] notification area player widget  
 - [ ] text on widget in bands list not changeing when song changed automatically  
 - [x] change click listeners on track - missclick on free space in player causes track play again  
-- [ ] ability to download tracks and in gerenal ability to run offline with downloaded content - bands info and tracklist must be downloaded if at least one track is downloaded from band  
+- [x] ability to download tracks and in gerenal ability to run offline with downloaded content - bands info and tracklist must be downloaded if at least one track is downloaded from band  
 - [ ] add incremental loading (pagination) for offline bands too (if for example 1000 results is issue for recycler view and sqlite, do research)  
 - [x] reload bands activity on step back if connection changed during time spent inside band profile  
 - [x] when playback paused in bands list and back into band profile or opposite, player state (in bands list) or player at all (in band profile) not restored  
@@ -59,8 +59,9 @@
 - [x] [IMPORTANT] in offline mode, grey out and remove click listeners on tracks that has not been downloaded  
 - [x] ^ change download icon on that tracks to something that will inform user that he must download it first when online  
 - [x] [SERIOUS] when going into band profile in offline mode, something black occupy half of the screen until track played, then content jumps  
-- [ ] [IMPORTANT] reload activities when connection on phone changed
+- [x] [IMPORTANT] reload activities when connection on phone changed
 - [x] bug somewhere in db queries, removein all downloaded songs but band remains there
+- [x] sometimes when turning off data and paused player in band profile does not dissapear from not downloaded track
 
 ## Devices tested & issues
 

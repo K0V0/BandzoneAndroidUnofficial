@@ -287,8 +287,10 @@ public class Player {
             if ((currentBand != null) && (list != null)) {
                 if (PlayerHelper.isBandInList(list, (Band) currentBand)) {
                     if (currentTrack != null) {
-                        int pos = PlayerHelper.posOfTrackInList(list, (Track) currentTrack);
-                        list.set(pos, (BandProfileItem) currentTrack); // mozno prekastovat ??
+                        if (connectionTester.isConnectionAvailable() || currentTrack.isAvailableOffline()) {
+                            int pos = PlayerHelper.posOfTrackInList(list, (Track) currentTrack);
+                            list.set(pos, (BandProfileItem) currentTrack); // mozno prekastovat ??
+                        }
                     }
                 } else {
                     // pridat v buducnosti aj do cudzej kapely ako prve ??
