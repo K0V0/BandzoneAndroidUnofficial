@@ -43,16 +43,22 @@
 - [x] [SERIOUS] (in 0.1-alpha) If list of the track longer than screen and last track ends, app will crash  
 - [x] [SERIOUS] on newer androids, content fetching not working 
 - [ ] develop some mechanism to try to repeat lost request  
-- [ ] [SERIOUS] Bandzone.cz has maintenance shutdown from 3:00 to 3:15 am, track this event, if I cannot do anything with it at least inform user about it.  
-- [ ] provide actual screenshots
-- [ ] lockscreen player widget
-- [ ] notification area player widget
-- [ ] text on widget in bands list not changeing when song changed automatically
-- [x] change click listeners on track - missclick on free space in player causes track play again
-- [ ] ability to download tracks and in gerenal ability to run offline with downloaded content - bands info and tracklist must be downloaded if at least one track is downloaded from band
-- [ ] add incremental loading (pagination) for offline bands too (if for example 1000 results is issue for recycler view and sqlite, do research)
-- [x] reload bands activity on step back if connection changed during time spent inside band profile
-- [x] when playback paused in bands list and back into band profile or opposite, player state (in bands list) or player at all (in band profile) not restored
+- [ ] [SERIOUS] Bandzone.cz has maintenance shutdown from 3:00 to 3:30 am, track this event, if I cannot do anything with it at least inform user about it.  
+- [ ] provide actual screenshots  
+- [ ] lockscreen player widget  
+- [ ] notification area player widget  
+- [ ] text on widget in bands list not changeing when song changed automatically  
+- [x] change click listeners on track - missclick on free space in player causes track play again  
+- [ ] ability to download tracks and in gerenal ability to run offline with downloaded content - bands info and tracklist must be downloaded if at least one track is downloaded from band  
+- [ ] add incremental loading (pagination) for offline bands too (if for example 1000 results is issue for recycler view and sqlite, do research)  
+- [x] reload bands activity on step back if connection changed during time spent inside band profile  
+- [x] when playback paused in bands list and back into band profile or opposite, player state (in bands list) or player at all (in band profile) not restored  
+- [ ] add icon next to searchfield (in lace when loading wheel occurs) in bands list signalizing player mode (offline/online)  
+- [ ] ^ use that icon as basic settings menu to toggle player mode by user  
+- [ ] ^ in that menu, give user the possibility to work in offline mode even if data on (architecture done, just do menu)  
+- [ ] [IMPORTANT] in offline mode, grey out and remove click listeners on tracks that has not been downloaded  
+- [ ] ^ change download icon on that tracks to something that will inform user that he must download it first when online  
+- [ ] [SERIOUS] when going into band profile in offline mode, something black occupy half of the screen until track played, then content jumps  
 
 ## Devices tested & issues
 
@@ -63,6 +69,6 @@
 - [x] [6.0 + EMUI 4.1] (v0.1.1-alpha) Honor 7 lite - OK  
 - [ ] [10.0] (v0.1.1-alpha) Samsung Galaxy S10 - App runs, unable to connect and fetch data, test again after deprecations removed  
 - [x] [5.1.1] (v0.1.1-alpha) Lenovo A6020 - OK  
-- [ ] ~[9.0] (v0.1.1-alpha) BlackView GBW9100 - same problem as on Samsung Galaxy S10~  
-- [x] [9.0] (v0.2-alpha) BlackView GBW9100 - OK 
+- [ ] ~[9.0] (v0.1.1-alpha) BlackView GBW9100 - same problem as on Samsung Galaxy S10~ [tested v0.2-alpha working] 
+- [x] [9.0] (v0.2-alpha) BlackView GBW9100 - OK  
 
