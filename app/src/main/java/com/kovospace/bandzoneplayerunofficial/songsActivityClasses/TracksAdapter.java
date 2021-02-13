@@ -260,6 +260,8 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private void changeLayout() {
+        System.out.println("-----------------------");
+        System.out.println("change layout");
         LinearLayout bandView = ((Activity) context).findViewById(R.id.bandView);
         LinearLayout bandRetarder = ((Activity) context).findViewById(R.id.bandWaiter);
         bandView.removeView(bandRetarder);

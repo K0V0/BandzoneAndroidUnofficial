@@ -77,7 +77,7 @@ public class Player {
         progressBar = progress;
         currentTime = current;
         totalTime = total;
-        if (isPlaying()) { // player - case when returning to profile of actually played band
+        if (isPlaying() || isPaused()) { // player - case when returning to profile of actually played band
             mHandler.removeCallbacks(seekBarRunnable);
             attachSeekBar();
             runSeekbar();
@@ -282,7 +282,7 @@ public class Player {
     }
 
     public static void showPlayerIfPlaying(List<BandProfileItem> list) {
-        if (isPlaying()) {
+        if (isPlaying() || isPaused()) {
             if ((currentBand != null) && (list != null)) {
                 if (PlayerHelper.isBandInList(list, (Band) currentBand)) {
                     if (currentTrack != null) {

@@ -45,12 +45,14 @@
 - [ ] develop some mechanism to try to repeat lost request  
 - [ ] [SERIOUS] Bandzone.cz has maintenance shutdown from 3:00 to 3:15 am, track this event, if I cannot do anything with it at least inform user about it.  
 - [ ] provide actual screenshots
-- [ ] lockscreen plaayer widget
+- [ ] lockscreen player widget
 - [ ] notification area player widget
 - [ ] text on widget in bands list not changeing when song changed automatically
 - [x] change click listeners on track - missclick on free space in player causes track play again
 - [ ] ability to download tracks and in gerenal ability to run offline with downloaded content - bands info and tracklist must be downloaded if at least one track is downloaded from band
 - [ ] add incremental loading (pagination) for offline bands too (if for example 1000 results is issue for recycler view and sqlite, do research)
+- [x] reload bands activity on step back if connection changed during time spent inside band profile
+- [x] when playback paused in bands list and back into band profile or opposite, player state (in bands list) or player at all (in band profile) not restored
 
 ## Devices tested & issues
 

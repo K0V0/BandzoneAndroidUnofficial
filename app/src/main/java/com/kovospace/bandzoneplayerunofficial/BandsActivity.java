@@ -1,6 +1,7 @@
 package com.kovospace.bandzoneplayerunofficial;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -29,6 +30,13 @@ public class BandsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (connectionTest.isConnectionChanged()) {
+            // refresh bands list if connection changed when going back
+            System.out.println("activity should change");
+            Intent intent = new Intent(this, BandsActivity.class);
+            startActivity(intent);
+            finish();
+        }
         playerWidget.check();
     }
 

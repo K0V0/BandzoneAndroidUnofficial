@@ -16,6 +16,7 @@ public class Track implements BandProfileItem {
     private long durationMilisecs;
     private int order;
     private boolean playing;
+    private boolean paused;
     private String bandName;
     private String bandSlug;
     private String trackFullLocalPath;
@@ -89,6 +90,8 @@ public class Track implements BandProfileItem {
     public void setPlaying(boolean playing) {
         this.playing = playing;
     }
+
+
 
     public String getBandName() {
         return bandName;

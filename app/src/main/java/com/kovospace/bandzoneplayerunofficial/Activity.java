@@ -13,4 +13,10 @@ public abstract class Activity extends AppCompatActivity {
         connectionTest = new Connection(this);
         connectionTest.getConnectionMethod();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        connectionTest.getConnectionMethod();
+    }
 }
