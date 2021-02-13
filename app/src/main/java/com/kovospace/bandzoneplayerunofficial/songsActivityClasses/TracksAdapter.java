@@ -65,9 +65,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         connectionTester.getConnectionMethod();
         isOnline = connectionTester.isConnectionAvailable();
         Player.init(this.context, this);
-
-        System.out.println(BandsDbHelper.getAll());
-        System.out.println(TracksDbHelper.getAll());
     }
 
     private void runPlayer(View v) {

@@ -11,12 +11,20 @@ public class SongsActivity extends Activity {
     private BandWrapper bandWrapper;
 
     @Override
+    protected void onNetworkChanged() {
+        loadSongs();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
         slug = getIntent().getStringExtra("slug");
         PRDownloader.initialize(getApplicationContext());
+        loadSongs();
+    }
 
+    private void loadSongs() {
         if (connectionTest.isConnectionAvailable()) {
             bandWrapper = new BandWrapperNet(SongsActivity.this, this, slug);
         } else {

@@ -14,6 +14,11 @@ public class BandsActivity extends Activity {
     private PlayerWidget playerWidget;
 
     @Override
+    protected void onNetworkChanged() {
+        refreshActivityOnNetChange();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -30,13 +35,7 @@ public class BandsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (connectionTest.isConnectionChanged()) {
-            // refresh bands list if connection changed when going back
-            System.out.println("activity should change");
-            Intent intent = new Intent(this, BandsActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        refreshActivityOnNetChange();
         playerWidget.check();
     }
 
@@ -45,6 +44,14 @@ public class BandsActivity extends Activity {
         if (getCurrentFocus() != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    private void refreshActivityOnNetChange() {
+        if (connectionTest.isConnectionChanged()) {
+            Intent intent = new Intent(this, BandsActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }
