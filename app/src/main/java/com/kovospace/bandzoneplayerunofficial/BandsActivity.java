@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import com.kovospace.bandzoneplayerunofficial.eventBus.ReloadBandsList;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PlayerWidget;
@@ -14,6 +15,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class BandsActivity extends Activity {
     private EditText bandSearchField;
+    private ImageButton networkStatusButton;
     private BandsSearch bandsSearch;
     private PlayerWidget playerWidget;
 
@@ -21,6 +23,7 @@ public class BandsActivity extends Activity {
     protected void onNetworkChanged() {
         if (connectionTest.isConnectionChanged()) {
             refreshActivity();
+            updateNetworkStatusIcon();
         }
     }
 
@@ -34,10 +37,12 @@ public class BandsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         bandSearchField = findViewById(R.id.bandInput);
+        networkStatusButton = findViewById(R.id.networkStatusButton);
         bandsSearch = new BandsSearch(BandsActivity.this, this);
         playerWidget = new PlayerWidget(this);
+
+        updateNetworkStatusIcon();
 
         bandSearchField.addTextChangedListener(
                 bandsSearch.watchText()
@@ -49,6 +54,7 @@ public class BandsActivity extends Activity {
         super.onResume();
         if (connectionTest.isConnectionChanged()) {
             refreshActivity();
+            updateNetworkStatusIcon();
         }
         playerWidget.check();
     }
@@ -80,4 +86,13 @@ public class BandsActivity extends Activity {
         startActivity(intent);
         finish();
     }
+
+    private void updateNetworkStatusIcon() {
+        if (connectionTest.isConnectionAvailable()) {
+            networkStatusButton.setImageResource(R.mipmap.net_ok_foreground);
+        } else {
+            networkStatusButton.setImageResource(R.mipmap.no_net_foreground);
+        }
+    }
+
 }

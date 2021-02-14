@@ -25,6 +25,7 @@
 | 10-feb-2020 | Caching (saving) of images of visited band profile, basic operations on databases done (adding band profile if at least one track downloaded, removing if all downloads deleted) |
 | 11-feb-2020 | Started implementing adapters for running app from local dbs and stored files, tried to offload recycler views from unnecessary ofline assets chekcs |
 | 13-feb-2020 | Offline mode fully implemented, implemented changing mode based on phone connection state, 0.3-a release |
+| 14-feb-2020 | Added network mode signalizator |
 
 ## TODO, ideas
 
@@ -54,7 +55,7 @@
 - [ ] add incremental loading (pagination) for offline bands too (if for example 1000 results is issue for recycler view and sqlite, do research)  
 - [x] reload bands activity on step back if connection changed during time spent inside band profile  
 - [x] when playback paused in bands list and back into band profile or opposite, player state (in bands list) or player at all (in band profile) not restored  
-- [ ] add icon next to searchfield (in lace when loading wheel occurs) in bands list signalizing player mode (offline/online)  
+- [x] add icon next to searchfield (in lace when loading wheel occurs) in bands list signalizing player mode (offline/online)  
 - [ ] ^ use that icon as basic settings menu to toggle player mode by user  
 - [ ] ^ in that menu, give user the possibility to work in offline mode even if data on (architecture done, just do menu)  
 - [x] [IMPORTANT] in offline mode, grey out and remove click listeners on tracks that has not been downloaded  
