@@ -51,6 +51,7 @@ public class BandsWrapperOffline extends BandsWrapper {
                     bandEntity.getGenre()
             ));
             bandsList.get(i).setImageFullLocalPath(bandEntity.getImageFullLocalPath());
+            bandsList.get(i).setFromDb(true);
         }
     }
 

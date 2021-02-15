@@ -14,6 +14,7 @@ public class Band implements BandProfileItem {
     private String genre;
     private String imageFullLocalPath;
     private boolean imageAvailableOffline;
+    private boolean fromDb;
     //private String recent_album;
     //private Pattern pattern;
     //private Matcher matcher;
@@ -123,5 +124,13 @@ public class Band implements BandProfileItem {
     @Override
     public boolean isAvailableOffline() {
         return imageAvailableOffline;
+    }
+
+    public boolean isFromDb() {
+        return fromDb;
+    }
+
+    public void setFromDb(boolean fromDb) {
+        this.fromDb = fromDb;
     }
 }

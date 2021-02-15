@@ -76,10 +76,7 @@ public abstract class BandsWrapper implements DataWrapper {
         for (Band neewBand : neew) {
             if (!current.contains(neewBand)) {
                 result.add(neewBand);
-            } else {
-                System.out.println("contains " + neewBand.toString());
             }
-
         }
         return result;
     }
@@ -89,10 +86,7 @@ public abstract class BandsWrapper implements DataWrapper {
         for (Band neewBand : neew) {
             if (!current.contains(neewBand)) {
                 result.add(neewBand);
-            } else {
-                System.out.println("contains " + neewBand.toString());
             }
-
         }
         for (Band ooldBand : current) {
             if (neew.contains(ooldBand)) {
@@ -126,7 +120,8 @@ public abstract class BandsWrapper implements DataWrapper {
 
     private void addBands(List<Band> bands) {
         this.bands.addAll(selectiveAdd(this.bands, bands));
-        this.bandsAdapter.notifyItemInserted(this.bands.size() - 1);
+        //this.bandsAdapter.notifyItemInserted(this.bands.size() - 1);
+        this.bandsAdapter.notifyDataSetChanged();
         checkIfNotEmpty();
     }
 

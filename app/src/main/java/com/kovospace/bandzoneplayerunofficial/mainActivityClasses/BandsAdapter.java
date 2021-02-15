@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -34,12 +35,14 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private ImageView coverArt;
         private TextView styl;
         private String slug;
+        private ImageButton isOnSD;
 
         public BandViewHolder(@NonNull View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.nazovKapely);
             coverArt = (ImageView) itemView.findViewById(R.id.coverArt);
             styl = (TextView) itemView.findViewById(R.id.styl);
+            isOnSD = itemView.findViewById(R.id.savedOnDisk);
             itemView.setOnClickListener(this);
         }
 
@@ -98,6 +101,8 @@ public class BandsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 bandViewHolder.name.setText(band.getTitle());
                 Glide.with(this.context).load(band.getLocalOrHref()).into(bandViewHolder.coverArt);
                 bandViewHolder.styl.setText(band.getGenre() + " - " + band.getCity());
+                if (band.isFromDb()) { bandViewHolder.isOnSD.setVisibility(View.VISIBLE); }
+                else { bandViewHolder.isOnSD.setVisibility(View.INVISIBLE); }
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + viewType);

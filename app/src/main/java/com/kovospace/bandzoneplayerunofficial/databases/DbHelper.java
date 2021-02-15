@@ -39,7 +39,6 @@ public abstract class DbHelper {
             BandsDbHelper.delete(band.getSlug());
             TracksDbHelper.removeBandTracks(band);
             EventBus.getDefault().postSticky(new ReloadBandsList(true));
-            System.out.println("------------ db remove all query");
         }
         // ^ do buducnosti rerobit, v niektorom vyuziti
         // tohoto adaptera bude moct byt viac kapiel mozno / nemusi byt pozicia 0

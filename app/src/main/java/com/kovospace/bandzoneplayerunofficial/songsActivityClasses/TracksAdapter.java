@@ -209,7 +209,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void bindView(int position) {
             Band band = (Band) listRecyclerItem.get(position);
             title.setText(band.getTitle());
-            genre.setText(band.getGenre());
+            genre.setText(band.getGenre() + " - " + band.getCity());
             Glide
                     .with(context)
                     .load(band.getLocalOrHref())

@@ -39,8 +39,15 @@
                 <TextView
                         android:text="TextView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/styl" android:layout_weight="1"
+                        android:layout_height="wrap_content" android:id="@+id/styl" android:layout_weight="1000"
                         android:textColor="#888888"/>
+                <ImageButton
+                        android:src="@mipmap/sdcard_foreground"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp" android:id="@+id/savedOnDisk" android:layout_weight="1"
+                        android:background="@mipmap/sdcard_background"
+                        android:scaleType="fitCenter" android:cropToPadding="false" android:adjustViewBounds="false"
+                        android:visibility="invisible"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

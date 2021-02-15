@@ -91,7 +91,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="$USER_HOME$/Dokumenty/Grafika/BandzonePlayer/[final] player/wifi-ok.png" />
+                                                <entry key="imagePath" value="$USER_HOME$/Dokumenty/Grafika/BandzonePlayer/scdard.png" />
+                                                <entry key="scalingPercent" value="60" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -123,7 +124,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="net_ok" />
+                                      <entry key="outputName" value="sdcard" />
                                     </map>
                                   </option>
                                 </PersistentState>
