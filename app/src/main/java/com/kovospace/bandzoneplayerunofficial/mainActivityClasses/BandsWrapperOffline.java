@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import com.kovospace.bandzoneplayerunofficial.databases.BandEntity;
 import com.kovospace.bandzoneplayerunofficial.databases.BandsDbHelper;
+import com.kovospace.bandzoneplayerunofficial.helpers.Misc;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Page;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BandsWrapperOffline extends BandsWrapper {
-    private final int ITEMS_PER_PAGE = 100;
+    private int dbResultsCount;
     private Page page;
     private List<Band> bandsList;
     private List<BandEntity> bandEntities;
@@ -21,8 +22,16 @@ public class BandsWrapperOffline extends BandsWrapper {
         return DATA_SOURCE_LOCAL;
     }
 
+    public BandsWrapperOffline() {
+        init();
+    }
+
     public BandsWrapperOffline(Activity activity, Context context) {
         super(activity, context);
+        init();
+    }
+
+    private void init(){
         this.bandsList = new ArrayList<>();
         this.bandEntities = new ArrayList<>();
     }
@@ -30,6 +39,7 @@ public class BandsWrapperOffline extends BandsWrapper {
     private void populateData() {
         BandEntity bandEntity;
         bandsList.clear();
+
         for (int i = 0; i < bandEntities.size(); i++) {
             bandEntity = bandEntities.get(i);
             bandsList.add(new Band(
@@ -44,27 +54,42 @@ public class BandsWrapperOffline extends BandsWrapper {
         }
     }
 
-    private void applyData() {
+    private void applyData(int pageNum) {
         page = new Page(
-                1,
+                pageNum,
+                ITEMS_PER_PAGE,
                 bandsList.size(),
-                bandsList.size(),
-                1,
-                bandsList.size(),
+                Misc.calculatePagesCount(dbResultsCount, ITEMS_PER_PAGE),
+                dbResultsCount,
                 bandsList
         );
-        System.out.println(page);
-        update(page);
     }
 
     @Override
     protected void performSearch(String s) {
-        this.bandEntities = BandsDbHelper.findByName(s);
-        populateData();
-        applyData();
+        performNonModifyingSearch(s);
+        handle(page);
     }
 
     @Override
-    protected void loadNextContent() {}
+    protected void loadNextContent() {
+        performNonModifyingSearch(searchString, nextPageToLoad);
+        handle(page);
+    }
 
+    public Page performNonModifyingSearch(String s) {
+        this.dbResultsCount = BandsDbHelper.getCount(s);
+        return performNonModifyingSearch(s, 1);
+    }
+
+    public Page performNonModifyingSearch(String s, int pageNum) {
+        this.bandEntities = BandsDbHelper.findByName(s, ITEMS_PER_PAGE, ITEMS_PER_PAGE*(pageNum-1));
+        populateData();
+        applyData(pageNum);
+        return page;
+    }
+
+    public int getDbResultsCount() {
+        return dbResultsCount;
+    }
 }

@@ -16,6 +16,15 @@ public interface BandEntityDao {
     @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%'")
     List<BandEntity> findByName(String title);
 
+    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%' LIMIT :limit")
+    List<BandEntity> findByName(String title, int limit);
+
+    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%' LIMIT :limit OFFSET :offset")
+    List<BandEntity> findByName(String title, int limit, int offset);
+
+    @Query("SELECT COUNT(*) FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%'")
+    int getCount(String title);
+
     @Query("SELECT * FROM offlineBands")
     List<BandEntity> getAll();
 

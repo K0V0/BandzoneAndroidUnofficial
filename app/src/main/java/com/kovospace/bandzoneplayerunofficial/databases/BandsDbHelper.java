@@ -41,7 +41,19 @@ public class BandsDbHelper extends DbHelper {
         return offlineBandsRoomDatabase.bandEntityDao().findByName(bandName);
     }
 
+    public static List<BandEntity> findByName(String bandName, int limit) {
+        return offlineBandsRoomDatabase.bandEntityDao().findByName(bandName, limit);
+    }
+
+    public static List<BandEntity> findByName(String bandName, int limit, int offset) {
+        return offlineBandsRoomDatabase.bandEntityDao().findByName(bandName, limit, offset);
+    }
+
     public static BandEntity findFirstBySlug(String slug) {
         return offlineBandsRoomDatabase.bandEntityDao().findFirstBySlug(slug).get(0);
+    }
+
+    public static int getCount(String bandName) {
+        return offlineBandsRoomDatabase.bandEntityDao().getCount(bandName);
     }
 }

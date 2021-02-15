@@ -33,6 +33,7 @@ public abstract class BandsWrapper implements DataWrapper {
     protected int itemsOnCurrentPage;
     protected int pages;
     protected int itemsTotal;
+    protected int currentOperation;
     protected List<Band> bands = new ArrayList<>();
 
     protected String searchString;
@@ -75,7 +76,23 @@ public abstract class BandsWrapper implements DataWrapper {
         for (Band neewBand : neew) {
             if (!current.contains(neewBand)) {
                 result.add(neewBand);
+            } else {
+                System.out.println("contains " + neewBand.toString());
             }
+
+        }
+        return result;
+    }
+
+    private List<Band> selectiveSort(List<Band> current, List<Band> neew) {
+        List<Band> result = new ArrayList<>();
+        for (Band neewBand : neew) {
+            if (!current.contains(neewBand)) {
+                result.add(neewBand);
+            } else {
+                System.out.println("contains " + neewBand.toString());
+            }
+
         }
         for (Band ooldBand : current) {
             if (neew.contains(ooldBand)) {
@@ -100,16 +117,22 @@ public abstract class BandsWrapper implements DataWrapper {
     }
 
     private void updateBands(List<Band> bands) {
+        List<Band> tmp = selectiveSort(this.bands, bands);
         this.bands.clear();
-        this.bands.addAll(selectiveAdd(this.bands, bands));
+        this.bands.addAll(tmp);
         this.bandsAdapter.notifyDataSetChanged();
         checkIfNotEmpty();
     }
 
     private void addBands(List<Band> bands) {
-        this.bands.addAll(bands);
+        this.bands.addAll(selectiveAdd(this.bands, bands));
         this.bandsAdapter.notifyItemInserted(this.bands.size() - 1);
         checkIfNotEmpty();
+    }
+
+    private void loadNext() {
+        currentOperation = OPERATION_NEXTPAGE;
+        loadNextContent();
     }
 
     private void checkIfNotEmpty() {
@@ -154,8 +177,21 @@ public abstract class BandsWrapper implements DataWrapper {
         );
     }
 
+    public void handle(Page page) {
+        switch(currentOperation) {
+            case OPERATION_NEXTPAGE:
+                add(page);
+                break;
+            case OPERATION_SEARCH:
+                update(page);
+                break;
+        }
+    }
+
     public void search (String searchString) {
         this.searchString = searchString;
+        this.currentOperation = OPERATION_SEARCH;
+        SearchFieldProgress.start();
         performSearch(this.searchString);
     }
 
@@ -175,7 +211,7 @@ public abstract class BandsWrapper implements DataWrapper {
                     if (nextPageToLoad != 0) {
                         if (!preventMultipleLoads) {
                             preventMultipleLoads = true;
-                            loadNextContent();
+                            loadNext();
                             if (dataSourceType == DATA_SOURCE_INTERNET) {
                                 displayLoadingDialog();
                             }

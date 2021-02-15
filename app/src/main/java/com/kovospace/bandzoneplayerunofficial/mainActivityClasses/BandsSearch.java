@@ -4,7 +4,6 @@ import android.content.Context;
 import com.kovospace.bandzoneplayerunofficial.BandsActivity;
 import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.OnFinishTypingHelper;
-import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
 
 public class BandsSearch extends OnFinishTypingHelper {
 
@@ -18,7 +17,6 @@ public class BandsSearch extends OnFinishTypingHelper {
         this.bandsActivity = bandsActivity;
         this.context = context;
         this.conectionTester = new Connection(this.context);
-        SearchFieldProgress.init(this.context);
         search("");
     }
 
@@ -34,10 +32,7 @@ public class BandsSearch extends OnFinishTypingHelper {
     }
 
     private void search(String search) {
-        SearchFieldProgress.start();
         decideWrapperOnConnection();
-        // ^ dat do nejakeho eventu po zmene siete, debilne riesenie toto, blbnu toast messages
-        // OK RESOLVED
         bandsWrapper.search(search);
     }
 

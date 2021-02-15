@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kovospace.bandzoneplayerunofficial.BandsActivity;
 import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.JsonRequest;
+import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Page;
 import org.json.JSONArray;
@@ -17,20 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BandsWrapperNet extends BandsWrapper {
-    private final int OPERATION_NEXTPAGE = 2;
-    private final int OPERATION_SEARCH = 1;
     private final String QUERY_URL = "http://172.104.155.216:3030/search/bands?q=";
-    private final int ITEMS_PER_PAGE = 20;
-    private int operation;
     private BandsJsonRequest bandsJsonRequest;
     private String query;
     private Page page;
+    private Page offlinePage;
     private Connection connectionTester;
+    private BandsWrapperOffline bandsWrapperOffline;
 
     public BandsWrapperNet(BandsActivity bandsActivity, Context context, Connection testConnection) {
         super(bandsActivity, context);
         connectionTester = testConnection;
         bandsJsonRequest = new BandsJsonRequest(activity);
+        bandsWrapperOffline = new BandsWrapperOffline();
+        SearchFieldProgress.init(this.context);
     }
 
     public class BandsJsonRequest extends JsonRequest {
@@ -50,22 +51,18 @@ public class BandsWrapperNet extends BandsWrapper {
                 pageData = responseData.getJSONObject("table");
                 bandsJsonArrray = pageData.getJSONArray("data");
                 bandsList = gson.fromJson(String.valueOf(bandsJsonArrray), bandsListType);
-                page = new Page(
-                        pageData.getInt("current_page"),
-                        ITEMS_PER_PAGE,
-                        pageData.getInt("items_current_page"),
-                        pageData.getInt("pages_count"),
-                        pageData.getInt("items_total"),
-                        bandsList
-                );
-                switch(operation) {
-                    case OPERATION_NEXTPAGE:
-                        add(page);
-                        break;
-                    case OPERATION_SEARCH:
-                        update(page);
-                        break;
+                if (bandsList.size() > 0) {
+                    page = new Page(
+                            currentPage + 1,
+                            ITEMS_PER_PAGE,
+                            pageData.getInt("items_current_page"),
+                            pageData.getInt("pages_count") + offlinePage.getPages(),
+                            pageData.getInt("items_total") + offlinePage.getItemsTotal(),
+                            bandsList
+                    );
+                    add(page);
                 }
+                SearchFieldProgress.stop();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -74,8 +71,12 @@ public class BandsWrapperNet extends BandsWrapper {
 
     @Override
     protected void performSearch(String s) {
-        operation = OPERATION_SEARCH;
-        bandsJsonRequest.fetch(QUERY_URL + s);
+        offlinePage = bandsWrapperOffline.performNonModifyingSearch(s);
+        handle(offlinePage);
+        SearchFieldProgress.start();
+        if (offlinePage.getItemsOnCurrentPage() < bandsWrapperOffline.ITEMS_PER_PAGE) {
+            bandsJsonRequest.fetch(QUERY_URL + s);
+        }
     }
 
     @Override
@@ -94,9 +95,16 @@ public class BandsWrapperNet extends BandsWrapper {
     }
 
     private void doLoad() {
-        operation = OPERATION_NEXTPAGE;
-        query = QUERY_URL + searchString + "&p=" + nextPageToLoad;
-        bandsJsonRequest.fetch(query);
+        offlinePage = bandsWrapperOffline.performNonModifyingSearch(searchString, nextPageToLoad);
+        if (offlinePage.getItemsOnCurrentPage() == bandsWrapperOffline.ITEMS_PER_PAGE) {
+            handle(offlinePage);
+        } else {
+            if (offlinePage.getItemsOnCurrentPage() > 0) {
+                handle(offlinePage);
+            }
+            query = QUERY_URL + searchString + "&p=" + (nextPageToLoad - offlinePage.getPages());
+            bandsJsonRequest.fetch(query);
+        }
     }
 
     @Override

@@ -80,6 +80,11 @@ public class Band implements BandProfileItem {
 
     @Override
     public boolean contains(BandProfileItem o) {
+        return this.equals(o);
+    }
+
+    @Override
+    public boolean equals(Object o) {
         return this.slug.equals(((Band) o).getSlug());
     }
 
