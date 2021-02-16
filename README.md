@@ -17,15 +17,17 @@
 | 22-jan-2021 | player synchronized with UI ~~except case when You get out of band profile and back - but solution proposed~~, resolve recyclerView artifacts |
 | 23-jan-2021 | pause and rewind and progressbar working now, get sober, 3.6 promile for me not terrible but for app not great |
 | 24-jan-2021 | UI animations, bugs, icons and look, no band found text, moving player loading to background thread |
-| 01-feb-2020 | Resolving deprecation warnings, design of player widget |
-| 04-feb-2020 | Give "life" to player widget (player in bands list) |
-| 05-feb-2020 | Resolved bug app not loading content on newer androids, adding time informations to player(s) |
-| 08-feb-2020 | UI changes, click listeners on player, started studying android storage and implementing file download |
-| 09-feb-2020 | File downloading and removing implemented, playing downloaded files from mem implemented, started studying and implementing SQL database, very basic core functionality implemented |
-| 10-feb-2020 | Caching (saving) of images of visited band profile, basic operations on databases done (adding band profile if at least one track downloaded, removing if all downloads deleted) |
-| 11-feb-2020 | Started implementing adapters for running app from local dbs and stored files, tried to offload recycler views from unnecessary ofline assets chekcs |
-| 13-feb-2020 | Offline mode fully implemented, implemented changing mode based on phone connection state, 0.3-a release |
-| 14-feb-2020 | Added network mode signalizator |
+| 01-feb-2021 | Resolving deprecation warnings, design of player widget |
+| 04-feb-2021 | Give "life" to player widget (player in bands list) |
+| 05-feb-2021 | Resolved bug app not loading content on newer androids, adding time informations to player(s) |
+| 08-feb-2021 | UI changes, click listeners on player, started studying android storage and implementing file download |
+| 09-feb-2021 | File downloading and removing implemented, playing downloaded files from mem implemented, started studying and implementing SQL database, very basic core functionality implemented |
+| 10-feb-2021 | Caching (saving) of images of visited band profile, basic operations on databases done (adding band profile if at least one track downloaded, removing if all downloads deleted) |
+| 11-feb-2021 | Started implementing adapters for running app from local dbs and stored files, tried to offload recycler views from unnecessary ofline assets chekcs |
+| 13-feb-2021 | Offline mode fully implemented, implemented changing mode based on phone connection state, 0.3-a release |
+| 14-feb-2021 | Added network mode signalizator, do not remember more |
+| 15-feb-2021 | Added icon showing that band has some tracks for offline usage, ordering these bands as first, removing broadcasts recievers that causes bands activity to reload when coming back from band profile |
+
 
 ## TODO, ideas
 
@@ -61,11 +63,12 @@
 - [x] [IMPORTANT] in offline mode, grey out and remove click listeners on tracks that has not been downloaded  
 - [x] ^ change download icon on that tracks to something that will inform user that he must download it first when online  
 - [x] [SERIOUS] when going into band profile in offline mode, something black occupy half of the screen until track played, then content jumps  
-- [x] [IMPORTANT] reload activities when connection on phone changed
-- [x] bug somewhere in db queries, removein all downloaded songs but band remains there
-- [x] sometimes when turning off data and paused player in band profile does not dissapear from not downloaded track
-- [x] maybe add bands that have downloaded tracks as first when app opened/searchfiled cleared
-- [x] [SERIOUS] bug resuming band profile activity while playing track - player missing, if clicked, app crashes
+- [x] [IMPORTANT] reload activities when connection on phone changed  
+- [x] bug somewhere in db queries, removein all downloaded songs but band remains there  
+- [x] sometimes when turning off data and paused player in band profile does not dissapear from not downloaded track  
+- [x] maybe add bands that have downloaded tracks as first when app opened/searchfiled cleared  
+- [x] [SERIOUS] bug resuming band profile activity while playing track - player missing, if clicked, app crashes  
+- [x] [IMPORTANT] coming back from band prifile gives you at the start of list, something forces activity restart
 
 ## Devices tested & issues
 

@@ -48,4 +48,8 @@ public class BandsSearch extends OnFinishTypingHelper {
         search("");
     }
 
+    public void onResumeChecks() {
+        bandsWrapper.onResumeChecks();
+    }
+
 }

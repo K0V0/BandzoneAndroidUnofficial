@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
+import com.kovospace.bandzoneplayerunofficial.helpers.Settings;
 import com.kovospace.bandzoneplayerunofficial.helpers.ToastMessage;
 import com.kovospace.bandzoneplayerunofficial.interfaces.DataWrapper;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
@@ -56,7 +57,7 @@ public abstract class BandsWrapper implements DataWrapper {
         this.toastMessage = new ToastMessage(context);
         this.noBandsText = activity.findViewById(R.id.noBandsText);
         this.dataSourceType = setDataSourceType();
-        SearchFieldProgress.init(this.context);
+        //SearchFieldProgress.init(this.context);
         afterConstruction();
     }
 
@@ -71,17 +72,17 @@ public abstract class BandsWrapper implements DataWrapper {
         }
     }
 
-    private List<Band> selectiveAdd(List<Band> current, List<Band> neew) {
+    private void selectiveAdd(List<Band> current, List<Band> neew) {
         List<Band> result = new ArrayList<>();
         for (Band neewBand : neew) {
             if (!current.contains(neewBand)) {
                 result.add(neewBand);
             }
         }
-        return result;
+        this.bands.addAll(result);
     }
 
-    private List<Band> selectiveSort(List<Band> current, List<Band> neew) {
+    private void selectiveSort(List<Band> current, List<Band> neew) {
         List<Band> result = new ArrayList<>();
         for (Band neewBand : neew) {
             if (!current.contains(neewBand)) {
@@ -93,7 +94,8 @@ public abstract class BandsWrapper implements DataWrapper {
                 result.add(ooldBand);
             }
         }
-        return result;
+        this.bands.clear();
+        this.bands.addAll(result);
     }
 
     private void updateData(Page page) {
@@ -107,21 +109,19 @@ public abstract class BandsWrapper implements DataWrapper {
         if (dataSourceType == DATA_SOURCE_INTERNET) {
             removeLoadingDialog();
         }
-        SearchFieldProgress.stop();
+        //SearchFieldProgress.stop();
     }
 
     private void updateBands(List<Band> bands) {
-        List<Band> tmp = selectiveSort(this.bands, bands);
-        this.bands.clear();
-        this.bands.addAll(tmp);
+        selectiveSort(this.bands, bands);
         this.bandsAdapter.notifyDataSetChanged();
         checkIfNotEmpty();
     }
 
     private void addBands(List<Band> bands) {
-        this.bands.addAll(selectiveAdd(this.bands, bands));
+        selectiveAdd(this.bands, bands);
         //this.bandsAdapter.notifyItemInserted(this.bands.size() - 1);
-        this.bandsAdapter.notifyDataSetChanged();
+        this.bandsAdapter.notifyDataSetChanged(); // islo ok notify inset blblo
         checkIfNotEmpty();
     }
 
@@ -170,6 +170,26 @@ public abstract class BandsWrapper implements DataWrapper {
         addBands(
                 insertLocalImagePath(page.getBands())
         );
+    }
+
+    public void onResumeChecks() {
+        String bandAllDownloadsRemoved = Settings.getBandsDownloadsRemoved();
+        String bandDownloadDone = Settings.getBandThatTriggeredDownload();
+        String bandSlug;
+
+        for (int i = 0; i < this.bands.size(); i++) {
+            bandSlug = this.bands.get(i).getSlug();
+            if (bandSlug.equals(bandAllDownloadsRemoved)) {
+                this.bands.get(i).setFromDb(false);
+                this.bandsAdapter.notifyItemChanged(i);
+                Settings.removeBandDowloadsRemoved();
+            }
+            if (bandSlug.equals(bandDownloadDone)) {
+                this.bands.get(i).setFromDb(true);
+                this.bandsAdapter.notifyItemChanged(i);
+                Settings.removeBandTrackDownloadTrigger();
+            }
+        }
     }
 
     public void handle(Page page) {

@@ -76,6 +76,8 @@ public class BandsWrapperNet extends BandsWrapper {
         SearchFieldProgress.start();
         if (offlinePage.getItemsOnCurrentPage() < bandsWrapperOffline.ITEMS_PER_PAGE) {
             bandsJsonRequest.fetch(QUERY_URL + s);
+        } else {
+            SearchFieldProgress.stop();
         }
     }
 

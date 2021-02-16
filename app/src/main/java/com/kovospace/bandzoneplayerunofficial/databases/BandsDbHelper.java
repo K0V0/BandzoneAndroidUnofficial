@@ -53,6 +53,13 @@ public class BandsDbHelper extends DbHelper {
         return offlineBandsRoomDatabase.bandEntityDao().findFirstBySlug(slug).get(0);
     }
 
+    public static boolean exist(String slug) {
+        if (offlineBandsRoomDatabase.bandEntityDao().findFirstBySlug(slug) == null) {
+            return false;
+        }
+        return true;
+    }
+
     public static int getCount(String bandName) {
         return offlineBandsRoomDatabase.bandEntityDao().getCount(bandName);
     }

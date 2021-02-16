@@ -15,7 +15,7 @@ public class SongsActivity extends Activity {
     @Override
     protected void onNetworkChanged() {
         if (connectionTest.isConnectionChanged()) {
-            loadSongs(this);
+            loadSongs(this.context);
         }
     }
 
@@ -31,7 +31,6 @@ public class SongsActivity extends Activity {
 
     protected void onResume() {
         super.onResume();
-        //loadSongs(this);
     }
 
     private void loadSongs(Context context) {

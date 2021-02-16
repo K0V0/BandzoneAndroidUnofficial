@@ -39,6 +39,7 @@ import com.downloader.PRDownloader;
 import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.databases.DbHelper;
 import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
+import com.kovospace.bandzoneplayerunofficial.helpers.Settings;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
@@ -94,6 +95,8 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ProgressBar downloadLoading = view.findViewById(R.id.downloadLoading);
         ImageButton downloadButton = view.findViewById(R.id.downloadButton);
         if (!mp3File.fileExists(track.getTrackFullLocalPath())) {
+            Settings.triggerBandTrackDowloaded((Band) listRecyclerItem.get(0));
+            // ^ pozor do buducnosti, non-track contentu moze pribudnut, info o kapele nemusi byt na poz 0
             PRDownloader.download(
                     track.getHref(),
                     mp3File.getWorkingDirectoryPath() + "/" + track.getBandSlug(),

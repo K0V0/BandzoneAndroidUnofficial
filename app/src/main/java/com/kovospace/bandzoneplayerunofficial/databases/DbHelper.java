@@ -1,11 +1,10 @@
 package com.kovospace.bandzoneplayerunofficial.databases;
 
 import android.content.Context;
-import com.kovospace.bandzoneplayerunofficial.eventBus.ReloadBandsList;
+import com.kovospace.bandzoneplayerunofficial.helpers.Settings;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -21,6 +20,8 @@ public abstract class DbHelper {
     }
 
     public static void rememberBandAndTracksForOffline(List<BandProfileItem> bandProfileItem) {
+        System.out.println("----------");
+        System.out.println(" remembed downloaded ide");
         boolean downloadedAtLeastOne = false;
         Band band = (Band) bandProfileItem.get(0);
 
@@ -38,7 +39,7 @@ public abstract class DbHelper {
         } else {
             BandsDbHelper.delete(band.getSlug());
             TracksDbHelper.removeBandTracks(band);
-            EventBus.getDefault().postSticky(new ReloadBandsList(true));
+            Settings.sendBandDowloadsRemoved(band);
         }
         // ^ do buducnosti rerobit, v niektorom vyuziti
         // tohoto adaptera bude moct byt viac kapiel mozno / nemusi byt pozicia 0

@@ -3,6 +3,7 @@ package com.kovospace.bandzoneplayerunofficial.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import com.kovospace.bandzoneplayerunofficial.objects.Band;
 
 public class Settings {
     protected static Context context;
@@ -15,16 +16,6 @@ public class Settings {
         editor = prefs.edit();
     }
 
-    // status by conditions (wifi/data on/off on phone)
-    /*public static void setConnectionStatus(boolean status) {
-        editor.putBoolean("connectionStatus", status);
-        editor.commit();
-    }
-
-    public static boolean getConnectionStatus() {
-        return prefs.getBoolean("connectionStatus", false);
-    }*/
-
     // allowance by user in app
     public static void setAllowConnection(boolean status) {
         editor.putBoolean("allowConnection", status);
@@ -34,4 +25,33 @@ public class Settings {
     public static boolean getAllowConnection() {
         return prefs.getBoolean("allowConnection", true);
     }
+
+    public static void sendBandDowloadsRemoved(Band band) {
+        editor.putString("bandWithDownloadsRemoved", band.getSlug());
+        editor.commit();
+    }
+
+    public static String getBandsDownloadsRemoved() {
+        return prefs.getString("bandWithDownloadsRemoved", "");
+    }
+
+    public static void removeBandDowloadsRemoved() {
+        editor.putString("bandWithDownloadsRemoved", "");
+        editor.commit();
+    }
+
+    public static void triggerBandTrackDowloaded(Band band) {
+        editor.putString("bandTriggersDownload", band.getSlug());
+        editor.commit();
+    }
+
+    public static String getBandThatTriggeredDownload() {
+        return prefs.getString("bandTriggersDownload", "");
+    }
+
+    public static void removeBandTrackDownloadTrigger() {
+        editor.putString("bandTriggersDownload", "");
+        editor.commit();
+    }
+
 }
