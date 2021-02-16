@@ -1,6 +1,7 @@
 package com.kovospace.bandzoneplayerunofficial.mainActivityClasses;
 
 import android.content.Context;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,11 +16,13 @@ public class PopupMenuMain implements View.OnClickListener {
     private Context context;
     private ImageButton networkStatusButton;
     private PopupMenu popupMenu;
+    private Context wrapper;
 
     public PopupMenuMain(Context context) {
         this.context = context;
         this.networkStatusButton = ((Activity) context).findViewById(R.id.networkStatusButton);
-        popupMenu = new android.widget.PopupMenu(context, networkStatusButton);
+        wrapper = new ContextThemeWrapper(context, R.style.MyPopupStyle);
+        popupMenu = new android.widget.PopupMenu(wrapper, networkStatusButton);
         popupMenu.getMenuInflater()
                 .inflate(R.menu.popup_main_setings, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenuListener());

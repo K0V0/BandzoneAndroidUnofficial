@@ -7,4 +7,16 @@
         <item name="colorAccent">#ffc107</item>
     </style>
 
+    <!-- Popup Style -->
+    <style name="MyPopupStyle" parent="Widget.AppCompat.PopupMenu">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#ffc107</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#eeeeee</item>
+        <!-- Used for the background -->
+        <item name="android:background">@android:color/black</item>
+        <item name="colorControlNormal">#eeeeee</item>
+        <item name="colorControlActivated">#ffc107</item>
+    </style>
+
 </resources>

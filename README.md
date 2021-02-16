@@ -27,6 +27,7 @@
 | 13-feb-2021 | Offline mode fully implemented, implemented changing mode based on phone connection state, 0.3-a release |
 | 14-feb-2021 | Added network mode signalizator, do not remember more |
 | 15-feb-2021 | Added icon showing that band has some tracks for offline usage, ordering these bands as first, removing broadcasts recievers that causes bands activity to reload when coming back from band profile |
+| 16-feb-2021 | Adding popup menu, for now with only one function to toggle player into offline mode |
 
 
 ## TODO, ideas
