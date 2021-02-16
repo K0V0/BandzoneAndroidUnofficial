@@ -52,10 +52,10 @@
 - [ ] provide actual screenshots  
 - [ ] lockscreen player widget  
 - [ ] notification area player widget  
-- [ ] text on widget in bands list not changeing when song changed automatically  
+- [x] text on widget in bands list not changeing when song changed automatically  
 - [x] change click listeners on track - missclick on free space in player causes track play again  
 - [x] ability to download tracks and in gerenal ability to run offline with downloaded content - bands info and tracklist must be downloaded if at least one track is downloaded from band  
-- [ ] add incremental loading (pagination) for offline bands too (if for example 1000 results is issue for recycler view and sqlite, do research)  
+- [x] add incremental loading (pagination) for offline bands too (if for example 1000 results is issue for recycler view and sqlite, do research)  
 - [x] reload bands activity on step back if connection changed during time spent inside band profile  
 - [x] when playback paused in bands list and back into band profile or opposite, player state (in bands list) or player at all (in band profile) not restored  
 - [x] add icon next to searchfield (in lace when loading wheel occurs) in bands list signalizing player mode (offline/online)  
