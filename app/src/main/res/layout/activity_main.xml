@@ -34,7 +34,8 @@
                         android:layout_height="48dp" app:srcCompat="@mipmap/no_net_foreground"
                         android:id="@+id/networkStatusButton" android:scaleType="fitCenter"
                         android:cropToPadding="false" android:adjustViewBounds="true"
-                        android:background="@mipmap/no_net_background" android:visibility="invisible"/>
+                        android:background="@mipmap/no_net_background" android:visibility="invisible"
+                />
                 <ProgressBar
                         style="?android:attr/progressBarStyle"
                         android:layout_width="32dp"

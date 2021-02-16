@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+            android:id="@+id/offlineMode"
+            android:title="Režim offline" android:checkable="true" android:icon="@mipmap/no_net_foreground"
+            android:actionLayout="@layout/activity_main"/>
+
+</menu>

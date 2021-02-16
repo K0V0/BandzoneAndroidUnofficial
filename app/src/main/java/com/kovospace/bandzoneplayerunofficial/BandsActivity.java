@@ -29,13 +29,16 @@ public class BandsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        networkStatusButton = findViewById(R.id.networkStatusButton);
-        updateNetworkStatusIcon();
-
         bandSearchField = findViewById(R.id.bandInput);
         bandsSearch = new BandsSearch(BandsActivity.this, this);
         bandSearchField.addTextChangedListener(
                 bandsSearch.watchText()
+        );
+
+        networkStatusButton = findViewById(R.id.networkStatusButton);
+        updateNetworkStatusIcon();
+        networkStatusButton.setOnClickListener(
+                new com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PopupMenu(this)
         );
 
         playerWidget = new PlayerWidget(this);
