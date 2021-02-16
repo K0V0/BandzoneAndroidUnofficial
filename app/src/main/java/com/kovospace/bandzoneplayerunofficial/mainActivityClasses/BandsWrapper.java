@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.kovospace.bandzoneplayerunofficial.R;
-import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
 import com.kovospace.bandzoneplayerunofficial.helpers.Settings;
 import com.kovospace.bandzoneplayerunofficial.helpers.ToastMessage;
 import com.kovospace.bandzoneplayerunofficial.interfaces.DataWrapper;
@@ -57,7 +56,6 @@ public abstract class BandsWrapper implements DataWrapper {
         this.toastMessage = new ToastMessage(context);
         this.noBandsText = activity.findViewById(R.id.noBandsText);
         this.dataSourceType = setDataSourceType();
-        //SearchFieldProgress.init(this.context);
         afterConstruction();
     }
 
@@ -109,7 +107,6 @@ public abstract class BandsWrapper implements DataWrapper {
         if (dataSourceType == DATA_SOURCE_INTERNET) {
             removeLoadingDialog();
         }
-        //SearchFieldProgress.stop();
     }
 
     private void updateBands(List<Band> bands) {
@@ -206,7 +203,6 @@ public abstract class BandsWrapper implements DataWrapper {
     public void search (String searchString) {
         this.searchString = searchString;
         this.currentOperation = OPERATION_SEARCH;
-        SearchFieldProgress.start();
         performSearch(this.searchString);
     }
 

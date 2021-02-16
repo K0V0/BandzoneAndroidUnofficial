@@ -40,7 +40,7 @@
                         style="?android:attr/progressBarStyle"
                         android:layout_width="32dp"
                         android:layout_height="match_parent"
-                        android:id="@+id/loadingSearch"/>
+                        android:id="@+id/loadingSearch" android:visibility="invisible"/>
             </FrameLayout>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView

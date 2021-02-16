@@ -24,6 +24,7 @@ public class SearchFieldProgress {
         spinWheelContainer = ((Activity) context).findViewById(R.id.placeForSearchStatusIcon);
         spinWheel = spinWheelContainer.findViewById(R.id.loadingSearch);
         networkStatus = spinWheelContainer.findViewById(R.id.networkStatusButton);
+        networkStatus.setVisibility(View.VISIBLE);
     }
 
     public static void start() {

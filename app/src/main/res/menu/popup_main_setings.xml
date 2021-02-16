@@ -2,7 +2,7 @@
 
     <item
             android:id="@+id/offlineMode"
-            android:title="Režim offline" android:checkable="true" android:icon="@mipmap/no_net_foreground"
+            android:title="@string/force_offline_mode" android:checkable="true" android:icon="@mipmap/no_net_foreground"
             android:actionLayout="@layout/activity_main"/>
 
 </menu>

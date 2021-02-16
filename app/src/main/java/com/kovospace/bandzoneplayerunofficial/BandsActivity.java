@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PlayerWidget;
+import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PopupMenuMain;
 
 
 public class BandsActivity extends Activity {
@@ -35,10 +37,11 @@ public class BandsActivity extends Activity {
                 bandsSearch.watchText()
         );
 
+        SearchFieldProgress.init(this);
         networkStatusButton = findViewById(R.id.networkStatusButton);
         updateNetworkStatusIcon();
         networkStatusButton.setOnClickListener(
-                new com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PopupMenu(this)
+                new PopupMenuMain(this)
         );
 
         playerWidget = new PlayerWidget(this);
@@ -63,7 +66,7 @@ public class BandsActivity extends Activity {
         }
     }
 
-    private void refreshActivity() {
+    public void refreshActivity() {
         Intent intent = new Intent(this, BandsActivity.class);
         startActivity(intent);
         finish();
