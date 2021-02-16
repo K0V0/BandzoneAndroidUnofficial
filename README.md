@@ -59,8 +59,8 @@
 - [x] reload bands activity on step back if connection changed during time spent inside band profile  
 - [x] when playback paused in bands list and back into band profile or opposite, player state (in bands list) or player at all (in band profile) not restored  
 - [x] add icon next to searchfield (in lace when loading wheel occurs) in bands list signalizing player mode (offline/online)  
-- [ ] ^ use that icon as basic settings menu to toggle player mode by user  
-- [ ] ^ in that menu, give user the possibility to work in offline mode even if data on (architecture done, just do menu)  
+- [x] ^ use that icon to toggle basic settings menu  
+- [x] ^ in that menu, give user the possibility to work in offline mode even if data on (architecture done, just do menu)  
 - [x] [IMPORTANT] in offline mode, grey out and remove click listeners on tracks that has not been downloaded  
 - [x] ^ change download icon on that tracks to something that will inform user that he must download it first when online  
 - [x] [SERIOUS] when going into band profile in offline mode, something black occupy half of the screen until track played, then content jumps  
@@ -69,7 +69,8 @@
 - [x] sometimes when turning off data and paused player in band profile does not dissapear from not downloaded track  
 - [x] maybe add bands that have downloaded tracks as first when app opened/searchfiled cleared  
 - [x] [SERIOUS] bug resuming band profile activity while playing track - player missing, if clicked, app crashes  
-- [x] [IMPORTANT] coming back from band prifile gives you at the start of list, something forces activity restart
+- [x] [IMPORTANT] coming back from band profile gives you at the start of list, something forces activity restart  
+- [ ] performace during scrolling list first time, maybe glide library issue for loading files stored offline  
 
 ## Devices tested & issues
 
