@@ -1,0 +1,65 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.kovospace.bandzoneplayerunofficial"
+4    android:versionCode="6"
+5    android:versionName="0.4-alpha" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="30" />
+9-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+11-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:5:5-78
+11-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:5:22-76
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:6:5-66
+12-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:6:22-64
+13    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+13-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:7:5-81
+13-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:7:22-78
+14
+15    <application
+15-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:9:5-31:19
+16        android:name="com.kovospace.bandzoneplayerunofficial.Main"
+16-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:10:13-71
+17        android:allowBackup="true"
+17-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:11:13-39
+18        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+18-->[androidx.core:core:1.3.1] /home/matej/.gradle/caches/transforms-2/files-2.1/395caf503a19363977c06465a7c114a5/core-1.3.1/AndroidManifest.xml:24:18-86
+19        android:icon="@mipmap/ic_launcher"
+19-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:12:13-47
+20        android:label="@string/app_name"
+20-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:13:13-45
+21        android:networkSecurityConfig="@xml/network_security_config"
+21-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:18:13-73
+22        android:roundIcon="@mipmap/ic_launcher_round"
+22-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:14:13-58
+23        android:supportsRtl="true"
+23-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:15:13-39
+24        android:theme="@style/AppTheme"
+24-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:16:13-44
+25        android:usesCleartextTraffic="true" >
+25-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:17:13-48
+26        <activity android:name="com.kovospace.bandzoneplayerunofficial.SongsActivity" >
+26-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:20:9-21:20
+26-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:20:19-48
+27        </activity>
+28        <activity android:name="com.kovospace.bandzoneplayerunofficial.BandsActivity" >
+28-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:23:9-29:20
+28-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:23:19-48
+29            <intent-filter>
+29-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:24:13-28:29
+30                <action android:name="android.intent.action.MAIN" />
+30-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:25:17-68
+30-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:25:25-66
+31
+32                <category android:name="android.intent.category.LAUNCHER" />
+32-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:27:17-76
+32-->/home/matej/GitHub/BandzoneAndroid/app/src/main/AndroidManifest.xml:27:27-74
+33            </intent-filter>
+34        </activity>
+35    </application>
+36
+37</manifest>

@@ -1,0 +1,4 @@
+#Tue Feb 16 17:53:03 CET 2021
+base.0=/home/matej/GitHub/BandzoneAndroid/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
