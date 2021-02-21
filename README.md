@@ -1,8 +1,6 @@
 # BandzoneAndroidUnofficial
 
-<img src="https://github.com/K0V0/BandzoneAndroidUnofficial/blob/obrazky/01-small.png?raw=true" width=256 >
-<img src="https://github.com/K0V0/BandzoneAndroidUnofficial/blob/obrazky/02-small.png?raw=true" width=256 >
-<img src="https://github.com/K0V0/BandzoneAndroidUnofficial/blob/obrazky/03-small.png?raw=true" width=256 >
+<img src="https://github.com/K0V0/BandzoneAndroidUnofficial/blob/obrazky/01-small.png?raw=true" width=256 ><img src="https://github.com/K0V0/BandzoneAndroidUnofficial/blob/obrazky/02-small.png?raw=true" width=256 ><img src="https://github.com/K0V0/BandzoneAndroidUnofficial/blob/obrazky/03-small.png?raw=true" width=256 >
 <br>
 <img src="https://github.com/K0V0/BandzoneAndroidUnofficial/blob/obrazky/04-small.png?raw=true" width=256 >
 <img src="https://github.com/K0V0/BandzoneAndroidUnofficial/blob/obrazky/05-small.png?raw=true" width=256 >
