@@ -54,7 +54,7 @@
 - [x] [SERIOUS] on newer androids, content fetching not working 
 - [ ] develop some mechanism to try to repeat lost request  
 - [ ] [SERIOUS] Bandzone.cz has maintenance shutdown from 3:00 to 3:30 am, track this event, if I cannot do anything with it at least inform user about it.  
-- [ ] provide actual screenshots  
+- [x] provide actual screenshots  
 - [ ] lockscreen player widget  
 - [ ] notification area player widget  
 - [x] text on widget in bands list not changeing when song changed automatically  
@@ -76,6 +76,13 @@
 - [x] [SERIOUS] bug resuming band profile activity while playing track - player missing, if clicked, app crashes  
 - [x] [IMPORTANT] coming back from band profile gives you at the start of list, something forces activity restart  
 - [ ] performace during scrolling list first time, maybe glide library issue for loading files stored offline  
+- [ ] [IMPORTANT] app loses connection and play only saved tracks after some time when phone screen off
+- [ ] [IMPORTANT] times on some tracks inaccurate (10-20x times, see band "Container")
+- [ ] set alphabetical ordering of saved bands
+- [ ] when changing mode from offline or vice versa and reloading activity, searcfield content deleted if something there
+- [ ] check the possibility to add next/previous band to player widget in bands list
+- [ ] ^ add as setting(s) if repeat band tracks, stop playing, play next band
+
 
 ## Devices tested & issues
 
