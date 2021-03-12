@@ -164,8 +164,13 @@ public class Player {
     }
 
     private static void runSeekbar() {
-        progressBar.setMax(Player.getDuration());
-        totalTime.setText(PlayerHelper.milisecondsToHuman(mediaPlayer.getDuration()));
+        if (currentTrack.isAvailableOffline()) {
+            progressBar.setMax(Player.getDuration());
+            totalTime.setText(PlayerHelper.milisecondsToHuman(mediaPlayer.getDuration()));
+        } else {
+            progressBar.setMax((int) currentTrack.getDurationMilisecs());
+            totalTime.setText(currentTrack.getDuration());
+        }
         ((Activity) context).runOnUiThread(seekBarRunnable);
     }
 

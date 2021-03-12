@@ -30,12 +30,16 @@ public class Track implements BandProfileItem {
         this.href = href;
         this.href_hash = href_hash;
         this.duration = duration;
-        this.durationMilisecs = durationToMilisec(duration);
+        this.durationMilisecs = durationToMilisec();
+    }
+
+    private long durationToMilisec() {
+        return durationToMilisec(this.duration);
     }
 
     private long durationToMilisec(String duration) {
         long result = 0;
-        String[] parts = duration.split(":",0);
+        String[] parts = duration.split("\\:",0);
         for (int i = 0; i < parts.length - 1; i++) {
             result += (long) Integer.parseInt(parts[i]) * Math.pow(60, parts.length-i-1) * 1000;
         }
@@ -91,8 +95,6 @@ public class Track implements BandProfileItem {
         this.playing = playing;
     }
 
-
-
     public String getBandName() {
         return bandName;
     }
@@ -119,6 +121,10 @@ public class Track implements BandProfileItem {
 
     public void setTrackFullLocalPath(Mp3File mp3File) {
         this.trackFullLocalPath = mp3File.getWorkingDirectoryPath() + "/" + bandSlug + "/" + title + ".mp3";
+    }
+
+    public void convertDuration() {
+        this.durationMilisecs = durationToMilisec();
     }
 
     public boolean hasOfflineCopy() {

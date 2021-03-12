@@ -1,6 +1,5 @@
 package com.kovospace.bandzoneplayerunofficial.helpers;
 
-import android.content.Context;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;

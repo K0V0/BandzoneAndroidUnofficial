@@ -33,6 +33,7 @@
 | 14-feb-2021 | Added network mode signalizator, do not remember more |
 | 15-feb-2021 | Added icon showing that band has some tracks for offline usage, ordering these bands as first, removing broadcasts recievers that causes bands activity to reload when coming back from band profile |
 | 16-feb-2021 | Adding popup menu, for now with only one function to toggle player into offline mode |
+| 12-mar-2021 | Resolving bug with duration of few online tracks - unsolvable bug in android - getting track duration from provided info from api instead of player.getDuration() |
 
 
 ## TODO, ideas
@@ -77,7 +78,7 @@
 - [x] [IMPORTANT] coming back from band profile gives you at the start of list, something forces activity restart  
 - [ ] performace during scrolling list first time, maybe glide library issue for loading files stored offline  
 - [ ] [IMPORTANT] app loses connection and play only saved tracks after some time when phone screen off
-- [ ] [IMPORTANT] times on some tracks inaccurate (10-20x times, see band "Container")
+- [x] [IMPORTANT] times on some tracks inaccurate (10-20x times, see band "Container")
 - [ ] set alphabetical ordering of saved bands
 - [ ] when changing mode from offline or vice versa and reloading activity, searcfield content deleted if something there
 - [ ] check the possibility to add next/previous band to player widget in bands list
