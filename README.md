@@ -34,6 +34,7 @@
 | 15-feb-2021 | Added icon showing that band has some tracks for offline usage, ordering these bands as first, removing broadcasts recievers that causes bands activity to reload when coming back from band profile |
 | 16-feb-2021 | Adding popup menu, for now with only one function to toggle player into offline mode |
 | 12-mar-2021 | Resolving bug with duration of few online tracks - unsolvable bug in android - getting track duration from provided info from api instead of player.getDuration() |
+| 13-mar-2021 | Resolved bug with disconnection app when phone idle, Alphabetical order of saved bands, preserve text and search when offline mode changed |
 
 
 ## TODO, ideas
