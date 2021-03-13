@@ -20,8 +20,6 @@ public abstract class DbHelper {
     }
 
     public static void rememberBandAndTracksForOffline(List<BandProfileItem> bandProfileItem) {
-        System.out.println("----------");
-        System.out.println(" remembed downloaded ide");
         boolean downloadedAtLeastOne = false;
         Band band = (Band) bandProfileItem.get(0);
 

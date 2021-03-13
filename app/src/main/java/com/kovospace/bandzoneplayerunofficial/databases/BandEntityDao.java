@@ -13,19 +13,19 @@ public interface BandEntityDao {
     @Query("SELECT * FROM offlineBands WHERE bandSlug = :slug LIMIT 1")
     List<BandEntity> findFirstBySlug(String slug);
 
-    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%'")
+    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%' ORDER BY bandTitle")
     List<BandEntity> findByName(String title);
 
-    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%' LIMIT :limit")
+    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%' ORDER BY bandTitle LIMIT :limit")
     List<BandEntity> findByName(String title, int limit);
 
-    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%' LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%' ORDER BY bandTitle LIMIT :limit OFFSET :offset")
     List<BandEntity> findByName(String title, int limit, int offset);
 
     @Query("SELECT COUNT(*) FROM offlineBands WHERE bandTitle LIKE '%' || :title || '%'")
     int getCount(String title);
 
-    @Query("SELECT * FROM offlineBands")
+    @Query("SELECT * FROM offlineBands ORDER BY bandTitle")
     List<BandEntity> getAll();
 
     @Insert

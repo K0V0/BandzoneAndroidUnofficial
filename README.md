@@ -77,12 +77,12 @@
 - [x] [SERIOUS] bug resuming band profile activity while playing track - player missing, if clicked, app crashes  
 - [x] [IMPORTANT] coming back from band profile gives you at the start of list, something forces activity restart  
 - [ ] performace during scrolling list first time, maybe glide library issue for loading files stored offline  
-- [ ] [IMPORTANT] app loses connection and play only saved tracks after some time when phone screen off
-- [x] [IMPORTANT] times on some tracks inaccurate (10-20x times, see band "Container")
-- [ ] set alphabetical ordering of saved bands
-- [ ] when changing mode from offline or vice versa and reloading activity, searcfield content deleted if something there
-- [ ] check the possibility to add next/previous band to player widget in bands list
-- [ ] ^ add as setting(s) if repeat band tracks, stop playing, play next band
+- [x] [IMPORTANT] app loses connection and play only saved tracks after some time when phone screen off  
+- [x] [IMPORTANT] times on some tracks inaccurate (10-20x times, see band "Container")  
+- [x] set alphabetical ordering of saved bands  
+- [x] when changing mode from offline or vice versa and reloading activity, searcfield content deleted if something there  
+- [ ] check the possibility to add next/previous band to player widget in bands list  
+- [ ] ^ add as setting(s) if repeat band tracks, stop playing, play next band  
 
 
 ## Devices tested & issues

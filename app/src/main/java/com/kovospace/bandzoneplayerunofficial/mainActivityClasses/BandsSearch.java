@@ -11,6 +11,7 @@ public class BandsSearch extends OnFinishTypingHelper {
     private BandsWrapper bandsWrapper;
     private Context context;
     private BandsActivity bandsActivity;
+    private boolean pauseSearch;
 
     public BandsSearch(BandsActivity bandsActivity, Context context) {
         super();
@@ -31,21 +32,37 @@ public class BandsSearch extends OnFinishTypingHelper {
         }
     }
 
-    private void search(String search) {
+    public void search(String search) {
         decideWrapperOnConnection();
         bandsWrapper.search(search);
+    }
+
+    public void pauseTextListenerOnce() {
+        this.pauseSearch = true;
+    }
+
+    public void resumeTextListener() {
+        this.pauseSearch = false;
     }
 
     @Override
     public void doStuffNotOften() {
         if (getText().length() > 0) {
-            search(getText());
+            if (!pauseSearch) {
+                search(getText());
+            } else {
+                pauseSearch = false;
+            }
         }
     }
 
     @Override
     public void doStuffOnZero() {
-        search("");
+        if (!pauseSearch) {
+            search("");
+        } else {
+            pauseSearch = false;
+        }
     }
 
     public void onResumeChecks() {
