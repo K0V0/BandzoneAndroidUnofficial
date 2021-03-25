@@ -35,7 +35,7 @@
 | 16-feb-2021 | Adding popup menu, for now with only one function to toggle player into offline mode |
 | 12-mar-2021 | Resolving bug with duration of few online tracks - unsolvable bug in android - getting track duration from provided info from api instead of player.getDuration() |
 | 13-mar-2021 | Resolved bug with disconnection app when phone idle, Alphabetical order of saved bands, preserve text and search when offline mode changed |
-
+| 25-mar-2021 | Probably last release - moving code to another repository for reuse in another project that will include BandZone functionality, changing server and application providing API, added icon to already downloaded tracks in tracklist |
 
 ## TODO, ideas
 
@@ -83,7 +83,8 @@
 - [x] set alphabetical ordering of saved bands  
 - [x] when changing mode from offline or vice versa and reloading activity, searcfield content deleted if something there  
 - [ ] check the possibility to add next/previous band to player widget in bands list  
-- [ ] ^ add as setting(s) if repeat band tracks, stop playing, play next band  
+- [ ] ^ add as setting(s) if repeat band tracks, stop playing, play next band 
+- [x] let user know that track is downloaded and available offline before playing it - add icon to place of play/pause button
 
 
 ## Devices tested & issues

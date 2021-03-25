@@ -47,7 +47,9 @@ public class PlayerAnimations {
                 public void onAnimationStart(Animator animation) {
                     ViewGroup buttonContainer = (ViewGroup) b.getParent();
                     ImageView savedIcon = buttonContainer.findViewById(R.id.trackSaved);
-                    savedIcon.setVisibility(View.INVISIBLE);
+                    if (savedIcon != null) {
+                        savedIcon.setVisibility(View.INVISIBLE);
+                    }
                     b.setVisibility(View.VISIBLE);
                 }
                 @Override
