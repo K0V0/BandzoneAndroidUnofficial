@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class BandWrapperNet extends BandWrapper {
-    private final String QUERY_URL = "http://172.104.155.216:3030/band/";
+    private final String QUERY_URL = "http://172.104.155.216:4000/bandzone/band?q=";
     private BandJsonRequest bandJsonRequest;
 
     public BandWrapperNet(Activity activity, Context context, String extra) {
@@ -42,10 +42,11 @@ public class BandWrapperNet extends BandWrapper {
                 band = new Band(
                         responseData.getString("title"),
                         responseData.getString("city"),
-                        responseData.getString("image_url"),
+                        responseData.getString("imageUrl"),
                         responseData.getString("href"),
                         extra,
-                        responseData.getString("genre")
+                        responseData.getString("genre"),
+                        responseData.getString("platform")
                 );
                 tracksJsonArrray = responseData.getJSONArray("tracks");
                 tracks = gson.fromJson(String.valueOf(tracksJsonArrray), tracksListType);

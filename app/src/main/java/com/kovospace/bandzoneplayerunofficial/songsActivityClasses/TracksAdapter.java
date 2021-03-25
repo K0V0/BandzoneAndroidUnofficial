@@ -111,7 +111,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                         @Override
                         public void onError(Error error) {
-                            System.out.println("----- download error -----");
                         }
                     });
             downloadLoading.animate().alpha(1.0f).setDuration(200);
@@ -143,6 +142,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView totalTime;
         private ImageButton downloadButton;
         private ProgressBar downloadLoading;
+        private ImageView trackSaved;
 
         public TrackViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -152,6 +152,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 album = baseHolder.findViewById(R.id.albumName);
                 pauseButton = baseHolder.findViewById(R.id.pauseButton);
                 trackLoading = baseHolder.findViewById(R.id.trackLoading);
+                trackSaved = baseHolder.findViewById(R.id.trackSaved);
             progressbarHolder = itemView.findViewById(R.id.seekbarHolder);
                 progressBar = progressbarHolder.findViewById(R.id.seekBar);
                 currentTime = progressbarHolder.findViewById(R.id.trackTimeCurrent);
@@ -180,6 +181,9 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onClick(View v) { downloadMP3(view, track); }
                 });
+                if (track.isAvailableOffline()) {
+                    trackSaved.setVisibility(View.VISIBLE);
+                }
             } else {
                 view.setAlpha(0.5f);
             }

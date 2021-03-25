@@ -27,4 +27,5 @@
     <string name="play_pause">play, pause</string>
     <string name="remove_downloaded_track">Remove downloaded track</string>
     <string name="force_offline_mode">Vynútiť režim offline</string>
+    <string name="track_is_saved">track is saved</string>
 </resources>

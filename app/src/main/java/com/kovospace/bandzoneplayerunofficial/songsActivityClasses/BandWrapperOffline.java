@@ -39,7 +39,8 @@ public class BandWrapperOffline extends BandWrapper {
                 bandEntity.getImage_url(),
                 bandEntity.getHref(),
                 extra,
-                bandEntity.getGenre()
+                bandEntity.getGenre(),
+                "bandzone"
         );
         for (TrackEntity e : trackEntities) {
             tracks.add(new Track(

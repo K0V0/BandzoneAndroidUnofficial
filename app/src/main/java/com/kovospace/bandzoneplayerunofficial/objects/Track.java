@@ -6,12 +6,12 @@ import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.Mp3File;
 import java.io.File;
 
 public class Track implements BandProfileItem {
-    private String full_title;
+    private String fullTitle;
     private String title;
     private String album;
-    private int plays_count;
+    private int playsCount;
     private String href;
-    private String href_hash;
+    private String hrefHash;
     private String duration;
     private long durationMilisecs;
     private int order;
@@ -22,13 +22,13 @@ public class Track implements BandProfileItem {
     private String trackFullLocalPath;
     private boolean trackAvailableOffline;
 
-    public Track(String full_title, String title, String album, int plays_count, String href, String href_hash, String duration) {
-        this.full_title = full_title;
+    public Track(String fullTitle, String title, String album, int playsCount, String href, String hrefHash, String duration) {
+        this.fullTitle = fullTitle;
         this.title = title;
         this.album = album;
-        this.plays_count = plays_count;
+        this.playsCount = playsCount;
         this.href = href;
-        this.href_hash = href_hash;
+        this.hrefHash = hrefHash;
         this.duration = duration;
         this.durationMilisecs = durationToMilisec();
     }
@@ -47,8 +47,8 @@ public class Track implements BandProfileItem {
         return result;
     }
 
-    public String getFull_title() {
-        return full_title;
+    public String getFullTitle() {
+        return fullTitle;
     }
 
     public String getTitle() {
@@ -59,16 +59,16 @@ public class Track implements BandProfileItem {
         return album;
     }
 
-    public int getPlays_count() {
-        return plays_count;
+    public int getPlaysCount() {
+        return playsCount;
     }
 
     public String getHref() {
         return href;
     }
 
-    public String getHref_hash() {
-        return href_hash;
+    public String getHrefHash() {
+        return hrefHash;
     }
 
     public String getDuration() {
@@ -152,6 +152,6 @@ public class Track implements BandProfileItem {
 
     @Override
     public boolean contains(BandProfileItem o) {
-        return this.href_hash.equals(((Track) o).getHref_hash());
+        return this.hrefHash.equals(((Track) o).getHrefHash());
     }
 }

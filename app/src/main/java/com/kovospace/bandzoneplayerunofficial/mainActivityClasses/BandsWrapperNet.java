@@ -12,13 +12,13 @@ import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Page;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BandsWrapperNet extends BandsWrapper {
-    private final String QUERY_URL = "http://172.104.155.216:3030/search/bands?q=";
+    private final String QUERY_URL = "http://172.104.155.216:4000/bandzone/bands?q=";
     private BandsJsonRequest bandsJsonRequest;
     private String query;
     private Page page;
@@ -39,7 +39,6 @@ public class BandsWrapperNet extends BandsWrapper {
         private JSONArray bandsJsonArrray = new JSONArray();
         private List<Band> bandsList = new ArrayList<>();
         private Type bandsListType = new TypeToken<ArrayList<Band>>(){}.getType();
-        private JSONObject pageData;
 
         public BandsJsonRequest(Activity activity) {
             super(activity);
@@ -48,16 +47,15 @@ public class BandsWrapperNet extends BandsWrapper {
         @Override
         public void doStuff() {
             try {
-                pageData = responseData.getJSONObject("table");
-                bandsJsonArrray = pageData.getJSONArray("data");
+                bandsJsonArrray = responseData.getJSONArray("bands");
                 bandsList = gson.fromJson(String.valueOf(bandsJsonArrray), bandsListType);
                 if (bandsList.size() > 0) {
                     page = new Page(
                             currentPage + 1,
                             ITEMS_PER_PAGE,
-                            pageData.getInt("items_current_page"),
-                            pageData.getInt("pages_count") + offlinePage.getPages(),
-                            pageData.getInt("items_total") + offlinePage.getItemsTotal(),
+                            responseData.getInt("currentPageItemsCount"),
+                            responseData.getInt("pagesCount") + offlinePage.getPages(),
+                            responseData.getInt("totalItemsCount") + offlinePage.getItemsTotal(),
                             bandsList
                     );
                     add(page);

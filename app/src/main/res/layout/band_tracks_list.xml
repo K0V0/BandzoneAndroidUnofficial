@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" tools:actionBarNavMode="tabs" android:background="#000000"
         android:paddingLeft="8dp" android:paddingTop="4dp" android:paddingRight="8dp" android:paddingBottom="4dp"
-        android:id="@+id/trackView">
+        android:id="@+id/trackView" android:contentDescription="@string/track_is_saved">
 
     <LinearLayout
             android:orientation="vertical"
@@ -36,6 +36,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:minHeight="48dp" android:layout_margin="2dp">
+                <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp" app:srcCompat="@mipmap/sdcard_foreground"
+                        android:id="@+id/trackSaved" android:visibility="invisible"
+                        android:contentDescription="track is saved"/>
                 <ProgressBar
                         style="?android:attr/progressBarStyle"
                         android:layout_width="48dp"

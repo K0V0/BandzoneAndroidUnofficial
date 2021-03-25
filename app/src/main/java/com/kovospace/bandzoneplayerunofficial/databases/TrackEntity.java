@@ -47,9 +47,9 @@ public class TrackEntity {
         this.fullTitle = track.getTitle();
         this.title = track.getTitle();
         this.album = track.getAlbum();
-        this.plays_count = track.getPlays_count();
+        this.plays_count = track.getPlaysCount();
         this.href = track.getHref();
-        this.hrefHash = track.getHref_hash();
+        this.hrefHash = track.getHrefHash();
         this.duration = track.getDuration();
         this.bandSlug = track.getBandSlug();
     }

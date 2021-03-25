@@ -8,10 +8,11 @@ import java.io.File;
 public class Band implements BandProfileItem {
     private String title;
     private String city;
-    private String image_url;
+    private String imageUrl;
     private String href;
     private String slug;
     private String genre;
+    private String platform;
     private String imageFullLocalPath;
     private boolean imageAvailableOffline;
     private boolean fromDb;
@@ -19,13 +20,14 @@ public class Band implements BandProfileItem {
     //private Pattern pattern;
     //private Matcher matcher;
 
-    public Band(String title, String city, String image_url, String href, String slug, String genre) {
+    public Band(String title, String city, String imageUrl, String href, String slug, String genre, String platform) {
         this.title = title;
         this.city = city;
-        this.image_url = image_url;
+        this.imageUrl = imageUrl;
         this.href = href;
         this.slug = slug;
         this.genre = genre;
+        this.platform = platform;
         //this.pattern = Pattern.compile("\\/[A-Za-z0-9_\\-\\.]+$", Pattern.CASE_INSENSITIVE);
         //this.matcher = this.pattern.matcher(this.href);
         //this.recent_album = "";
@@ -42,17 +44,12 @@ public class Band implements BandProfileItem {
     //}
 
     public Band() {
-        new Band(null, null, null, null, null, null);
+        new Band(null, null, null, null, null, null, null);
     }
 
     public String getTitle() {
         return title;
     }
-
-    /*@Override
-    public String getAlbum() {
-        return recent_album;
-    }*/
 
     public String getCity() {
         return city;
@@ -70,9 +67,11 @@ public class Band implements BandProfileItem {
         return href;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
+
+    public String getPlatform() { return platform; }
 
     @Override
     public String toString() {
@@ -110,7 +109,7 @@ public class Band implements BandProfileItem {
         if (imageAvailableOffline) {
             return getImageFullLocalPath();
         } else {
-            return getImage_url();
+            return getImageUrl();
         }
     }
 

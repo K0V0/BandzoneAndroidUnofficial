@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import androidx.recyclerview.widget.RecyclerView;
 import com.kovospace.bandzoneplayerunofficial.R;
@@ -43,7 +44,12 @@ public class PlayerAnimations {
         if (start) {
             b.animate().alpha(1.0f).setDuration(250).setListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animation) { b.setVisibility(View.VISIBLE); }
+                public void onAnimationStart(Animator animation) {
+                    ViewGroup buttonContainer = (ViewGroup) b.getParent();
+                    ImageView savedIcon = buttonContainer.findViewById(R.id.trackSaved);
+                    savedIcon.setVisibility(View.INVISIBLE);
+                    b.setVisibility(View.VISIBLE);
+                }
                 @Override
                 public void onAnimationEnd(Animator animation) {}
                 @Override
@@ -88,7 +94,7 @@ public class PlayerAnimations {
                 tv = rv.getChildAt(i).findViewById(R.id.trackName);
                 if (tv != null) {
                     t = (Track) tv.getTag();
-                    if (t.getHref_hash().equals(currentTrack.getHref_hash())) {
+                    if (t.getHrefHash().equals(currentTrack.getHrefHash())) {
                         return rv.getChildAt(i);
                     }
                 }
