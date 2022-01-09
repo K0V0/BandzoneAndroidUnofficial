@@ -11,6 +11,7 @@
   <androidx.ads/>
   <androidx.annotation/>
   <androidx.appcompat/>
+  <androidx.appsearch/>
   <androidx.arch.core/>
   <androidx.asynclayoutinflater/>
   <androidx.autofill/>
@@ -27,6 +28,7 @@
   <androidx.compose.compiler/>
   <androidx.compose.foundation/>
   <androidx.compose.material/>
+  <androidx.compose.material3/>
   <androidx.compose.runtime/>
   <androidx.compose.ui/>
   <androidx.concurrent/>
@@ -39,15 +41,19 @@
   <androidx.databinding/>
   <androidx.datastore/>
   <androidx.documentfile/>
+  <androidx.draganddrop/>
   <androidx.drawerlayout/>
   <androidx.dynamicanimation/>
   <androidx.emoji/>
+  <androidx.emoji2/>
   <androidx.enterprise/>
   <androidx.exifinterface/>
   <androidx.fragment/>
   <androidx.games/>
   <androidx.gaming/>
+  <androidx.glance/>
   <androidx.gridlayout/>
+  <androidx.health/>
   <androidx.heifwriter/>
   <androidx.hilt/>
   <androidx.interpolator/>
@@ -58,14 +64,18 @@
   <androidx.localbroadcastmanager/>
   <androidx.media/>
   <androidx.media2/>
+  <androidx.media3/>
   <androidx.mediarouter/>
   <androidx.multidex/>
   <androidx.navigation/>
+  <androidx.navigation.safeargs/>
+  <androidx.navigation.safeargs.kotlin/>
   <androidx.paging/>
   <androidx.palette/>
   <androidx.percentlayout/>
   <androidx.preference/>
   <androidx.print/>
+  <androidx.profileinstaller/>
   <androidx.recommendation/>
   <androidx.recyclerview/>
   <androidx.remotecallback/>
@@ -96,12 +106,16 @@
   <androidx.viewpager/>
   <androidx.viewpager2/>
   <androidx.wear/>
+  <androidx.wear.compose/>
+  <androidx.wear.tiles/>
+  <androidx.wear.watchface/>
   <androidx.webkit/>
   <androidx.window/>
   <androidx.work/>
   <com.android/>
   <com.android.application/>
   <com.android.asset-pack/>
+  <com.android.asset-pack-bundle/>
   <com.android.billingclient/>
   <com.android.databinding/>
   <com.android.dynamic-feature/>
@@ -141,19 +155,29 @@
   <com.crashlytics.sdk.android/>
   <com.google.ads.afsn/>
   <com.google.ads.interactivemedia.v3/>
+  <com.google.ads.mediation/>
   <com.google.android.ads/>
   <com.google.android.ads.consent/>
   <com.google.android.apps.common.testing.accessibility.framework/>
   <com.google.android.datatransport/>
+  <com.google.android.enterprise.connectedapps/>
+  <com.google.android.exoplayer/>
   <com.google.android.fhir/>
+  <com.google.android.flexbox/>
   <com.google.android.games/>
   <com.google.android.gms/>
+  <com.google.android.gms.strict-version-matcher-plugin/>
   <com.google.android.instantapps/>
   <com.google.android.instantapps.thirdpartycompat/>
   <com.google.android.libraries.car/>
+  <com.google.android.libraries.enterprise.amapi/>
+  <com.google.android.libraries.healthdata/>
   <com.google.android.libraries.maps/>
+  <com.google.android.libraries.mapsplatform.secrets-gradle-plugin/>
   <com.google.android.libraries.places/>
   <com.google.android.material/>
+  <com.google.android.mediahome/>
+  <com.google.android.odml/>
   <com.google.android.play/>
   <com.google.android.support/>
   <com.google.android.things/>
@@ -163,11 +187,19 @@
   <com.google.ar/>
   <com.google.ar.sceneform/>
   <com.google.ar.sceneform.ux/>
+  <com.google.assistant.appactions/>
   <com.google.assistant.suggestion/>
+  <com.google.chromeos/>
   <com.google.devtools.ksp/>
   <com.google.fhir/>
   <com.google.firebase/>
+  <com.google.firebase.appdistribution/>
+  <com.google.firebase.crashlytics/>
+  <com.google.firebase.firebase-perf/>
   <com.google.gms/>
+  <com.google.gms.google-services/>
+  <com.google.jacquard/>
+  <com.google.mediapipe/>
   <com.google.mlkit/>
   <com.google.oboe/>
   <com.google.prefab/>

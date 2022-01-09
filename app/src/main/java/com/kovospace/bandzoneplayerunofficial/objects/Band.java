@@ -16,9 +16,6 @@ public class Band implements BandProfileItem {
     private String imageFullLocalPath;
     private boolean imageAvailableOffline;
     private boolean fromDb;
-    //private String recent_album;
-    //private Pattern pattern;
-    //private Matcher matcher;
 
     public Band(String title, String city, String imageUrl, String href, String slug, String genre, String platform) {
         this.title = title;
@@ -28,20 +25,7 @@ public class Band implements BandProfileItem {
         this.slug = slug;
         this.genre = genre;
         this.platform = platform;
-        //this.pattern = Pattern.compile("\\/[A-Za-z0-9_\\-\\.]+$", Pattern.CASE_INSENSITIVE);
-        //this.matcher = this.pattern.matcher(this.href);
-        //this.recent_album = "";
-        //afterInit();
     }
-
-    //private void afterInit() {
-        //if (this.slug == null) {
-            /*if (matcher.find()) {
-                System.out.println(matcher);
-            }*/
-        //}
-       // System.out.println(this.slug);
-    //}
 
     public Band() {
         new Band(null, null, null, null, null, null, null);

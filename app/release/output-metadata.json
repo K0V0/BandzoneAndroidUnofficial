@@ -12,7 +12,7 @@
       "filters": [],
       "properties": [],
       "versionCode": 8,
-      "versionName": "0.4.2-alpha",
+      "versionName": "0.4.3-alpha",
       "enabled": true,
       "outputFile": "app-release.apk"
     }

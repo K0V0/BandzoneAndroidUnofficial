@@ -46,7 +46,10 @@ public class BandWrapperOffline extends BandWrapper {
             tracks.add(new Track(
                     e.getTitle(),
                     e.getHref(),
-                    e.getHrefHash()
+                    e.getHrefHash(),
+                    e.getAlbumLabel(),
+                    e.getAlbumTitle(),
+                    e.getAlbumReleaseYear()
             ));
         }
     }

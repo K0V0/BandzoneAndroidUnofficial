@@ -26,6 +26,15 @@ public class TrackEntity {
     @ColumnInfo(name = "bandSlug")
     private String bandSlug;
 
+    @ColumnInfo(name = "albumTitle")
+    private String albumTitle;
+
+    @ColumnInfo(name = "albumLabel")
+    private String albumLabel;
+
+    @ColumnInfo(name = "albumReleaseYear")
+    private String albumReleaseYear;
+
     public TrackEntity() {}
 
     public TrackEntity(Track track) {
@@ -33,6 +42,9 @@ public class TrackEntity {
         this.href = track.getHref();
         this.hrefHash = track.getHrefHash();
         this.bandSlug = track.getBandSlug();
+        this.albumLabel = track.getAlbumLabel();
+        this.albumTitle = track.getAlbumTitle();
+        this.albumReleaseYear = track.getAlbumReleaseYear();
     }
 
     public int getId() {
@@ -74,6 +86,18 @@ public class TrackEntity {
     public void setBandSlug(String bandSlug) {
         this.bandSlug = bandSlug;
     }
+
+    public String getAlbumTitle() { return albumTitle; }
+
+    public void setAlbumTitle(String albumTitle) { this.albumTitle = albumTitle; }
+
+    public String getAlbumLabel() { return albumLabel; }
+
+    public void setAlbumLabel(String albumLabel) { this.albumLabel = albumLabel; }
+
+    public String getAlbumReleaseYear() { return albumReleaseYear; }
+
+    public void setAlbumReleaseYear(String albumReleaseYear) { this.albumReleaseYear = albumReleaseYear; }
 
     @Override
     public String toString() {

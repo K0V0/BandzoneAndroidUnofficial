@@ -6,11 +6,12 @@ import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.Mp3File;
 import java.io.File;
 
 public class Track implements BandProfileItem {
+    private String albumTitle;
+    private String albumLabel;
+    private String albumReleaseYear;
     private String title;
     private String href;
     private String hrefHash;
-    private String duration;
-    private long durationMilisecs;
     private int order;
     private boolean playing;
     private boolean paused;
@@ -21,11 +22,26 @@ public class Track implements BandProfileItem {
 
     public Track() {}
 
-    public Track(String title, String href, String hrefHash) {
+    public Track(String title, String href, String hrefHash, String albumLabel, String albumTitle, String albumReleaseYear) {
         this.title = title;
         this.href = href;
         this.hrefHash = hrefHash;
+        this.albumLabel = albumLabel;
+        this.albumTitle = albumTitle;
+        this.albumReleaseYear = albumReleaseYear;
     }
+
+    public String getAlbumTitle() { return albumTitle; }
+
+    public void setAlbumTitle(String albumTitle) { this.albumTitle = albumTitle; }
+
+    public String getAlbumLabel() { return albumLabel; }
+
+    public void setAlbumLabel(String albumLabel) { this.albumLabel = albumLabel; }
+
+    public String getAlbumReleaseYear() { return albumReleaseYear; }
+
+    public void setAlbumReleaseYear(String albumReleaseYear) { this.albumReleaseYear = albumReleaseYear; }
 
     public String getTitle() {
         return title;
