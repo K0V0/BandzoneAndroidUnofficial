@@ -167,7 +167,6 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Track track = (Track) listRecyclerItem.get(position);
             title.setText(track.getTitle());
             title.setTag(track);
-            album.setText(track.getAlbum());
             if (isOnline || (!isOnline && track.isAvailableOffline())) {
                 baseHolder.setOnClickListener(new View.OnClickListener() {
                     @Override

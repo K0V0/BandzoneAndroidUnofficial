@@ -44,13 +44,9 @@ public class BandWrapperOffline extends BandWrapper {
         );
         for (TrackEntity e : trackEntities) {
             tracks.add(new Track(
-                    e.getFullTitle(),
                     e.getTitle(),
-                    e.getAlbum(),
-                    e.getPlays_count(),
                     e.getHref(),
-                    e.getHrefHash(),
-                    e.getDuration()
+                    e.getHrefHash()
             ));
         }
     }

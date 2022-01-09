@@ -14,17 +14,8 @@ public class TrackEntity {
     @ColumnInfo(name = "trackId")
     private int id;
 
-    @ColumnInfo(name = "trackFullTitle")
-    private String fullTitle;
-
     @ColumnInfo(name = "trackTitle")
     private String title;
-
-    @ColumnInfo(name = "trackAlbum")
-    private String album;
-
-    @ColumnInfo(name = "trackPlays")
-    private int plays_count;
 
     @ColumnInfo(name = "trackHref")
     private String href;
@@ -32,25 +23,15 @@ public class TrackEntity {
     @ColumnInfo(name = "trackHrefHash")
     private String hrefHash;
 
-    @ColumnInfo(name = "trackDuration")
-    private String duration;
-
-    @ColumnInfo(name = "trackDurationMiliseconds")
-    private long durationMilisecs;
-
     @ColumnInfo(name = "bandSlug")
     private String bandSlug;
 
     public TrackEntity() {}
 
     public TrackEntity(Track track) {
-        this.fullTitle = track.getTitle();
         this.title = track.getTitle();
-        this.album = track.getAlbum();
-        this.plays_count = track.getPlaysCount();
         this.href = track.getHref();
         this.hrefHash = track.getHrefHash();
-        this.duration = track.getDuration();
         this.bandSlug = track.getBandSlug();
     }
 
@@ -58,20 +39,8 @@ public class TrackEntity {
         return id;
     }
 
-    public String getFullTitle() {
-        return fullTitle;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public int getPlays_count() {
-        return plays_count;
     }
 
     public String getHref() {
@@ -82,14 +51,6 @@ public class TrackEntity {
         return hrefHash;
     }
 
-    public String getDuration() {
-        return duration;
-    }
-
-    public long getDurationMilisecs() {
-        return durationMilisecs;
-    }
-
     public String getBandSlug() {
         return bandSlug;
     }
@@ -98,20 +59,8 @@ public class TrackEntity {
         this.id = id;
     }
 
-    public void setFullTitle(String fullTitle) {
-        this.fullTitle = fullTitle;
-    }
-
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
-    public void setPlays_count(int plays_count) {
-        this.plays_count = plays_count;
     }
 
     public void setHref(String href) {
@@ -120,14 +69,6 @@ public class TrackEntity {
 
     public void setHrefHash(String hrefHash) {
         this.hrefHash = hrefHash;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public void setDurationMilisecs(long durationMilisecs) {
-        this.durationMilisecs = durationMilisecs;
     }
 
     public void setBandSlug(String bandSlug) {

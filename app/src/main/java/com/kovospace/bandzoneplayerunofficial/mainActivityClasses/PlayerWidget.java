@@ -76,7 +76,7 @@ public class PlayerWidget {
         Track track = Player.getCurrentTrack();
         Band band = Player.getCurrentBand();
         trackName.setText(track.getTitle());
-        albumName.setText(track.getAlbum());
+        //albumName.setText(track.getAlbum());
         bandName.setText(band.getTitle());
         slug = band.getSlug();
         updatePauseButton();
