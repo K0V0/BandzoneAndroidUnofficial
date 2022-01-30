@@ -37,7 +37,6 @@ public class BandWrapperOffline extends BandWrapper {
                 bandEntity.getTitle(),
                 bandEntity.getCity(),
                 bandEntity.getImage_url(),
-                bandEntity.getHref(),
                 extra,
                 bandEntity.getGenre(),
                 "bandzone"

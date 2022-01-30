@@ -9,7 +9,6 @@ public class Band implements BandProfileItem {
     private String title;
     private String city;
     private String imageUrl;
-    private String href;
     private String slug;
     private String genre;
     private String platform;
@@ -17,18 +16,17 @@ public class Band implements BandProfileItem {
     private boolean imageAvailableOffline;
     private boolean fromDb;
 
-    public Band(String title, String city, String imageUrl, String href, String slug, String genre, String platform) {
+    public Band(String title, String city, String imageUrl, String slug, String genre, String platform) {
         this.title = title;
         this.city = city;
         this.imageUrl = imageUrl;
-        this.href = href;
         this.slug = slug;
         this.genre = genre;
         this.platform = platform;
     }
 
     public Band() {
-        new Band(null, null, null, null, null, null, null);
+        new Band(null, null, null, null, null, null);
     }
 
     public String getTitle() {
@@ -45,10 +43,6 @@ public class Band implements BandProfileItem {
 
     public String getSlug() {
         return slug;
-    }
-
-    public String getHref() {
-        return href;
     }
 
     public String getImageUrl() {

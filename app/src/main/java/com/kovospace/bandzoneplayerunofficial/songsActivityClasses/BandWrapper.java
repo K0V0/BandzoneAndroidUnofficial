@@ -71,7 +71,8 @@ public abstract class BandWrapper implements DataWrapper {
         for (Track track : trackList) {
             track.setOrder(i);
             track.setBandName(band.getTitle());
-            track.setBandSlug(band.getSlug());
+            //track.setBandSlug(band.getSlug());
+            track.setSlugRef(band.getSlug());
             track.setTrackFullLocalPath(mp3File);
             track.hasOfflineCopy();
             i++;

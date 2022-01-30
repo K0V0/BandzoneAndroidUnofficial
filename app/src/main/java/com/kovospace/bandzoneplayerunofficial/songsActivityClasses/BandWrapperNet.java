@@ -43,7 +43,6 @@ public class BandWrapperNet extends BandWrapper {
                         responseData.getString("title"),
                         responseData.getString("city"),
                         responseData.getString("imageUrl"),
-                        responseData.getString("href"),
                         extra,
                         responseData.getString("genre"),
                         responseData.getString("platform")

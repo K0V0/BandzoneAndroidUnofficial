@@ -16,7 +16,7 @@ public class TracksDbHelper extends DbHelper {
     }
 
     public static void insertBandTrackIfNotExist(Track track) {
-        if (track != null && track.getBandSlug() != null && track.getTitle() != null) {
+        if (track != null && track.getSlugRef() != null && track.getTitle() != null) {
             trackEntity = new TrackEntity(track);
             List<TrackEntity> found = offlineTracksRoomDatabase
                     .trackEntityDao()

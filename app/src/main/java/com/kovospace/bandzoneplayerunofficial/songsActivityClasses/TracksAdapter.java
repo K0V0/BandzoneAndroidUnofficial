@@ -99,7 +99,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             // ^ pozor do buducnosti, non-track contentu moze pribudnut, info o kapele nemusi byt na poz 0
             PRDownloader.download(
                     track.getHref(),
-                    mp3File.getWorkingDirectoryPath() + "/" + track.getBandSlug(),
+                    mp3File.getWorkingDirectoryPath() + "/" + track.getSlugRef(),
                     track.getTitle() + ".mp3"
             )
                     .build()

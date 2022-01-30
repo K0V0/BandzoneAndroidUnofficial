@@ -41,7 +41,6 @@ public class BandEntity {
         this.title = band.getTitle();
         this.city = band.getCity();
         this.image_url = band.getImageUrl();
-        this.href = band.getHref();
         this.slug = band.getSlug();
         this.genre = band.getGenre();
         this.imageFullLocalPath = band.getImageFullLocalPath();

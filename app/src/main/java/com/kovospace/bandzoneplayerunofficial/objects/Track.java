@@ -16,7 +16,7 @@ public class Track implements BandProfileItem {
     private boolean playing;
     private boolean paused;
     private String bandName;
-    private String bandSlug;
+    private String slugRef;
     private String trackFullLocalPath;
     private boolean trackAvailableOffline;
 
@@ -75,10 +75,6 @@ public class Track implements BandProfileItem {
         return bandName;
     }
 
-    public String getBandSlug() {
-        return bandSlug;
-    }
-
     public String getTrackFullLocalPath() {
         return trackFullLocalPath;
     }
@@ -87,16 +83,12 @@ public class Track implements BandProfileItem {
         this.bandName = bandName;
     }
 
-    public void setBandSlug(String bandSlug) {
-        this.bandSlug = bandSlug;
-    }
-
     public void setTrackFullLocalPath(String trackFullLocalPath) {
         this.trackFullLocalPath = trackFullLocalPath;
     }
 
     public void setTrackFullLocalPath(Mp3File mp3File) {
-        this.trackFullLocalPath = mp3File.getWorkingDirectoryPath() + "/" + bandSlug + "/" + title + ".mp3";
+        this.trackFullLocalPath = mp3File.getWorkingDirectoryPath() + "/" + slugRef + "/" + title + ".mp3";
     }
 
     public boolean hasOfflineCopy() {
@@ -111,6 +103,14 @@ public class Track implements BandProfileItem {
         } else {
             return getHref();
         }
+    }
+
+    public String getSlugRef() {
+        return slugRef;
+    }
+
+    public void setSlugRef(String slugRef) {
+        this.slugRef = slugRef;
     }
 
     public boolean isAvailableOffline() {
