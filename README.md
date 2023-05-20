@@ -98,4 +98,12 @@
 - [x] [5.1.1] (v0.1.1-alpha) Lenovo A6020 - OK  
 - [ ] ~[9.0] (v0.1.1-alpha) BlackView GBW9100 - same problem as on Samsung Galaxy S10~ [tested v0.2-alpha working] 
 - [x] [9.0] (v0.2-alpha) BlackView GBW9100 - OK  
+- [x] [13.0] (v0.4.5-alpha) Google Pixel 6a - OK
 
+
+## Local MP3 folder path
+All songs are separated in folders, called by name of interpert.
+Filepath for downloaded .mp3 files:
+```
+/android/data/com.kovospace.bandzoneplayerunofficial/files/music
+```
