@@ -55,10 +55,9 @@ public class PopupMenuMain implements View.OnClickListener {
                     return false;
                 }
             });
-            switch(item.getItemId()) {
-                case R.id.offlineMode:
-                    switchNetwork(item);
-                    break;
+            // R fields are not compile-time constants, so no switch here
+            if (item.getItemId() == R.id.offlineMode) {
+                switchNetwork(item);
             }
             return false;
         }

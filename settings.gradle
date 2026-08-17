@@ -1,2 +1,26 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+// Lets Gradle download a matching JDK when the build JVM can't compile
+// (e.g. a JRE, or the IDE's bundled "nomod" JBR that has no jlink).
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // PRDownloader is only published here since jcenter shut down
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+
 include ':app'
 rootProject.name = "BandZone Player unofficial"
