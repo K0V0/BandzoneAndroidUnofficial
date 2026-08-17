@@ -72,3 +72,18 @@ fabric.properties
 
 .gradle
 .gradle/**
+
+# Build output
+build/
+app/build/
+*.apk
+*.ap_
+*.aab
+
+# Machine-specific: points at this workstation's SDK install
+local.properties
+
+# Release signing material - never commit
+keystore.properties
+*.jks
+*.keystore
