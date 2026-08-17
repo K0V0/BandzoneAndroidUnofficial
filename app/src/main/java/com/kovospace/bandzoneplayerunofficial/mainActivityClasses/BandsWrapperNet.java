@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BandsWrapperNet extends BandsWrapper {
-    private final String QUERY_URL = "http://172.104.155.216:4000/bandzone/bands?q=";
+    private final String QUERY_URL = "https://music-pages-scraper.matejkovac.sk/bandzone/bands?q=";
     private BandsJsonRequest bandsJsonRequest;
     private String query;
     private Page page;
