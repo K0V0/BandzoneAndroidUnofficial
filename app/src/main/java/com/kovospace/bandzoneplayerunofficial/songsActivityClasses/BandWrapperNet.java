@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class BandWrapperNet extends BandWrapper {
-    private final String QUERY_URL = "http://172.104.155.216:4000/bandzone/band?q=";
+    private final String QUERY_URL = "https://music-pages-scraper.matejkovac.sk/bandzone/band?q=";
     private BandJsonRequest bandJsonRequest;
 
     public BandWrapperNet(Activity activity, Context context, String extra) {
