@@ -17,6 +17,7 @@ import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -266,7 +267,11 @@ public class Player {
             switchTrack();
         }
         currentTrack = (Track) items.get(currentTrackIndex);
-        uri = Uri.parse(currentTrack.getLocalOrHref());
+        // a bare local path must not go through Uri.parse - a '#' in the track
+        // title would be read as a fragment and cut the path short
+        uri = currentTrack.isAvailableOffline()
+                ? Uri.fromFile(new File(currentTrack.getTrackFullLocalPath()))
+                : Uri.parse(currentTrack.getHref());
         if (mediaPlayer == null) {
             createPlayer();
         } else {

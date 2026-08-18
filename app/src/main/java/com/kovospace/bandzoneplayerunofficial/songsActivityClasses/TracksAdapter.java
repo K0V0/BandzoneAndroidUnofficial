@@ -40,6 +40,7 @@ import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.databases.DbHelper;
 import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.Settings;
+import com.kovospace.bandzoneplayerunofficial.helpers.ToastMessage;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
@@ -100,7 +101,7 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             PRDownloader.download(
                     track.getHref(),
                     mp3File.getWorkingDirectoryPath() + "/" + track.getSlugRef(),
-                    track.getTitle() + ".mp3"
+                    track.getFileName()
             )
                     .build()
                     .start(new OnDownloadListener() {
@@ -111,6 +112,8 @@ public class TracksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                         @Override
                         public void onError(Error error) {
+                            PlayerAnimations.downloadFailed(downloadButton, downloadLoading);
+                            new ToastMessage(context, R.string.downloadFailed).send();
                         }
                     });
             downloadLoading.animate().alpha(1.0f).setDuration(200);

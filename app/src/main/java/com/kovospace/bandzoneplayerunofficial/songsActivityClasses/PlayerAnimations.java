@@ -106,12 +106,22 @@ public class PlayerAnimations {
     }
 
     public static void downloadComplete(ImageButton downloadButton, ProgressBar downloadLoading) {
+        hideSpinnerThenSetIcon(downloadButton, downloadLoading, R.mipmap.remove_foreground);
+    }
+
+    // download died mid-way - drop the spinner and put the button back to
+    // offering a download, otherwise it spins forever with nothing saved
+    public static void downloadFailed(ImageButton downloadButton, ProgressBar downloadLoading) {
+        hideSpinnerThenSetIcon(downloadButton, downloadLoading, R.mipmap.download_foreground);
+    }
+
+    private static void hideSpinnerThenSetIcon(ImageButton downloadButton, ProgressBar downloadLoading, int iconResource) {
         downloadLoading.animate().alpha(0.0f).setDuration(200).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {}
             @Override
             public void onAnimationEnd(Animator animation) {
-                downloadButton.setImageResource(R.mipmap.remove_foreground);
+                downloadButton.setImageResource(iconResource);
             }
             @Override
             public void onAnimationCancel(Animator animation) {}
