@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kovospace.bandzoneplayerunofficial.BandsActivity;
+import com.kovospace.bandzoneplayerunofficial.Constants;
 import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.JsonRequest;
 import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BandsWrapperNet extends BandsWrapper {
-    private final String QUERY_URL = "https://music-pages-scraper.matejkovac.sk/bandzone/bands?q=";
     private BandsJsonRequest bandsJsonRequest;
     private String query;
     private Page page;
@@ -87,7 +87,7 @@ public class BandsWrapperNet extends BandsWrapper {
         handle(offlinePage);
         SearchFieldProgress.start();
         if (loadingInProgress) {
-            bandsJsonRequest.fetch(QUERY_URL + s);
+            bandsJsonRequest.fetch(Constants.BANDS_LIST_QUERY + s);
         } else {
             SearchFieldProgress.stop();
         }
@@ -116,7 +116,7 @@ public class BandsWrapperNet extends BandsWrapper {
             if (offlinePage.getItemsOnCurrentPage() > 0) {
                 handle(offlinePage);
             }
-            query = QUERY_URL + searchString + "&p=" + (nextPageToLoad - offlinePage.getPages());
+            query = Constants.BANDS_LIST_QUERY + searchString + "&p=" + (nextPageToLoad - offlinePage.getPages());
             loadingInProgress = true;
             bandsJsonRequest.fetch(query);
         }

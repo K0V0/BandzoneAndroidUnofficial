@@ -2,6 +2,7 @@ package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
+import com.kovospace.bandzoneplayerunofficial.Constants;
 import com.kovospace.bandzoneplayerunofficial.helpers.JsonRequest;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
@@ -13,12 +14,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class BandWrapperNet extends BandWrapper {
-    private final String QUERY_URL = "https://music-pages-scraper.matejkovac.sk/bandzone/band?q=";
+
     private BandJsonRequest bandJsonRequest;
 
     public BandWrapperNet(Activity activity, Context context, String extra) {
         super(activity, context, extra);
-        bandJsonRequest = new BandJsonRequest(this.activity, QUERY_URL + this.extra);
+        bandJsonRequest = new BandJsonRequest(this.activity, Constants.SONGS_LIST_QUERY + this.extra);
         bandJsonRequest.fetch();
     }
 
