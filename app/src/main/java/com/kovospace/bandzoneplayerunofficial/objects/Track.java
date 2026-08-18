@@ -1,5 +1,6 @@
 package com.kovospace.bandzoneplayerunofficial.objects;
 
+import com.kovospace.bandzoneplayerunofficial.helpers.Misc;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.Mp3File;
 
@@ -88,7 +89,14 @@ public class Track implements BandProfileItem {
     }
 
     public void setTrackFullLocalPath(Mp3File mp3File) {
-        this.trackFullLocalPath = mp3File.getWorkingDirectoryPath() + "/" + slugRef + "/" + title + ".mp3";
+        this.trackFullLocalPath = mp3File.getWorkingDirectoryPath() + "/" + slugRef + "/" + getFileName();
+    }
+
+    // has to stay the single source of the on-disk name - TracksAdapter hands
+    // the very same string to the downloader, otherwise the saved copy would
+    // never be found again and the track would look undownloaded forever
+    public String getFileName() {
+        return Misc.sanitizeFileName(title) + ".mp3";
     }
 
     public boolean hasOfflineCopy() {
