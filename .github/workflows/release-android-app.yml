@@ -1,0 +1,24 @@
+# Copy this file into the Android repository as .github/workflows/release.yml
+name: Tag repo & Build & Release APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: 'Mark the release as a pre-release'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    uses: K0V0/infra-shared-workflows-public/.github/workflows/android-release.yml@1.0.0
+    with:
+      gradle-file: app/build.gradle
+      module: app
+      prerelease: ${{ inputs.prerelease }}
+    secrets:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      KEYSTORE_PROPERTIES_BASE64: ${{ secrets.KEYSTORE_PROPERTIES_BASE64 }}
