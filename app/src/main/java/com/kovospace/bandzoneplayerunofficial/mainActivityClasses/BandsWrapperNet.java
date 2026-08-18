@@ -49,6 +49,7 @@ public class BandsWrapperNet extends BandsWrapper {
             try {
                 bandsJsonArrray = responseData.getJSONArray("bands");
                 bandsList = gson.fromJson(String.valueOf(bandsJsonArrray), bandsListType);
+                loadingInProgress = false;
                 if (bandsList.size() > 0) {
                     page = new Page(
                             currentPage + 1,
@@ -59,20 +60,33 @@ public class BandsWrapperNet extends BandsWrapper {
                             bandsList
                     );
                     add(page);
+                } else {
+                    // nothing came back either, now it really is empty
+                    checkIfNotEmpty();
                 }
                 SearchFieldProgress.stop();
             } catch (JSONException e) {
+                loadingInProgress = false;
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        public void onFailure() {
+            loadingInProgress = false;
+            SearchFieldProgress.stop();
         }
     }
 
     @Override
     protected void performSearch(String s) {
         offlinePage = bandsWrapperOffline.performNonModifyingSearch(s);
+        // decided before handle() paints the offline part, so an empty local
+        // result does not get announced as "no bands" while the net call runs
+        loadingInProgress = offlinePage.getItemsOnCurrentPage() < bandsWrapperOffline.ITEMS_PER_PAGE;
         handle(offlinePage);
         SearchFieldProgress.start();
-        if (offlinePage.getItemsOnCurrentPage() < bandsWrapperOffline.ITEMS_PER_PAGE) {
+        if (loadingInProgress) {
             bandsJsonRequest.fetch(QUERY_URL + s);
         } else {
             SearchFieldProgress.stop();
@@ -103,6 +117,7 @@ public class BandsWrapperNet extends BandsWrapper {
                 handle(offlinePage);
             }
             query = QUERY_URL + searchString + "&p=" + (nextPageToLoad - offlinePage.getPages());
+            loadingInProgress = true;
             bandsJsonRequest.fetch(query);
         }
     }

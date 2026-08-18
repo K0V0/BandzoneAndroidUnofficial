@@ -28,6 +28,10 @@ public abstract class JsonRequest {
 
     public abstract void doStuff();
 
+    // request failed - subclasses override to unwind whatever doStuff() would
+    // have settled, so a dead request does not leave the ui stuck mid-load
+    public void onFailure() {}
+
     public void setQuery(String query) {
         this.query = query;
     }
@@ -60,6 +64,7 @@ public abstract class JsonRequest {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                onFailure();
                 toastMessage.send(R.string.noInternet);
             }
         });
