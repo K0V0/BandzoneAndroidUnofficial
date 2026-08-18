@@ -1,6 +1,7 @@
 package com.kovospace.bandzoneplayerunofficial.objects;
 
 import com.kovospace.bandzoneplayerunofficial.helpers.Misc;
+import com.kovospace.bandzoneplayerunofficial.helpers.Mp3Duration;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.songsActivityClasses.Mp3File;
 
@@ -20,6 +21,10 @@ public class Track implements BandProfileItem {
     private String slugRef;
     private String trackFullLocalPath;
     private boolean trackAvailableOffline;
+    // sent by the API (v2), null while the backend has not read it yet
+    private Long durationMs;
+    // read out of the downloaded file, computed at most once per track
+    private Long localDurationMs;
 
     public Track() {}
 
@@ -119,6 +124,30 @@ public class Track implements BandProfileItem {
 
     public void setSlugRef(String slugRef) {
         this.slugRef = slugRef;
+    }
+
+    public Long getDurationMs() {
+        return durationMs;
+    }
+
+    public void setDurationMs(Long durationMs) {
+        this.durationMs = durationMs;
+    }
+
+    /** Best duration already at hand, without touching the disk. Null means nothing known yet. */
+    public Long getKnownDurationMs() {
+        return localDurationMs != null ? localDurationMs : durationMs;
+    }
+
+    /**
+     * Reads the exact duration out of the downloaded file. Does real I/O - call it off the main
+     * thread. Result is cached, so repeat calls are free.
+     */
+    public Long resolveLocalDurationMs() {
+        if (localDurationMs == null && trackAvailableOffline) {
+            localDurationMs = Mp3Duration.read(getTrackFullLocalPath());
+        }
+        return localDurationMs;
     }
 
     public boolean isAvailableOffline() {

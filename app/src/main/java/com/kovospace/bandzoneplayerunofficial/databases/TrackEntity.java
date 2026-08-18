@@ -35,6 +35,9 @@ public class TrackEntity {
     @ColumnInfo(name = "albumReleaseYear")
     private String albumReleaseYear;
 
+    @ColumnInfo(name = "durationMs")
+    private Long durationMs;
+
     public TrackEntity() {}
 
     public TrackEntity(Track track) {
@@ -45,6 +48,7 @@ public class TrackEntity {
         this.albumLabel = track.getAlbumLabel();
         this.albumTitle = track.getAlbumTitle();
         this.albumReleaseYear = track.getAlbumReleaseYear();
+        this.durationMs = track.getKnownDurationMs();
     }
 
     public int getId() {
@@ -98,6 +102,10 @@ public class TrackEntity {
     public String getAlbumReleaseYear() { return albumReleaseYear; }
 
     public void setAlbumReleaseYear(String albumReleaseYear) { this.albumReleaseYear = albumReleaseYear; }
+
+    public Long getDurationMs() { return durationMs; }
+
+    public void setDurationMs(Long durationMs) { this.durationMs = durationMs; }
 
     @Override
     public String toString() {

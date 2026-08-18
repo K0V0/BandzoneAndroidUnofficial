@@ -42,14 +42,16 @@ public class BandWrapperOffline extends BandWrapper {
                 "bandzone"
         );
         for (TrackEntity e : trackEntities) {
-            tracks.add(new Track(
+            Track track = new Track(
                     e.getTitle(),
                     e.getHref(),
                     e.getHrefHash(),
                     e.getAlbumLabel(),
                     e.getAlbumTitle(),
                     e.getAlbumReleaseYear()
-            ));
+            );
+            track.setDurationMs(e.getDurationMs());
+            tracks.add(track);
         }
     }
 }
