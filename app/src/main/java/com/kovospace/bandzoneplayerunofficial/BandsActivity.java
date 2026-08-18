@@ -7,9 +7,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import androidx.recyclerview.widget.RecyclerView;
 import com.kovospace.bandzoneplayerunofficial.helpers.SearchFieldProgress;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.BandsSearch;
 import com.kovospace.bandzoneplayerunofficial.mainActivityClasses.PlayerWidget;
@@ -58,7 +60,35 @@ public class BandsActivity extends Activity {
             bandsSearch.search(ss);
         });
 
+        hideKeyboardOnListScroll();
+
         playerWidget = new PlayerWidget(this);
+    }
+
+    // Keyboard used to be torn down from onUserInteraction(), which fires for
+    // every dispatched key event - and IMEs send KEYCODE_DEL while deleting,
+    // so wiping out the search field killed the keyboard halfway through and
+    // the leftover text got searched. Dismiss on scrolling the results instead.
+    private void hideKeyboardOnListScroll() {
+        RecyclerView bandsList = findViewById(R.id.bandsList);
+        bandsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    hideKeyboard();
+                }
+            }
+        });
+    }
+
+    private void hideKeyboard() {
+        View focused = getCurrentFocus();
+        if (focused != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(focused.getWindowToken(), 0);
+            focused.clearFocus();
+        }
     }
 
     @Override
@@ -70,14 +100,6 @@ public class BandsActivity extends Activity {
         }
         bandsSearch.onResumeChecks();
         playerWidget.check();
-    }
-
-    @Override
-    public void onUserInteraction() {
-        if (getCurrentFocus() != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
     }
 
     public void refreshActivity() {

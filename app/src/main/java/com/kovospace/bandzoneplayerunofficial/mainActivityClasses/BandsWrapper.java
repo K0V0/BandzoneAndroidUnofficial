@@ -40,6 +40,10 @@ public abstract class BandsWrapper implements DataWrapper {
     protected int dataSourceType;
     protected int nextPageToLoad;
     protected boolean preventMultipleLoads;
+    // a search first paints whatever the offline db holds and only then goes to
+    // the network - without this the empty intermediate result flashed
+    // "no bands found" for the whole round trip
+    protected boolean loadingInProgress;
 
     public BandsWrapper() {}
 
@@ -127,23 +131,34 @@ public abstract class BandsWrapper implements DataWrapper {
         loadNextContent();
     }
 
-    private void checkIfNotEmpty() {
-        if (this.bands.size() <= 0) {
-           noBandsText.animate().alpha(1.0F).setListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                   noBandsText.setVisibility(View.VISIBLE);
-                }
-                @Override
-                public void onAnimationEnd(Animator animation) {}
-                @Override
-                public void onAnimationCancel(Animator animation) {}
-                @Override
-                public void onAnimationRepeat(Animator animation) {}
-            });
+    protected void checkIfNotEmpty() {
+        // while a request is in flight an empty list means "not loaded yet",
+        // not "nothing found" - announcing it would flash the message for the
+        // whole round trip and leave the previous search's one standing
+        if (this.bands.size() > 0 || loadingInProgress) {
+            hideNoBandsText();
         } else {
-            activity.findViewById(R.id.noBandsText).setVisibility(View.GONE);
+            showNoBandsText();
         }
+    }
+
+    private void showNoBandsText() {
+        noBandsText.animate().alpha(1.0F).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                noBandsText.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onAnimationEnd(Animator animation) {}
+            @Override
+            public void onAnimationCancel(Animator animation) {}
+            @Override
+            public void onAnimationRepeat(Animator animation) {}
+        });
+    }
+
+    private void hideNoBandsText() {
+        noBandsText.setVisibility(View.GONE);
     }
 
     private List<Band> insertLocalImagePath(List<Band> bands) {
