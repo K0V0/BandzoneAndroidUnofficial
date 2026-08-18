@@ -112,14 +112,16 @@ Subclasses are inner classes of the wrapper that owns them, so they touch wrappe
 
 The backend is a **separate private SpringBoot service**, not in this repo:
 
-- `https://music-pages-scraper.matejkovac.sk/bandzone/bands?q=<query>&p=<page>`
-- `https://music-pages-scraper.matejkovac.sk/bandzone/band?q=<bandSlug>`
+- `https://music-pages-scraper.matejkovac.sk/v1/bandzone/bands?q=<query>&p=<page>`
+- `https://music-pages-scraper.matejkovac.sk/v2/bandzone/band?q=<bandSlug>`
 - Local checkout `/home/kovo/IdeaProjects/music-pages-scraper-backend`
   (`git@github.com:Kovospace/music-pages-scraper-backend.git`), which has its own
   `springboot-developer` agent.
 
-Track JSON carries `title`, `href`, `slugRef`, `hrefHash`, `albumTitle`, `albumReleaseYear`,
-`albumLabel` — and no duration.
+Endpoints are versioned individually, so the two live on different versions; both URLs are in
+`Constants`. Track JSON carries `title`, `href`, `slugRef`, `hrefHash`, `albumTitle`,
+`albumReleaseYear`, `albumLabel`, plus `durationMs` on v2 — nullable, since the backend computes
+durations in the background and answers null until one is known.
 
 ## Conventions
 

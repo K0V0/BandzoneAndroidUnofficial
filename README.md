@@ -39,6 +39,7 @@
  | 09-jan-2022 | Upgrade - hacks for changes in api due to radical change on Bandzone.cz |  
 | 17-aug-2026 | Gradle build upgrade, gitignore, signed release APK, backend address change |
 | 18-aug-2026 | Fixed downloading tracks whose name contains characters FAT32 rejects, fixed search field annoyances (keyboard closing mid-delete, false "no bands found" while loading), added release workflow, new API url, 0.4.8-alpha |
+| 19-aug-2026 | Fixed wrong track times - exact duration read from the downloaded mp3, band profile moved to API v2 which now sends durationMs, offline db migrated 5-6 to keep it |
 ## TODO, ideas
 
 - [x] Show user that band has no published tracks  
@@ -82,7 +83,7 @@
 - [ ] performace during scrolling list first time, maybe glide library issue for loading files stored offline  
 - [x] [IMPORTANT] app loses connection and play only saved tracks after some time when phone screen off  
 - [x] [IMPORTANT] times on some tracks inaccurate (10-20x times, see band "Container")  
-- [ ] [IMPORTANT] times inaccurate again - old fix used durations from API, current backend does not send them. Affects VBR mp3s missing the Xing header (see band "The Wilderness", album "The Wilderness II")  
+- [x] [IMPORTANT] times inaccurate again - VBR mp3s missing the Xing header (see band "The Wilderness", album "The Wilderness II"). Duration is now counted from the mp3 frames instead of trusting the player - locally for downloaded tracks, on the backend for streamed ones  
 - [x] set alphabetical ordering of saved bands  
 - [x] when changing mode from offline or vice versa and reloading activity, searcfield content deleted if something there  
 - [ ] check the possibility to add next/previous band to player widget in bands list  

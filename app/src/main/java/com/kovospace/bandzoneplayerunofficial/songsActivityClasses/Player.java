@@ -165,10 +165,47 @@ public class Player {
     }
 
     private static void runSeekbar() {
-        int duration = Player.getDuration();
+        applyDuration(durationOf(currentTrack));
+        ((Activity) context).runOnUiThread(seekBarRunnable);
+        resolveExactDuration(currentTrack);
+    }
+
+    // MediaPlayer only guesses on a VBR mp3 carrying no Xing header, and can be several times out
+    // - it drags the seekbar scale along with it. Anything actually known beats it: the duration
+    // read off the downloaded file, or the one the API sends.
+    private static int durationOf(Track track) {
+        Long known = (track == null) ? null : track.getKnownDurationMs();
+        return (known != null) ? known.intValue() : Player.getDuration();
+    }
+
+    private static void applyDuration(int duration) {
         progressBar.setMax(duration);
         totalTime.setText(PlayerHelper.milisecondsToHuman(duration));
-        ((Activity) context).runOnUiThread(seekBarRunnable);
+    }
+
+    // Reading the file is real I/O, so it stays off the main thread; the seekbar is corrected once
+    // the answer is in, and only while the same track is still the one playing.
+    private static void resolveExactDuration(final Track track) {
+        if (track == null || track.getKnownDurationMs() != null || !track.isAvailableOffline()) {
+            return;
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Long exact = track.resolveLocalDurationMs();
+                if (exact == null) {
+                    return;
+                }
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (track == currentTrack && progressBar != null) {
+                            applyDuration(exact.intValue());
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     private static void killMediaPlayer() {
