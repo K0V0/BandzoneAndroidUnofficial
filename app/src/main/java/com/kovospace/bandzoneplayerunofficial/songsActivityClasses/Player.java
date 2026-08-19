@@ -11,6 +11,7 @@ import androidx.annotation.OptIn;
 import androidx.media3.common.AudioAttributes;
 import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.Timeline;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
@@ -19,6 +20,7 @@ import androidx.media3.extractor.mp3.Mp3Extractor;
 import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.PlayerHelper;
+import com.kovospace.bandzoneplayerunofficial.helpers.TrackDurationLookup;
 import com.kovospace.bandzoneplayerunofficial.interfaces.BandProfileItem;
 import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
@@ -134,6 +136,15 @@ public class Player {
             }
 
             @Override
+            public void onTimelineChanged(Timeline timeline, int reason) {
+                // A VBR mp3 with no Xing/VBRI header has no duration until the extractor has read
+                // the whole file, so the one applied at STATE_READY is still 0. The timeline update
+                // that follows is the moment the real duration lands - pick it up then, otherwise
+                // the total time stays 0:00 and the seekbar keeps a max of 0 for the whole track.
+                maybeApplyPlayerDuration();
+            }
+
+            @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 // Ticking only while something actually moves - the old code re-posted every 250ms
                 // forever, which kept the main looper from ever going idle.
@@ -240,17 +251,59 @@ public class Player {
         return (known != null) ? known.intValue() : Player.getDuration();
     }
 
+    // Only worth doing while nothing better is known: a duration from the API or read off the
+    // downloaded file is already exact and needs no correcting.
+    private static void maybeApplyPlayerDuration() {
+        if (progressBar == null || totalTime == null) {
+            return;
+        }
+        if (currentTrack != null && currentTrack.getKnownDurationMs() != null) {
+            return;
+        }
+        int duration = Player.getDuration();
+        if (duration > 0) {
+            applyDuration(duration);
+        }
+    }
+
     private static void applyDuration(int duration) {
         progressBar.setMax(duration);
         totalTime.setText(PlayerHelper.milisecondsToHuman(duration));
     }
 
-    // Reading the file is real I/O, so it stays off the main thread; the seekbar is corrected once
-    // the answer is in, and only while the same track is still the one playing.
+    /**
+     * Finds a duration for a track that has none, cheapest source first: the downloaded file, then
+     * the player's own reading, and only then the backend.
+     *
+     * <p>The player is trusted here because an mp3 carrying a Xing header gives an exact duration
+     * the moment it is ready. The headerless ones - the reason this whole chain exists - report
+     * nothing until the extractor has read the file to its end, which over a stream happens long
+     * after playback started, so those are the ones worth a request.
+     */
     private static void resolveExactDuration(final Track track) {
-        if (track == null || track.getKnownDurationMs() != null || !track.isAvailableOffline()) {
+        if (track == null || track.getKnownDurationMs() != null) {
             return;
         }
+        if (track.isAvailableOffline()) {
+            resolveFromDownloadedFile(track);
+            return;
+        }
+        if (Player.getDuration() > 0) {
+            return;
+        }
+        new TrackDurationLookup(context, currentBand, track, new TrackDurationLookup.OnResolved() {
+            @Override
+            public void onDuration(long durationMs) {
+                if (track == currentTrack && progressBar != null) {
+                    applyDuration((int) durationMs);
+                }
+            }
+        }).resolve();
+    }
+
+    // Reading the file is real I/O, so it stays off the main thread; the seekbar is corrected once
+    // the answer is in, and only while the same track is still the one playing.
+    private static void resolveFromDownloadedFile(final Track track) {
         new Thread(new Runnable() {
             @Override
             public void run() {
