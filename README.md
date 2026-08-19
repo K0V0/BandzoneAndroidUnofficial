@@ -40,6 +40,8 @@
 | 17-aug-2026 | Gradle build upgrade, gitignore, signed release APK, backend address change |
 | 18-aug-2026 | Fixed downloading tracks whose name contains characters FAT32 rejects, fixed search field annoyances (keyboard closing mid-delete, false "no bands found" while loading), added release workflow, new API url, 0.4.8-alpha |
 | 19-aug-2026 | Fixed wrong track times - exact duration read from the downloaded mp3, band profile moved to API v2 which now sends durationMs, offline db migrated 5-6 to keep it |
+| 19-aug-2026 | Player moved to ExoPlayer (media3) for VBR seeking, and 0:00 total times fixed on streamed tracks with no Xing header: the duration is re-read when the player finally learns it, and when it cannot, the backend is asked - band profile first, then the new single-track endpoint, 0.5.0-alpha |
+
 ## TODO, ideas
 
 - [x] Show user that band has no published tracks  
