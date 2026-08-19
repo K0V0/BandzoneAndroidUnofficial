@@ -2,14 +2,20 @@ package com.kovospace.bandzoneplayerunofficial.songsActivityClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.*;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.OptIn;
+import androidx.media3.common.AudioAttributes;
+import androidx.media3.common.C;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.extractor.DefaultExtractorsFactory;
+import androidx.media3.extractor.mp3.Mp3Extractor;
 import com.kovospace.bandzoneplayerunofficial.R;
 import com.kovospace.bandzoneplayerunofficial.helpers.Connection;
 import com.kovospace.bandzoneplayerunofficial.helpers.PlayerHelper;
@@ -18,17 +24,27 @@ import com.kovospace.bandzoneplayerunofficial.objects.Band;
 import com.kovospace.bandzoneplayerunofficial.objects.Track;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Playback runs on ExoPlayer rather than MediaPlayer.
+ *
+ * MediaPlayer cannot seek this catalogue: an mp3 that is VBR with no Xing header gives it no
+ * time-to-byte map, so a seek stalled playback for many seconds. ExoPlayer's mp3 extractor is told
+ * to build a seek index for exactly those files, which also gets the duration right.
+ *
+ * The static shape is deliberate - TracksAdapter, PlayerAnimations and PlayerWidget all reach in
+ * here, so the surface is kept exactly as it was.
+ */
+@OptIn(markerClass = UnstableApi.class)
 public class Player {
     private static final int SEEKBAR_REFRESH_RATE = 250;
     private static final int USED_IN_BAND_PROFILE = 1;
     private static final int USED_IN_BANDS_LIST = 2;
 
     private static int playerUsedIn;
-    private static MediaPlayer mediaPlayer;
+    private static ExoPlayer exoPlayer;
     private static List<BandProfileItem> items;
     private static Track currentTrack;
     private static int currentTrackIndex;
@@ -42,7 +58,7 @@ public class Player {
     private static ImageButton pauseButton;
     private static LinearLayout progressBarHolder;
     private static SeekBar progressBar;
-    private static Handler mHandler;
+    private static final Handler mHandler = new Handler(Looper.getMainLooper());
     private static Runnable seekBarRunnable;
     private static int direction = 0;
     private static boolean trackLoaded;
@@ -51,6 +67,8 @@ public class Player {
     private static Runnable onPlayStart;
     private static Mp3File mp3File;
     private static Connection connectionTester;
+    // set while a finger is on the seekbar, so the ticker stops overwriting where the user put it
+    private static boolean userSeeking;
 
     public static void init(Context c, TracksAdapter a) {
         context = c;
@@ -79,70 +97,94 @@ public class Player {
         currentTime = current;
         totalTime = total;
         if (isPlaying() || isPaused()) { // player - case when returning to profile of actually played band
-            mHandler.removeCallbacks(seekBarRunnable);
+            stopTicker();
             attachSeekBar();
             runSeekbar();
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static void createPlayer() {
         trackLoaded = false;
-        mHandler = new Handler();
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioAttributes(
+
+        // FLAG_ENABLE_INDEX_SEEKING is the whole point of the migration: for an mp3 with no
+        // Xing/VBRI header the extractor builds its own index instead of guessing a constant
+        // bitrate, so seeking lands where asked and the duration comes out right.
+        DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory()
+                .setMp3ExtractorFlags(Mp3Extractor.FLAG_ENABLE_INDEX_SEEKING);
+
+        exoPlayer = new ExoPlayer.Builder(context)
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(context, extractorsFactory))
+                .build();
+        exoPlayer.setAudioAttributes(
                 new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build()
+                        .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                        .setUsage(C.USAGE_MEDIA)
+                        .build(),
+                true // let ExoPlayer handle audio focus
         );
-        try {
-            mediaPlayer.setDataSource(context, uri);
-            mediaPlayer.prepareAsync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        exoPlayer.addListener(new androidx.media3.common.Player.Listener() {
             @Override
-            public void onCompletion(MediaPlayer mp) {
-                play(next());
-                View w = PlayerAnimations.getBackCurrentView(currentTrack);
-                if (w != null) {
-                    ProgressBar loading = w.findViewById(R.id.trackLoading);
-                    PlayerAnimations.showLoading(true, loading);
+            public void onPlaybackStateChanged(int playbackState) {
+                if (playbackState == androidx.media3.common.Player.STATE_READY && !trackLoaded) {
+                    onTrackReady();
+                } else if (playbackState == androidx.media3.common.Player.STATE_ENDED) {
+                    onTrackEnded();
+                }
+            }
+
+            @Override
+            public void onIsPlayingChanged(boolean isPlaying) {
+                // Ticking only while something actually moves - the old code re-posted every 250ms
+                // forever, which kept the main looper from ever going idle.
+                if (isPlaying) {
+                    startTicker();
                 } else {
-                    PlayerAnimations.showLoading(true, trackLoadingWheel);
+                    stopTicker();
                 }
             }
         });
 
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                trackLoaded = true;
-                PlayerHelper.updatePlayState(items, currentTrack);
-                adapterThis.notifyDataSetChanged();
-                mediaPlayer.start();
-                onPlayStart.run();
-                PlayerAnimations.showLoading(false, trackLoadingWheel);
-                if (!(playerUsedIn == USED_IN_BAND_PROFILE)) {
-                    PlayerAnimations.showSeekBar(true, progressBarHolder);
-                }
-                PlayerAnimations.showPauseButton(true, pauseButton);
-                runSeekbar();
-            }
-        });
+        exoPlayer.setMediaItem(MediaItem.fromUri(uri));
+        exoPlayer.prepare();
+        exoPlayer.play();
 
         attachSeekBar();
     }
 
+    private static void onTrackReady() {
+        trackLoaded = true;
+        PlayerHelper.updatePlayState(items, currentTrack);
+        if (adapterThis != null) {
+            adapterThis.notifyDataSetChanged();
+        }
+        if (onPlayStart != null) {
+            onPlayStart.run();
+        }
+        PlayerAnimations.showLoading(false, trackLoadingWheel);
+        if (!(playerUsedIn == USED_IN_BAND_PROFILE)) {
+            PlayerAnimations.showSeekBar(true, progressBarHolder);
+        }
+        PlayerAnimations.showPauseButton(true, pauseButton);
+        runSeekbar();
+    }
+
+    private static void onTrackEnded() {
+        play(next());
+        View w = PlayerAnimations.getBackCurrentView(currentTrack);
+        if (w != null) {
+            ProgressBar loading = w.findViewById(R.id.trackLoading);
+            PlayerAnimations.showLoading(true, loading);
+        } else {
+            PlayerAnimations.showLoading(true, trackLoadingWheel);
+        }
+    }
+
     private static void attachSeekBar() {
-        mHandler = new Handler();
         seekBarRunnable = new Runnable() {
             @Override
             public void run() {
-                if(Player.getCurrentTrack() != null) {
+                if (Player.getCurrentTrack() != null && !userSeeking) {
                     int mCurrentPosition = Player.getCurrentPosition();
                     progressBar.setProgress(mCurrentPosition);
                     currentTime.setText(PlayerHelper.milisecondsToHuman(mCurrentPosition));
@@ -153,26 +195,46 @@ public class Player {
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // follow the thumb while dragging, so the time is not stuck until the finger lifts
+                if (fromUser && currentTime != null) {
+                    currentTime.setText(PlayerHelper.milisecondsToHuman(progress));
+                }
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                userSeeking = true;
             }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                userSeeking = false;
                 Player.rewindTo(seekBar.getProgress());
             }
         });
     }
 
+    private static void startTicker() {
+        if (seekBarRunnable == null) {
+            return;
+        }
+        mHandler.removeCallbacks(seekBarRunnable);
+        mHandler.post(seekBarRunnable);
+    }
+
+    private static void stopTicker() {
+        if (seekBarRunnable != null) {
+            mHandler.removeCallbacks(seekBarRunnable);
+        }
+    }
+
     private static void runSeekbar() {
         applyDuration(durationOf(currentTrack));
-        ((Activity) context).runOnUiThread(seekBarRunnable);
+        startTicker();
         resolveExactDuration(currentTrack);
     }
 
-    // MediaPlayer only guesses on a VBR mp3 carrying no Xing header, and can be several times out
-    // - it drags the seekbar scale along with it. Anything actually known beats it: the duration
-    // read off the downloaded file, or the one the API sends.
+    // The player's own duration is right far more often now that the extractor indexes headerless
+    // files, but a duration already known - read off the downloaded file, or sent by the API -
+    // is still preferred: it needs no scan and is available before playback is ready.
     private static int durationOf(Track track) {
         Long known = (track == null) ? null : track.getKnownDurationMs();
         return (known != null) ? known.intValue() : Player.getDuration();
@@ -208,18 +270,17 @@ public class Player {
         }).start();
     }
 
-    private static void killMediaPlayer() {
-        if (mediaPlayer != null) {
+    private static void killPlayer() {
+        if (exoPlayer != null) {
             try {
                 PlayerAnimations.showPauseButton(false, pauseButton);
                 if (!(playerUsedIn == USED_IN_BAND_PROFILE)) {
                     PlayerAnimations.showSeekBar(false, progressBarHolder);
                 }
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                mediaPlayer.release();
-                mediaPlayer = null;
-                mHandler.removeCallbacks(seekBarRunnable);
+                exoPlayer.stop();
+                exoPlayer.release();
+                exoPlayer = null;
+                stopTicker();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -242,16 +303,16 @@ public class Player {
     }
 
     public static void pause() {
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
-                currentPosition = mediaPlayer.getCurrentPosition();
+        if (exoPlayer != null) {
+            if (exoPlayer.isPlaying()) {
+                exoPlayer.pause();
+                currentPosition = getCurrentPosition();
             }
         }
     }
 
     public static void toggle() {
-        if (mediaPlayer != null) {
+        if (exoPlayer != null) {
             if (pauseState() == 1) {
                 play();
             } else {
@@ -261,37 +322,36 @@ public class Player {
     }
 
     public static void play() {
-        if (mediaPlayer != null) {
-            mediaPlayer.seekTo(currentPosition);
-            mediaPlayer.start();
+        if (exoPlayer != null) {
+            exoPlayer.seekTo(currentPosition);
+            exoPlayer.play();
         }
     }
 
     public static void stop() {
-        if (mediaPlayer != null) {
-            //mediaPlayer.stop();
-            killMediaPlayer();
+        if (exoPlayer != null) {
+            killPlayer();
         }
     }
 
     public static int getDuration() {
-        if (mediaPlayer != null) {
-            return mediaPlayer.getDuration();
+        if (exoPlayer != null) {
+            long duration = exoPlayer.getDuration();
+            return (duration == C.TIME_UNSET) ? 0 : (int) duration;
         }
         return 0;
     }
 
     public static int getCurrentPosition() {
-        return mediaPlayer.getCurrentPosition();
+        return (exoPlayer == null) ? 0 : (int) exoPlayer.getCurrentPosition();
     }
 
     public static void rewindTo(int progress) {
-        if (mediaPlayer != null) {
-            mediaPlayer.seekTo(progress);
+        if (exoPlayer != null) {
+            exoPlayer.seekTo(progress);
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void play(int order) {
         currentTrackIndex = order;
         lastTrackIndex = items.size() - 1; // because on construction length is 0
@@ -309,10 +369,10 @@ public class Player {
         uri = currentTrack.isAvailableOffline()
                 ? Uri.fromFile(new File(currentTrack.getTrackFullLocalPath()))
                 : Uri.parse(currentTrack.getHref());
-        if (mediaPlayer == null) {
+        if (exoPlayer == null) {
             createPlayer();
         } else {
-            killMediaPlayer();
+            killPlayer();
             createPlayer();
         }
     }
@@ -353,10 +413,10 @@ public class Player {
     }
 
     public static boolean isPlaying() {
-        if (mediaPlayer == null) {
+        if (exoPlayer == null) {
             return false;
         } else {
-            return mediaPlayer.isPlaying();
+            return exoPlayer.isPlaying();
         }
     }
 
@@ -372,9 +432,15 @@ public class Player {
         // 1 - pausing
         // 0 - playing or stopped
         // -1 - not playing or loading
-        if (mediaPlayer != null) {
+        //
+        // Asks playWhenReady, not isPlaying(). isPlaying() is derived and goes false whenever the
+        // player dips into STATE_BUFFERING - right after a seek, for instance - so callers that
+        // read the state straight after pause()/play() (PlayerWidget does) would see "paused" for
+        // a track that is merely buffering and leave the icon out of sync. playWhenReady carries
+        // the intent and flips synchronously, the way MediaPlayer's isPlaying() used to.
+        if (exoPlayer != null) {
             if (trackLoaded) {
-                return (!mediaPlayer.isPlaying() && mediaPlayer.getCurrentPosition() > 1) ? 1 : 0;
+                return (!exoPlayer.getPlayWhenReady() && getCurrentPosition() > 1) ? 1 : 0;
             } else {
                 return -1;
             }

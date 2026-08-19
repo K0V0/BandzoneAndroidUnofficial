@@ -17,7 +17,10 @@ android {
 
     defaultConfig {
         applicationId = "com.kovospace.bandzoneplayerunofficial"
-        minSdk = 16
+        // Media3 needs 21, and playback already did: createPlayer()/play() are annotated
+        // @RequiresApi(LOLLIPOP) because of AudioAttributes, so anything below 21 installed but
+        // threw NoSuchMethodError on the first track.
+        minSdk = 21
         targetSdk = 30
         versionCode = 8
         versionName = "0.4.9-alpha"
@@ -76,6 +79,12 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.github.MindorksOpenSource:PRDownloader:v0.6.0'
+    // Playback. MediaPlayer cannot seek an mp3 that is VBR with no Xing header - it has no
+    // time-to-byte map, so a seek stalls for seconds. ExoPlayer's mp3 extractor can build an
+    // index for exactly those files.
+    // 1.8.0 is the last line that still supports minSdk 21; 1.9.0+ requires 23. Bump both
+    // together if dropping Android 5.x is ever acceptable.
+    implementation 'androidx.media3:media3-exoplayer:1.8.0'
     implementation 'androidx.room:room-runtime:2.4.3'
     annotationProcessor 'androidx.room:room-compiler:2.4.3'
     testImplementation 'junit:junit:4.12'
